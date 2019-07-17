@@ -1,0 +1,217 @@
+\documentclass[12pt]{extarticle}
+
+\usepackage[margin=0.75in]{geometry}
+\usepackage{inputenc}
+\usepackage[tbtags]{amsmath}
+\usepackage{amsfonts}
+
+\begin{document}
+
+\section*{\centering Special \& General Relativity I \\ \small Suzanne Rosenzweig \& Corey Bathurst \\ \small November 7, 2018}
+
+\section{Static Schwarzschild Star}
+
+\textit{Look back at integrating the Einstein equations without a source and then come back to them with a source. If you remember at the beginning of the chapter, we wrote down the Ricci tensor but to integrate over the source, we'll use the Einstein tensor.}
+
+In order to understand gravitational collapse to a black hole, we should first understand static configurations describing the interiors of spherically symmetric stars. Consider the general static, spherically symmetric metric
+
+\begin{equation}
+ds^2 = -e^{2\alpha(r)}dt^2 + e^{2\beta(r)}dr^2 + r^2d\Omega
+\end{equation}
+
+for which the Christoffel symbols, the Riemann tensors, and the Ricci tensors have been calculated in the beginning of chapter 5. From these, the curvature scalar can be given by
+
+\begin{equation}
+R = -2e^{-2\beta}\left[\partial_r^2\alpha+(\partial_r\alpha)^2-\partial_r\alpha\partial_r\beta+\frac{2}{r}(\partial_r\alpha-\partial_r\beta)+\frac{1}{r^2}(1-e^{2\beta})\right]
+\end{equation}
+
+The Einstein tensor can be calculated from the Ricci tensor and curvature scalar and is given by
+
+\begin{subequations}
+\begin{align}\label{eintensa}
+& G^t_t = -\frac{1}{r^2} e^{-2\beta} \left(2r\partial_r\beta - 1 +e^{2\beta} \right) \\ \label{eintensb}
+& G^r_r = \frac{1}{r^2} e^{-2\beta(r)} \left(2r\partial_r\alpha + 1 - e^{2\beta}\right) \\
+& G^\theta_\theta = e^{-2\beta} \left( \partial_r^2\alpha+(\partial_r\alpha)^2-\partial_r\alpha\partial_r\beta + \frac{1}{r}(\partial_r\alpha-\partial_r\beta)\right) \\
+& G^\phi_\phi = \frac{1}{\sin^2\theta}G^\theta_\theta
+\end{align}
+\end{subequations}
+
+Since equations \ref{eintensa} and \ref{eintensb} are equal to zero independently, we can set their difference equal to zero and solve for $\alpha$ in terms of $\beta$.
+
+\begin{equation}
+\begin{split}
+2r\partial_r\beta - 1 +e^{2\beta} + 2r\partial_r\alpha + 1 - e^{2\beta} = 0 \\ 
+2r\partial_r\beta + 2r\partial_r\alpha = 0 \\
+\alpha = -\beta
+\end{split}
+\end{equation}
+
+By setting equation \ref{eintensa} equal to zero, it is possible to solve for $\beta(r)$. Make the substitution $V=e^{-2\beta}$ and use $V'=-2V\partial_r\beta$ to compute
+
+\begin{equation}
+\begin{split}
+2r\partial_r\beta-1+e^{2\beta}=0 \\
+r\frac{V'}{V}-1+\frac{1}{V}=0 \\
+rV' - V + 1 = 0 \\
+-(rV)' + 1 = 0 \\
+[r(V-1)]' = 0
+\end{split}
+\end{equation}
+
+Since this is a first derivative equal to zero, we can set the function equal to an integration constant with the same dimensions as $r$ (since $V$ is dimensionless).
+
+\begin{equation}
+r(V-1) = \text{constant} \equiv -r_S
+\end{equation}
+
+The integration constant $r_S$ is interpreted as the Schwarzschild radius and we must define it in terms of some physical parameter. Since the Schwarzschild metric should reduce to the weak-field case when $r \gg GM$
+
+\begin{equation}
+g_t^t = -\left(1-\frac{2GM}{rc^2}\right)
+\end{equation}
+
+then we must identify
+
+\begin{equation}
+r_S = \frac{2GM}{c^2}
+\end{equation}
+
+This gives us
+
+\begin{equation}
+V = 1 - \frac{2GM}{rc^2}
+\end{equation}
+
+Since we found that $\alpha=-\beta$, then we have that
+
+\begin{equation}
+e^{2\alpha}=e^{-2\beta}=V=1-\frac{2GM}{rc^2}
+\end{equation}
+
+Now that we know the unknowns $\alpha$ and $\beta$, we note that because we have a source, it does not come from the variational principle. We will have to use the energy-momentum tensor and the conservation equation
+
+\begin{equation}
+\nabla_\mu G^\mu_\nu = 0 \rightarrow \nabla_\mu T^\mu_\nu = 0
+\end{equation}
+
+If we add a constant to the Einstein tensor, which means changing the Einstein equations from 
+
+\begin{equation}
+G_{\mu\nu} = 8\pi T_{\mu\nu} \rightarrow G_{\mu\nu} \pm \Lambda g_{\mu\nu} = 8\pi G T_{\mu\nu}
+\end{equation}
+
+where $\Lambda$ is a constant, it's obvious that the covariant convergence of this side will also be zero if lambda is a constant so this will still be conserved. It should be noted that $\Lambda$ is not a constant of integration (like $V$) and that it could have come from the Lagrangian.
+
+When we discuss the rotating black hole, we will see that there is no real way you can write down the solution in terms of integrations in this way. One must use Teukolsky-Riemann's equations and write down a hypothesis for the form of solution, which has constants in it; the solution holds for any value of those constants but you can never get their values by simple integration. Unlike a stationary black hole, which is defined only by its mass, a rotating black hole is defined by two parameters: mass and angular momentum. This is why Schwarzschild was able to solve Einstein's equations mere months after Einstein published his theory but then it took almost 50 years for someone to find a solution which corresponds to a vacuum spacetime with rotation. 
+
+We use the conservation equation because that will provide some information about what freedom we have and allow us to solve these equations with sources.
+
+We model the star itself as a perfect fluid, with energy-momentum tensor in the rest frame
+
+\begin{equation}
+T_{\mu\nu} = 
+\begin{pmatrix}
+-\rho(r) & & & \\
+& p(r) & & \\
+& & p(r) & \\
+& & & p(r)
+\end{pmatrix}
+\end{equation}
+
+For a perfect fluid, we require $\rho(p)$ to solve. This comes about by looking at the conservation equation. The only one that matters is when $\nu=r$ because every other value of $\nu$ will give us zero. The conservation equation becomes
+
+\begin{equation}
+\nabla_\mu T^\mu_r = \partial_r T^r_r + \Gamma^\mu_{\lambda\mu}T^\lambda_r - \Gamma^\lambda_{r\mu}T^\mu_\lambda =0.
+\end{equation}
+
+The only Christoffel symbols that contribute here are 
+
+\begin{subequations}
+\begin{align}
+\Gamma^t_{tr} = \partial_r\alpha \\
+\Gamma^r_{rr} = \partial_r \beta \\
+\Gamma^\theta_{r\theta} = \frac{1}{r} \\
+\Gamma^\phi_{r\phi} = \frac{1}{r}
+\end{align}
+\end{subequations}
+
+and the derivative is only nonzero if $\lambda = r$ so only one derivative survives and due to the fact that the energy-momentum tensor is diagonal, the conservation equation becomes
+
+\begin{equation}
+\begin{split}
+\nabla_\mu T^\mu_\nu &= \partial_r T^r_r + \Gamma^t_{rt}T^r_r + \Gamma^r_{rr}T^r_r + \Gamma^\theta_{r\theta}T^r_r + \Gamma^\phi_{r\phi}T^r_r -\Gamma^t_{rt}T^t_t -\Gamma^r_{rr}T^r_r - \Gamma^\theta_{r\theta}T^\theta_\theta -\Gamma^\phi_{r\phi} T^\phi_\phi \\
+& = \partial_r \rho(r) + \Gamma^t_{rt}p(r) + \Gamma^r_{rr}p(r) + \Gamma^\theta_{r\theta}p(r) + \Gamma^\phi_{r\phi}p(r) +\Gamma^t_{rt}\rho(r) -\Gamma^r_{rr}p(r) - \Gamma^\theta_{r\theta}p(r) -\Gamma^\phi_{r\phi} p(r) \\
+& = \partial_r \rho(r) + \Gamma^t_{rt}p(r) +\Gamma^t_{rt}\rho(r) \\
+& = \partial_r \rho(r) + [p(r)+\rho(r)]\partial_r\alpha = 0
+\end{split}
+\end{equation}
+
+If we knew with $\rho(p)$ then we could write $\rho \rightarrow \rho(p(r))$ then we could integrate over $r$ so we make the choice
+
+\begin{equation}
+\rho \equiv \rho_* = \text{constant}
+\end{equation}
+
+This assumption is not very realistic but it holds for small objects. Note that the derivative of $p$ with respect to $\rho$, which is the speed of sound, is not well-defined in this case because $\rho$ does not vary.
+
+\begin{equation}
+\frac{\partial p}{\partial \rho} \approx v_s^2 = ?
+\end{equation}
+
+This is the most serious flaw in this assumption. It's not physical but it is a solution to the equation. With this substitution, we can try to integrate
+
+\begin{equation}
+\partial_r p + (\rho+p)\partial_r \alpha = 0
+\end{equation}
+
+from which we have
+
+\begin{equation}
+-8\pi G \rho_* = \frac{1}{r^2}(r(V-1)) = -\frac{1}{r^2}\frac{Gm(r)}{c^2}
+\end{equation}
+
+where we have found it incredibly convenient to call $m=m(r)$ so we can integrate this directly to find 
+
+$$m(r) = 4\pi \int \rho r^2 dr$$
+
+This is not a proper integral. It's not an integral over a 3-volume. We could replace this by the usual spherical volume element but there should be a $\sqrt{g_{rr}}$ in here to make this a proper integral. However, we need to solve it. 
+
+This essentially allows us to solve for $\beta$ and substitute back into...
+But we can't integrate this because we don't know what $\alpha$ is. The algrebra obtained becomes (taking $G^r_r$ as it is)
+
+$$\frac{d\alpha}{dr} = \frac{r^2e^{2\beta}p + e^{2\beta}-1}{2r}$$
+
+What is the relationship between $m$ and $\beta$?
+
+$$m = \frac{r}{2} \left(1-e^{-2\beta}\right)$$
+
+$$m(r) = -\frac{r}{2} (V-1)$$
+
+and 
+
+$$ \frac{d\alpha}{dr} = \frac{G \left( m(r) + 4\pi r^3 \frac{p}{c^2}\right)}{r^2 \left(1 - \frac{2Gm(r)}{rc^2}\right)}$$
+
+cf
+
+$$\frac{\partial\rho}{\partial r} = -\rho \frac{Gm}{r^2}$$
+
+The far right fraction is just little $g$ so
+
+$$dp = -\rho g $$
+
+This is not the most useful form because we want to integrate so we write it
+
+$$ -\frac{\frac{dp}{dr}}{\rho_* + \frac{p}{c^2}} = \frac{G \left( m(r) + 4\pi r^3 \frac{p}{c^2}\right)}{r^2 \left(1 - \frac{2Gm(r)}{rc^2}\right)}$$
+
+Answering Nat's question:
+The gravitational binding energy is missing. $G_r^r < 1$ so the mass that formed this thing is bigger than the mass that we're in orbit around. The energy has gone away.
+
+$$\frac{ -dp}{(\rho_* + \frac{p}{c^2})(\rho_* +\frac{p}{3c^2})} = 4\pi\frac{dr r}{1-8\pi G\rho_*r^2/c^2}$$
+
+$$P = \rho_* \left[ \frac{R\sqrt{R-2GM/c^2}-\sqrt{R^3-2GMr^2/c^2}}{\sqrt{R^3-2GMr^2c^2}-3R\sqrt{R-2GM/c^2}} \right]$$
+
+
+
+
+
+\end{document}
