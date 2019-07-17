@@ -1,0 +1,2008 @@
+<style type="text/css" media="all">
+pre {text-align: left; padding: 10px; color: black; font-size: 12px;}
+pre.cmd {background-color: lightgrey;}
+pre.config {background-color: lightblue;}
+pre.code {background-color: lightpink;}
+pre.output {background-color: lightgreen;}
+pre.file {background-color: lightyellow;}
+pre.note {background-color: white;}
+</style>
+
+---+ The !CMS Newcomer Handbook
+---
+
+This is a collection of useful *programming tips, physics knowledge, and resources* to assist you in the !CMS environment.<br />
+Use the *Table of Contents* below or just *use your browser's built-in search function* to look for your keyword of interest.
+---
+
+<!-- %TOC{title="Goodies:"}% -->
+ %TOC{}%
+---
+---++ Text background color convention
+
+In this tutorial page, the following text background color convention is used:
+<verbatim class="cmd">GREY: For commands.</verbatim>
+<verbatim class="output">GREEN: For the output of executed commands.</verbatim>
+<verbatim class="code">PINK: For CMSSW parameter-set configuration files.</verbatim>
+<verbatim class="file">YELLOW: For any other type of file.</verbatim>
+
+---
+
+*A couple of notes on using this Handbook:*
+
+Text in angled brackets should be replaced:
+<verbatim class="cmd">mkdir /home/<username>/public_html/ </verbatim>
+
+Becomes (in my case):
+<verbatim class="cmd">mkdir /home/rosedj1/public_html/ </verbatim>
+
+---
+---++ Acronyms and Descriptions
+
+| *Acronym* | *Stands For...* | *Short Description* |
+| AOD | Analysis Object Data | |
+| API | Application Programming Interface | |
+| !ARC | Analysis Review Committee | |
+| ASIC | Application-Specific Integrated Circuit | |
+| ASO | Asynchronous Stage Out | |
+| BPH | B-physics and general quarkonia | |
+| BR | Background Region | |
+| BRIL | Beam Radiation Instrumentation and Luminosity | |
+| !B2G | Beyond 2 Generations | |
+| CADI | !CMS Analysis Database Interface | Database for !CMS papers, Analysis Notes, etc. |
+| CAF | CERN Analysis Facility | |
+| CB | Crystal Ball | Gaussian pdf convoluted with a Power Law pdf |
+| CINCO | !CMS Information on Conferences | The main hub for all !CMS conference info |
+| CMSSW | !CMS SoftWare | Large collection of C++, Python, ROOT libraries for coding |
+| CR | Control Region | The region _around_ your signal region. %BR% If your Data/MC is good in your CR, then it should be good in your blinded SR |
+| CRAB | !CMS Remote Analysis Builder | Huge parallel-processing system for submitting large jobs on computers across the world! |
+| CSS | Cascading Style Sheets | |
+| CSV | Comma-Separated Values | Text file that uses a comma to separate one value from another |
+| CSV | Combined Secondary Vertex | |
+| CVMFS | Cern Virtual Machine File System | |
+| CWR | Collaboration-Wide Review | |
+| DAS | Data Aggregation Service %BR%(used to be DBS, Data Bookkeeping Service) | |
+| DB | Data Base | |
+| DPF | Division of Particles and Fields | |
+| DQM | Data Quality Monitoring | |
+| EDM | Event Data Model | |
+| EOS | | |
+| EVE | Event Visualization Environment | |
+| EWPT | !ElectroWeak Precision Tests | |
+| EWSB | !ElectroWeak Symmetry Breaking | |
+| FC | Flavor, Charge | |
+| FOUT | Fraction Out (outside fiducial cuts, for example) | |
+| FSR | Final-State Radiation | |
+| FTR | | |
+| FWL | Frame Work Lite | |
+| GEM | Gas Electron Multiplier | |
+| GFAL | Grid File Access Library | |
+| Gsf | Gaussian-sum filter | |
+| GT | Global Tag | |
+| HEFT | Higgs Effective Field Theory | |
+| HELAS | HELicity Amplitude Subroutine library | |
+| HEP | High Energy Physics | |
+| HF | Heavy Flavor | |
+| HI | Heavy Ion | |
+| JEC | Jet-Energy Corrections | |
+| JER | Jet-Energy Resolution | |
+| JP | Jet Probability | |
+| JSON | !JavaScript Object Notation | |
+| KF | Kalman Filter | |
+| LCG | LHC Computing Grid | |
+| LFN | Logical File Name | |
+| LFV | Lepton Flavor Violation | |
+| LHE | Les Houches Events | |
+| LPC | LHC Physics Center | |
+| LPC | LHC Physics Center at CERN | |
+| LSF | Load Sharing Facility | |
+| LXPLUS | Linux Public Login User Service | |
+| !MCFM | Monte Carlo for !FeMtobarn processes | |
+| MCM | Monte Carlo Manager | |
+| ME | !MadEvent | |
+| MELA | Matrix Element Likelihood Approach (or Analysis) | |
+| MG | !MadGraph | |
+| MGM | | |
+| MLM | (something to do with jet multiplicity) | |
+| MIP | Minimum Ionizing Particle | |
+| MSSM | Minimal Supersymmetric Standard Model | |
+| MTD | MIP Timing Detector | |
+| NNLL | Next-to-Next-to-Leading-Logarithmic | |
+| OSSF | Opposite Sign, Same Flavor | |
+| PAG | Physics Analysis Groups | |
+| PAS | Physics Analysis Summary | |
+| PAT | Physics Analysis Toolkit | |
+| PAW | Physics Analysis Workstation | |
+| PDF | Parton Distribution Function | |
+| PDF | Particle Data Group | |
+| PD | Primary Dataset | |
+| PF | Particle Flow | |
+| PFN | Physical File Name | |
+| PhEDEx | Physics Experiment Data Export service | |
+| POG | Physics Objects Groups | |
+| PPD | Physics Performance Dataset | |
+| PPS | Precision Proton Spectrometer | |
+| PROOF | Parallel ROOT Facility | |
+| PS | Parton Shower | |
+| PUPPI | Pileup Per Particle Identification | |
+| PV | Primary Vertex | |
+| PW | Password | The thing which, along with all your associated accounts, birthdates, %BR% and credit card information, you should email to the author. |
+| PWG | Physics Working Group | |
+| RAID | Redundant Array of Independent Disks | |
+| RECO | Reconstructed | |
+| !RelVal | new Release Validation | |
+| ROC | !ReadOut Chip | |
+| ROC | Receiver Operating Characteristic | |
+| RSS | Resident Set Size | |
+| SCRAM | Software Computing, Release and Management | |
+| SCRAM | Source Configuration, Release and Management | |
+| SIP | Significance of the 3D Impact Parameter (e.g. &lt; 4) | |
+| SLC | Scientific Linux CERN | |
+| SB | Signal, Background | |
+| SF | Scale Factor | |
+| SR | Signal Region | |
+| !SUSY | !SuperSymmetry | |
+| SV | Secondary Vertex | |
+| T2 | Tier 2 server | |
+| UE | Underlying Event | |
+| UFO | Unidentified Falling Object --or-- Universal !FeynRules Output | |
+| UN | Username | |
+| VO | Virtual Organization | |
+| VOMS | Virtual Organization Membership Service | |
+| WLCG | | |
+| WN | Worker Node | |
+| 2HDM | Two-Higgs-Doublet Model | |
+| 2P2F | 2 Pass 2 Fail | In reference to final-state particles (e.g. 3 leptons pass tight selection, but 1 fails) |
+| 3P1F | 3 Pass 1 Fail | 2 leptons pass tight selection, 2 fail |
+---
+
+---++ *Frequent Abbreviations*
+
+dir = directory
+cmd = command
+
+---++ Programming Languages:
+
+---+++ ROOT/PyRoot
+
+Make sure that you are working in a CMSSW area and have already done =cmsenv=.
+
+*ROOT* <br />
+Allows you to play with and process NTuples and other .root files.<br />
+Also, it is an interpreter for C++!
+
+PyROOT is just using Python while importing ROOT's libraries.<br />
+You can accomplish this by doing:
+
+An "NTuple" is a .root file which has at least one TTree inside of it.
+These TTrees usually have lots of "branches" in them.
+Each branch could be a lot of things, like: a kinematical variable, RECO objects, etc.
+Think of a branch as a line of buckets, where each each bucket is an event:
+- the first bucket contains information about the first event, second bucket -&gt; second event, ...
+Branches can contain other branches...
+Eventually you will get to a leaf. A leaf is usually a histogram with interesting information.
+
+Check which version of ROOT you have:
+echo $ROOTSYS
+Change version:
+source /cvmfs/cms.cern.ch/slc6_amd64_gcc630/lcg/root/<version>
+
+Can do:
+`root --help' to see options
+-l	<== do not show splash screen
+-b 	<== run in batch mode without graphics
+-q	<== quit after processing command line macro files
+
+Load a root file into ROOT and open the TBrowser:
+root -l slimMiniAOD_MC_MuEle.root; 
+or
+TFile *theFile = TFile::Open("root://cmseos.fnal.gov//store/user/cmsdas/2018/pre_exercises/CMSDataAnaSch_MiniAODZMM730pre1.root");
+or 
+TFile f("<my_file.root>")
+or TFile.Open("<myfile>")
+
+See what's inside the root file:
+.ls 	 or 
+.ls()	or
+f->ls()
+
+Other ways to point to files:
+'root://cmseos.fnal.gov//store/user/cmsdas/2018/pre_exercises/fourth_set/slimMiniAOD_data_MuEle_1.root', (at USCMS)
+'file:/afs/cern.ch/work/d/dmoon/public/CMSDAS_Files/Exe4/slimMiniAOD_data_MuEle_1.root', (at lxplus or Bari) 
+'file:/cmsdas/data/pre_exercises/Exe4/slimMiniAOD_data_MuEle_1.root', (at KNU) 
+'file:/pnfs/desy.de/cms/tier2/store/user/your_username/DoubleMuon/crab_CMSDAS_Data_analysis_test0/160718_090558/0000/slimMiniAOD_data_MuEle_1.root' (at nafhh-cms)
+
+Can convert ROOT stuff into python stuff —> PyRoot
+SUPER HELPFUL
+Brendan Regnery taught me about:
+branch_in_array = root_numpy.root2array(“<path_to_root_file>, <tree_name>, <branch_name>”)
+
+Example rootlogon.C:
+gSystem->Load("libFWCoreFWLite.so");
+FWLiteEnabler::enable();
+gSystem->Load("libDataFormatsFWLite.so");
+gROOT->SetStyle ("Plain");
+gStyle->SetOptStat(111111);
+
+ROOT can explore the contents of files just like a file system:
+gDirectory.pwd()
+gDirectory.ls()
+
+Open the TBrowser:
+TBrowser b;
+
+TTrees:
+Make a tree pointer:
+root -l /raid/raid7/lucien/Higgs/DarkZ-NTuple/20180706/ZD_UpTo0j_MZD20_Eps1e-2_klo.root	
+then:
+TTree* t  = (TTree*)_file0->Get("Ana/passedEvents")
+
+Go inside a file and access the TTree:
+f->Get(“<dir/tree>”) 
+- for example: file1->Get("Ana/passedEvents")
+
+If your histogram is called a TObject instead of TH1F (or similar), then do this instead:
+TH1F * h = (TH1F*)gDirectory->GetList()->FindObject("<hist>")
+
+Generate a skeleton of your analysis in files "name.C" and "name.h":
+TTree myTree
+myTree.MakeClass("name", "options")
+
+Useful TTree methods:
+N.B. Pointers use the '->' command.
+<verbatim class="cmd">
+t->Print()				<== see what branches your tree has
+t->Show(0)			<=== shows the zeroth event
+t->Scan()				<=== scans the first 25 events
+t->Scan("<branch_name>")
+t->Scan("GENlep_id[]")
+t->Scan("nPV:nJet")	<=== scan multiple events along nPV branch through the nJet branch
+t->GetEntries() 		<=== gives total number of events in N-Tuple
+t->GetEntries("passedFullSelection==1")
+t->GetEntries("passedFiducialSelection==1")
+t->GetEntries("Sum$(abs(GENlep_id[])==11)==4")
+t->GetEntries("Sum$(abs(GENlep_id[])==11)>=4")
+t->GetEntries("Sum$(abs(GENlep_id[])==11)>=4 && passedFiducialSelection==1")
+t->GetEntry(2)			<== puts you at entry2 and allows you to extract branch info
+Then: t->massZ		<== Suppose massZ is a branch, print out massZ value of entry2
+t->SetBranchAddress(“<branch>”, &pointer)
+t->GetEvent(<int>)
+t->Draw(“pt3”)						<=== pt3 is a branch of tree t (TTrees can draw branches)
+t->Draw("<branch>","<cuts>")
+t->Draw("ebeam","px>10 && zv<20")
+t->Draw("ebeam","(1/e)*(sqrt(z)>3.2)")		<== apply a weight of 1/e to all events whose sqrt(z)>3.2
+t->Draw("patMuons_slimmedMuons__PAT.obj.eta()","abs(patMuons_slimmedMuons__PAT.obj.eta())<1.2","")
+</verbatim>
+
+passedEvents->Draw("mass4l", "met>50", "")	# Third option is drawing option
+passedEvents->Draw("met:mass4l", "", "colz")	# MET vs. mass4l
+
+Make 1-D, 2-D projection of tree into histogram:
+t->Project("<histoname>", "met:mass4l")
+
+One way to make a histogram using the data stored in a TTree:
+Go look up the '>>' trick. Maybe it's already here in the notes...
+
+It may be very powerful and useful to use TSelectors:
+t->MakeSelector("MySelector")		<== generates a skeleton macro 
+t->Process(selector)				<== runs the Process section of selector
+
+If the object is not a pointer, then you have to use the `.` operator instead of `->`:
+t.Show()
+
+
+
+passedEvents is a TTree! So a TTree can draw histograms.
+
+Combine all ROOT files into one (hadd = "histogram add"):
+hadd <new_root_file_name>.root <root_files_to_be_combined>.root
+e.g.,
+hadd -f ZD_UpTo0j_MZD25_Eps1e-2_klo.root ZD_UpTo0j_MZD25_Eps1e-2_klo_*.root
+hadd mergedfile.root file1.root file2.root ... fileN.root
+- the -f flag forces the new file to be produced, even if the file already exists
+
+I forked Lucien's hadding repo:
+https://github.com/rosedj1/UFHZZ4l-T2Hadd
+
+
+Histograms
+***It's probably more efficient to set the binwidth than the num_bins!
+
+There is an "overflow bin" on the right edge of the histogram that collects entries which lie outside the 
+histogram x range. These entries are NOT counted in the statistics (mean, stdev), BUT they are counted
+as new entries!
+- There's also an underflow bin
+Therefore, entries in overflow bins DO count towards total entries, but not towards statistics, like Integral()
+
+Rebinning should be rather easy! 
+- there is a Rebin method
+- Errors are automatically recalculated
+Normalizing Histos:
+Use: Scale(1/h->Integral)
+
+TH1F * h = new TH1F("h","My Histogram",100,-20,20)
+h->FillRandom("gaus", 5000)		<== Fill h1 with 5000 random points pulled from Gaussian Distribution
+h->Fill(gRandom->Gaus(4,2))	<== Fill h1 with a single point pulled from Gaussian with mu=4, sigma=2
+								(do a for loop to fill it with many points)
+	for (int i=0; i<1000; i++) {h->Fill(gRandom->Gaus(40,15));}
+h->GetEntries()				<== Returns how many total values have been put into the bins
+h->GetMaximum()				<== Returns the number of entries inside the bin which holds the most entries
+h->GetMinimum()				<== Returns the number of entries inside the bin which holds the fewest entries
+h->GetBinContent(<int bin_num>)	<== Returns the number of entries inside bin number bin_num
+h->GetMaximumBin()			<== Tells you which bin holds the most entries; Returns the bin number(not x value of bin!)
+
+	mumuMass->GetXaxis()->GetBinCenter(mumuMass->GetMaximumBin())		<== returns most-probable value of histo
+
+h->GetMaximumStored()				<== ???
+h->GetMean()							<== Get average of histogram
+h->GetStdDev()						<== Get standard deviation of histo
+h->GetXaxis()->GetBinCenter(<int bin>)	<== returns the x value where the center of bin is located
+h->GetNbinsX()						<== Returns the number of bins along x axis
+h->Fill(<int bin_num>, <double val>)		<== Fills bin number bin_num with value val
+h->SetBinContent(<int bin>, <double val>)	<== Deletes whatever is in bin number bin, and fills it with value val
+											(this counts as adding a NEW entry!)
+h->SetAxisRange(double <xmin>, double <xmax>, "<X or Y>") 	<== 
+h->IntegralAndError(<bin1>,<bin2>,<err>)					<== calculates the integral 
+    - err will store the error that gets calculated
+    - so before you execute the IntegralAndError, first do err = Double(2) to create the err variable 
+h->SetLogy()							<== set y axis to be log scale
+
+TH2F
+h2->Integral()									<== calculate integral over ALL bins
+h2->IntegralAndError(xbin1, xbin2, ybin1, ybin2, err)	<== calculates the integral over square region, specified by bins
+- err will store the error that gets calculated
+- so before you execute the IntegralAndError, first do err = Double(2) to create the err variable 
+h2->Draw("COLZ1")	<== "COL" means color, "Z" means draw the color bar, "1" makes all cells<=0 white!
+
+Bin convention:
+bin = 0; underflow bin
+bin = 1; first bin with low-edge xlow INCLUDED
+bin = nbins; last bin with upper-edge xup EXCLUDED
+bin = nbins+1; overflow bin
+
+h->Draw()
+h->Draw("HIST")	<== Make sure to draw a histogram
+h->Draw("HIST e")	<== Draw histogram with error bars ( where err = sqrt(num_entries_in_bin) )
+
+
+Canvases:
+Make a pointer:
+TCanvas * c = new TCanvas()
+Make an object (from TCanvas class):
+c = TCanvas("<internal_name>", "<canvas_title>", int <num_x_pixels>, int <num_y_pixels>)
+
+TGraph:
+tg = TGraph(<int num_of_points>, <x_array>, <y_array>)
+Slightly tricky when setting axis label for TGraphs:
+tg.GetXaxis().SetTitle("<x_title>")
+tg.Draw("APC")
+Drawing Options	Description
+"A"	Axis are drawn around the graph
+"I"	Combine with option 'A' it draws invisible axis
+"L"	A simple polyline is drawn
+"F"	A fill area is drawn ('CF' draw a smoothed fill area)
+"C"	A smooth Curve is drawn
+"*"	A Star is plotted at each point
+"P"	The current marker is plotted at each point
+"B"	A Bar chart is drawn
+"1"	When a graph is drawn as a bar chart, this option makes the bars start from the bottom of the pad. By default they start at 0.
+"X+"	The X-axis is drawn on the top side of the plot.
+"Y+"	The Y-axis is drawn on the right side of the plot.
+"PFC"	Palette Fill Color: graph's fill color is taken in the current palette.
+"PLC"	Palette Line Color: graph's line color is taken in the current palette.
+"PMC"	Palette Marker Color: graph's marker color is taken in the current palette.
+"RX"	Reverse the X axis.
+"RY"	Reverse the Y axis.
+
+Multigraph:
+<verbatim class="cmd">
+mg = TMultiGraph("<internal_name>", "<title>")
+</verbatim>
+
+mg.SetMaximum(<maxval>)		<== set y-axis to <maxval>
+
+
+You can fit functions to the histogram:
+mumuMass->Fit("gaus")
+- or use a histogram
+g1 = new TF1("m1","gaus",85,95);
+mumuMass->Fit(g1,"R");
+- here mumuMass is the name of the histogram
+
+To learn more about fitting functions, go to LPC machines at Fermilab:
+/uscms/home/drosenzw/nobackup/YOURWORKINGAREA/CMSSW_9_3_2/src/
+And follow these directions:
+https://twiki.cern.ch/twiki/bin/viewauth/CMS/SWGuideCMSDataAnalysisSchoolPreExerciseFourthSet
+
+TTreeViewer:
+TTreeViewer TV(<Tree_Name>);
+	or 
+tree->StartViewer()
+
+TTreeReader:
+- Haven't explored this yet, but Bhargav says it's easy to open up TTrees
+
+Class to play with 4-vectors:
+https://root.cern.ch/doc/master/classTLorentzVector.html#a16b997917278ac1538b4a4ee3661fa23
+
+USING LATEX
+{
+   TCanvas c1("c1");
+   c1.SetBottomMargin(0.15);
+   TH2F h2("h2","h2 with latex titles",40,0,40,20,0,10);
+   h2.GetXaxis()->SetTitleOffset(1.4);
+   h2.GetXaxis()->SetTitle("#left| #frac{1}{1 - #Delta#alpha}
+#right|^{2} (1+cos^{2}#theta)");
+   h2.GetYaxis()->SetTitle("#frac{2s}{#pi#alpha^{2}} 
+#frac{d#sigma}{dcos#theta}");
+   h2.Draw();
+}
+
+Legends:
+leg = TLegend(xmin, ymin, xmax, ymax) 	<== (all floats between 0 and 1, as a proportion of the x or y dimension)
+leg.AddEntry()
+You can 
+
+
+If you get a GLIB seed error, just do: 
+cmsenv
+
+How to "pretty up" your plot:
+h.GetXaxis().SetTitle("massZ(GeV)")	<== put title on X axis
+h.GetYaxis().SetTitleOffset(1.3)		<== move Y axis up or down a bit
+
+—————————————
+
+RooFit
+Philosophy: Each math symbol is a separate C++ object
+x, a variable         &lt;==&gt; RooRealVar
+f(x), a function      &lt;==&gt; RooAbsReal
+F, a pdf            &lt;==&gt; RooAbsPdf
+vector (space point)   &lt;==&gt; RooArgSet
+integral            &lt;==&gt; RooRealIntegral
+list of space points      &lt;==&gt; RooAbsData
+formula with variables   &lt;==&gt; RooFormulaVar
+- btw, "Abs" stands for "abstract"
+
+How some of these work:
+massZ = RooRealVar ("name", "title", value, min, max)
+RooArgSet (w.var.("massZErr"))
+RooArgList (lambda_,  massZErr)
+RooFormulaVar ("sigma","@1*@0", RooArgList (lambda_,  massZErr))
+
+Different Built-In PDFs:
+bw = RooBreitWigner ("<name>", "", <var>, <mean>, <gamma>)
+cb = RooCBShape ("<name>", "", <var>, <mean>, <sigma>, <alpha>, <n>)
+ex = RooExponential ("name", "title", <var>, tau)
+
+You can convolute PDFs:
+RooFFTConvPdf ("<name>", "", variable, pdf1, pdf2)
+
+Make a workspace:
+w = ROOT.RooWorkspace ("w")
+w.Print()               &lt;== see what's inside your workspace
+w.pdf(<RooAddPdf>).fitTo(<RooDataSet>)
+w.var("<name>").getVal()   &lt;==
+
+Make a RooDataSet:
+mydataset = RooDataSet (name,title,data, self.Data_Zlls.get(), "1", "weight")
+mydataset.Print()      &lt;== get basic info about dataset
+mydataset.numEntries()   &lt;== get entries of the dataset
+mydataset.ls()         &lt;== get a little info about dataset
+mydataset.get()      &lt;== returns the coordinates of the current RooArgSet (vectors?)
+mydataset.GetName()   &lt;== returns name
+mydataset.GetTitle()   &lt;== returns title
+mydataset.add(<val>)   &lt;== add some value to your dataset?   
+
+Convolute PDFs into a RooAbsPdf object (model):
+CBxBW     = RooFFTConvPdf ("CBxBW","CBxBW", massZ, BW, CB)
+bkg = RooExponential ("bkg","bkg", massZ, tau)
+fsig = RooRealVar ("fsig","signal fraction", self.shapePara["fsig"])
+model = RooAddPdf ("model","model", CBxBW, bkg, fsig)
+
+---+++ Python
+
+
+
+
+
+---+++ Bash/Linux
+
+Linux Tutorial: https://ryanstutorials.net/linuxtutorial/commandline.php
+
+Remember the philosophy of Unix: "small, sharp tools"
+
+MUST KNOW Bash commands:
+ls					<== list most contents in current directory
+ls -a					<== list all contents (including hidden files) in current dir
+ls -l 					<== list contents in a long format (just more detailed way)
+pwd
+cd <path/to/files>
+cd ..
+cd -					<== go back to previous dir
+cp <source> <dest>
+mkdir <newdir>
+
+
+
+
+
+Some Bash magic:
+!				<== this is the 'bang' operator, an iconic part of bash
+!!				<== execute the last command from history
+sudo !!			<== run last command with sudo privileges
+!cat				<== run the last cat command from your history that used cat
+!cat:p			<== print the last cat command you used to stdout; also adds that command to your history
+history			<== check your history; displays command numbers
+!<cmd_num>		<== execute command number <cmd_num>
+!$				<== means the argument of the last command
+cd !$			<== cd's into the last command's argument; e.g.
+	mkdir /new/awesome/folder/
+	cd !$		<== would cd you into /new/awesome/folder/
+^ls^rm			<== if the last command used 'ls', it copies the command, replaces it with 'rm' and executes the new command
+<space> command <== will not add 'command' to history!
+
+bash batch expansion
+cp /etc/rc.conf{,-old}	<== will make copy of 'rc.conf' called 'rc.conf-old'
+mkdir newdir{1,2,3}		<== will make newdir1, newdir2, newdir3
+- it's as if the filepath "gets distributed" over the braces
+- this is a good way to mv files and make backups
+
+Difference between 'source' and 'export':
+source <script.sh> 			<== effectively the same as: . <script.sh>; executes script current shell
+export VAR=value			<== saves value as a new environmental VAR available to child processes
+
+computer cluster: 
+folders aren’t contained on just one computer, 
+but network mounts can make it look like they are
+
+If a file path begins with / 
+- this is an absolute path ("root")
+- relative paths use: ..
+
+server uses a "load balancer"
+- puts each user on a variety of nodes to balance the load of resource usage
+
+man -k <word>
+- shows you the 
+
+> is the redirection operator
+| is the pipe operator
+
+e.g.,
+ls -l | grep Apr > somefile.txt
+- piping the output of ls into the grep command
+
+Common Commands:
+scp					<==
+scp <source> <dest>	<== the remote <source> or <dest> should be of the form: user@server:/path/to/file
+scp -r 
+history				<== shows you all previous commands you’ve entered
+more					<== prints to stdout the entire file(?)
+less					<== prints to temporary shell, not to stdout
+wc						<== word count, useful flags: -l -w
+sort	[-nN] [-r]			<== usually sorts alphabetically, sort by number size with -n, -r is reverse search
+uniq					<== returns unique values 
+diff <file1> <file2>		<==	see the differences between <file1> and <file2>; 
+						'<' indicates <file1>; '>' indicates <file2>
+diff -r <dir1> <dir2>	<== compares differences between all files in <dir1> and <dir2>
+
+top -n 1 -b | grep chenguan		<== see system summary and running processes; -n flag is iterations; -b is batch mode
+								can grep to see a user's processes
+free 	[-g]				<== displays the amount of free and used memory in the system; -g to make it more readable
+read [-s] [-p] [<prompt>] <var>	<== stores user input into <var>; -s=silent text, -p=prompt becomes <prompt>
+cut -d' ' -f2-4			<== use whitespace as delimiter, and cut (print to screen) only fields (columns) 2 through 4
+cat <file1> | tee [-a] <file2>		<== tee will append the stdout to both a file and to stdout (it piplines the info into a 'T' shape)
+ln -s <file> <link_name>	<== creates a symbolic link (a reference) between <file> and <link_name>
+- If you modify <link_name> then you WILL MODIFY <file>!
+- Except for 'rm'; deleting <link_name> does NOT delete <file>
+file <>
+printf			<== appears to just be a fancier and more reliable echo
+
+
+Less common, but possibly helpful commands:
+uname -a			<== look at your Linux kernel architecture, server, etc.
+uname -n			<== find out what node you're on
+env					<== print all your environmental variables to stdout
+gdb					<== GNU DeBugger (not sure how this works yet)
+basename <filepath> 	<== strips <filepath> of directory part of name and suffix
+- basename /usr/bin/sort 		<== returns: 'sort'
+- basename include/stdio.h .h	<== returns: stdio
+date					<== prints the date
+
+Less important but still really cool commands!
+say [-v] [name] "<phrase>"		<== 
+write	 <user>					<== start a chat with <user> on your server
+    - You are immediately put into "write mode". Now you can send messages back and forth.
+    - Press 'Ctrl+C' or 'Esc' to exit write mode.
+mesg [y|n]					<== allow [y] people to send you messages using 'write' or not [n]
+Command line language translator:
+https://www.ostechnix.com/use-google-translate-commandline-linux/
+
+
+Control Statements	
+if [[ ! -x <path/to/file> ]]; then
+	<cmds>
+fi
+
+while true; do
+	<cmds>
+done
+
+Many different flags:
+! EXPRESSION	The EXPRESSION is false.
+-n STRING	The length of STRING is greater than zero.
+-z STRING	The length of STRING is zero (ie it is empty).
+STRING1 = STRING2	STRING1 is equal to STRING2
+STRING1 != STRING2	STRING1 is not equal to STRING2
+INTEGER1 -eq INTEGER2	INTEGER1 is numerically equal to INTEGER2
+INTEGER1 -gt INTEGER2	INTEGER1 is numerically greater than INTEGER2
+INTEGER1 -lt INTEGER2	INTEGER1 is numerically less than INTEGER2
+-d FILE	FILE exists and is a directory.
+-e FILE	FILE exists.
+-r FILE	FILE exists and the read permission is granted.
+-s FILE	FILE exists and it's size is greater than zero (ie. it is not empty).
+-w FILE	FILE exists and the write permission is granted.
+-x FILE	FILE exists and the execute permission is granted.
+
+
+Defining Functions:
+function <func_name> {
+	<cmd1>;
+	<cmd2>; ...
+}
+
+Can be one liners:
+function cdl { cd $1; ls; }
+	cdl mydir		<== cd into mydir and then ls
+____________________
+grep (global regular expression print)
+grep   <string>   <files_to_be_searched>
+
+grep -E -r "*<myfile>*" ./* 	<== search the contents of every file for *<myfile>*, recursively starting from ./*
+
+rsync <file> <destination>
+#rsync -av <file> <destination>
+
+ps aux | grep <task>		<== see active processes
+
+*GNU screen!* (a terminal multiplexer)
+   * Start a persistent remote terminal. That way, you won't lose your work if you get disconnected!
+   * Once inside a new screen, you should do: =source ~/.bash_profile= to get your normal settings.
+
+Start up a =screen= 
+<verbatim class="cmd">
+screen -S <screen_name>	<== start a bash environment session ("screen")
+ctrl+a, then Esc			<== enters "copy/scrollback mode", which lets you scroll! 
+- navigate copy mode using Vim commands!
+- Hit `Enter` to highlight text. Hit `Enter` again to copy it. Paste with Ctrl+a, then `]`
+- Hit `q` or `Esc` to exit copy mode.
+ctrl+a, then d				<== detach from the session (remember though that it's still active!)
+screen -ls				<== see what sessions are active
+screen -r <name>			<== reattach to active session (instead of <name> can also use: <screen_pid>)
+exit						<== terminate session
+kill <screen_pid>			<== kill frozen screen session
+ctrl+a then s				<== split screens horizontally
+ctrl+a then v				<== split screens vertically
+ctrl+a then Tab			<== switch between split screen regions
+ctrl+a then c				<== begins a virtual window in a blank screen session
+ctrl+a then "				<== see list of all active windows inside session
+</verbatim>
+____________________
+
+wget <url>	<== download whatever url from the web
+wget -r --no-parent -A.pdf http://tier2.ihepa.ufl.edu/~rosedj1/DarkZ/MG5vsJHUGen_bestkinematics_GENlevel_WITHfidcuts/
+- Downloads recursively, without looking at parent directories, and globbing all .pdf
+
+tar -cf <tarball> foo bar				<== create <tarball> using files foo and bar
+tar -xf <tarball>					<== unzip all of <tarball>
+tar -xvf <tarball> <file1> <file2>		<== untar specific files from tarball
+- x=extract, v=verbose, f=file, 
+
+Memory usage
+<verbatim class="cmd">
+du 				<== "disk usage"; good for find which files or dirs are taking up the most space
+du -h <dir>		<== print size of <dir> in human-readable format 
+du -sh ./			<== sums up the total of current workspace and all subdirs
+
+df -h				<== "disk filesystem", shows usage of memory on entire filesystem 
+
+find
+find ./ -name "*plots*"								<== find all files with name plots in this dir and subsequent dir
+find /<path> -mtime +180 -size +1G					<== find files with mod times >180 days and size>1GB
+find . -type d -exec touch '{}/__init__.py' \;				<== create (touch) a __init__.py file in every dir and subsequent dir
+find . -type f -printf '%s\t%p\n' | sort -nr | head -n 30		<== find the 30 biggest files in your working area, sorted 
+find . -name "*.css" -exec sed -i -r 's/MASS/mass/g' {} \;	<== use sed on every found file (the {} indicates a found file)
+find ~/src/ -newer main.css							<== find files newer than main.css
+
+locate
+locate -i <file_to_be_found>		<== searches computer's database. -i flag means case insensitive
+</verbatim>
+
+
+Copy multiple files from remote server to local:
+scp <username>@<host>:/path/to/files/\{file1, file2, file3\} .
+
+***Learn more about these commands:
+rcp
+set
+set -e 			<== exit on first error?
+set -u 			<== catch unset variables?
+
+Use a specific interpreter to execute a file:
+#!/usr/bin/env python
+
+Environment variables can be modified using 'export':
+export VARIABLE=value
+export PYTHONPATH=${PYTHONPATH}:</path/to/modules>	<== appending ':</path/to/modules>' to PYTHONPATH env var
+Interesting env vars:
+SHELL			<== hopefully bash
+HOSTNAME		<== host
+SCRAM_ARCH		<== cmssw architecture
+USER			<== You!
+PWD				<== current working dir
+PS1				<== bash prompt
+LS_COLORS		<== colors you see when you do 'ls'
+MAIL
+EDITOR
+
+Customize your prompt (you can even add a command to be executed INSIDE the prompt):
+PS1="[\d \t] `uptime` \u@\h\n\w\$ "
+
+Prompt settings:
+* A bell character: \a
+* The date, in “Weekday Month Date” format (e.g., “Tue May 26”): \d
+* The format is passed to strftime(3) and the result is inserted into the prompt string; an empty format results in a locale-specific time representation. The braces are required: \D{format}
+* An escape character: \e
+* The hostname, up to the first ‘.’: \h
+* The hostname: \H
+* The number of jobs currently managed by the shell: \j
+* The basename of the shell’s terminal device name: \l
+* A newline: \n
+* A carriage return: \r
+* The name of the shell, the basename of $0 (the portion following the final slash): \s
+* The time, in 24-hour HH:MM:SS format: \t
+* The time, in 12-hour HH:MM:SS format: \T
+* The time, in 12-hour am/pm format: \@
+* The time, in 24-hour HH:MM format: \A
+* The username of the current user: \u
+* The version of Bash (e.g., 2.00): \v
+* The release of Bash, version + patchlevel (e.g., 2.00.0): \V
+* The current working directory, with $HOME abbreviated with a tilde (uses the $PROMPT_DIRTRIM variable): \w
+* The basename of $PWD, with $HOME abbreviated with a tilde: \W
+* The history number of this command: \!
+* The command number of this command: \#
+* If the effective uid is 0, #, otherwise $: \$
+* The character whose ASCII code is the octal value nnn: \nnn
+* A backslash: \\
+* Begin a sequence of non-printing characters. This could be used to embed a terminal control sequence into the prompt: \[
+* End a sequence of non-printing characters: \]
+FINISH GETTING THE REST OF THESE PROMPT SETTINGS! 
+e.g. colors
+
+
+open plots while ssh'ed:
+display 
+eog <png>		<== quickly open png files
+
+sleep 7			<== make the shell sleep for 7 seconds
+
+Sexy Bash Tricks:
+quickly rename a bunch of files in a dir:
+for file in *.pdf; do mv "$file" "${file/.pdf/_standardsel.pdf}"; done		<== is this bash's native renaming?
+
+Make a bunch of dir's quickly:
+mkdir newdir{1..20}							<== make newdir1, newdir2, ..., newdir20
+
+iterate over floats:
+for k in $(seq 0 0.2 1); do echo "$k"; done		<== seq <start> <interval> <stop>
+- seq has all kinds of flags for formatting!
+
+Check if a dir exists. If it doesn't, then make it:
+[ -d possibledir ] || mkdir possibledir
+- The LHS checks if the directory is there. If it is, bash returns 1 and the OR statement ('||') is satisfied. Else, mkdir
+
+Terminal Shortcuts:
+Ctrl-A			<== quickly go to BEGINNING of line in terminal
+Ctrl-E			<== quickly go to END of line in terminal
+Ctrl-W			<== delete whole WORD behind cursor
+Ctrl-U			<== delete whole LINE BEHIND cursor
+Ctrl-K			<== delete whole LINE AFTER cursor&#8232;Ctrl-R, then <cmd>	<== reverse-search your command history for <cmd>
+Option-Left		<== move quickly to the next word to the left
+Cmd-Right		<== switch between terminal WINDOWS
+Cmd-Shift-Right	<== switch between terminal TABS within window
+
+alias				<== check your aliases
+alias <newalias>="<command>"	<== add <newalias> to 
+
+time ./<script.sh>	<== time how long a script takes to run
+- this will send three times to stdout: real, user, sys (real = actual run time)
+
+Background Jobs:
+<cmd> &			<== runs <cmd> in a background subshell
+fg				<== bring a background process to foreground
+jobs				<== see list of all background processes
+Ctrl+Z			<== pause current job and return to shell
+Ctrl+S			<== pause a job, but DON'T return to shell
+Ctrl+Q			<== resume paused job in foreground
+bg				<== resume current job in background
+(sleep 3 && echo 'I just woke up') >/tmp/output.txt &		<== group commands and redirect stdout!
+- here the '&&' means to do the second command ONLY IF the first command was successful
+
+Learn more about nohup:
+nohup ./gridpack_generation_patched06032014.sh tt 1nd > tt.log &
+
+
+
+
+.bash_profile is executed for login shells, while .bashrc is executed for interactive non-login shells.
+
+Execute shell script in current shell, instead of forking into a subshell:
+. ./<script.sh>			<== note: dot space dot forward-slash
+- N.B. this is nearly the same as doing: source <script.sh>
+
+watch -n 10 '<cmd>'	<== repeats <cmd> every 10 seconds
+- default is 2 seconds
+
+##########################
+sed 	<== stream editor
+echo "1e-2" | sed "s#^+*[^e]#&.000000#;s#.*e-#&0#"		<== makes 1e-2 become 1.000000e-02
+			sed "s#^[0-9]*[^e]#&.000000#;s#.*e-#&0#"		<== equivalently
+
+sed, in place, on a Mac:
+sed -i '' -e "s|STORAGESITE|${storageSiteGEN}|g" DELETEFILE.txt 
+
+Strip python/bash comments from a file:
+sed -i -e   's/#.*$//g'  -e   '/^$/d'  <file>		<== the '-e' executes another instance of sed, like piping. '-i' is "in place" so it modifies <file>
+____________________
+Check to see if some command succeeded:
+(N.B. a command returns 0 if it succeeds!)
+some_command
+if [ $? -eq 0 ]; then
+    echo OK
+else
+    echo FAIL
+fi
+
+awk
+An extremely powerful file-processing language
+
+General format:
+awk 'BEGIN{begincmds} {cmd_applied_to_each_line} END{endcmds}' <file>
+
+Sum up the second column in a file, and specifying the delimiter of columns as a comma:
+awk -F','  '{sum+=$2} END{print sum}' bigfiles.txt 
+
+
+
+Study this code below and see if syntax is useful:
+# if rnum allows, multiply by 10 to avoid multiple runs                                                      
+# with the same seed across the workflow                                                                     
+run_random_start=$(($rnum*10))                                                                               
+# otherwise don't change the seed and increase number of events as 10000 if n_evt<50000 or n_evt/9 otherwise 
+if [  $run_random_start -gt "89999990" ]; then                                                               
+    run_random_start=$rnum                                                                                   
+    max_events_per_iteration=$(( $nevt > 10000*9 ? ($nevt / 9) + ($nevt % 9 > 0) : 10000 ))                  
+fi                                                                                                           
+
+
+
+You can "divide out" strings:
+MG="MG5_aMC_v2.6.0.tar.gz"
+MG_EXT=".tar.gz"
+echo ${MG%$MG_EXT}
+- Prints: MG5_aMC_v2.6.0		<== so effectively MG has been "divided by" MG_EXT
+
+
+Need to learn about:
+tr "." "_"			<== translates all "." chars into "_" (used with piping)
+perl -ne 'print if /pattern1/ xor /pattern2/'
+
+What does this do?
+model=HAHM_variablesw_v3_UFO.tar.gz
+if [[ $model = *[!\ ]* ]]; then...
+
+Bash Scripting
+$# 		<== number of arguments passed to script
+$@		<== the arguments themselves which were passed to script
+$?		<== return statement of last command: 0 is successful
+
+
+
+---+++ *LaTeX*
+
+%	<== comments
+
+Table of Contents (ToC) are very easily built by LaTeX!
+
+Every document must have:
+\documentclass[12pt]{extarticle}
+\begin{document}
+
+\end{document}
+
+
+Referencing
+One section in a ToC may be in a file: sec-015-model.tex
+Inside this file might be:
+\section{Dark photon model}		<== title of whole section
+\label{sec:model}				<== internal reference name
+- when other pieces of code, like the ToC, need to reference this section 
+	(using something like: \ref{sec:model}), they need to know the label of the section!
+
+
+---+++ C++
+
+To determine size of a C++ array:
+int myarr[] = {4, 6, 8, 9};
+sizeof(myarr)/sizeof(*myarr)
+VECTORS ARE BETTER THAN ARRAYS! <== more flexibility!
+
+Vectors:
+Similar to arrays, but dynamically sized
+
+#include <vector>
+vector<type> vecName;
+vecName.push_back(value);		<== append value at the end of vecName
+vecName[index];				<== index vecName, just like arrays
+vecName;					<== show all entries in vecName
+vecName.size();				<== number of elements in vecName
+
+make a pointer to the array: (PROBABLY UNNECESSARY)
+vector<type> * vecPtr = &vecName	<== initialize pointer to point to address of vecName
+*vecPtr							<== 
+
+---+++ Vim
+
+vim <file1>		<== open <file1> in Vim
+
+Command Mode:
+You start Vim in Command Mode
+Esc				<== return to Command Mode
+:q(!) 				<== (force) quit Vim; return to shell
+i				<== puts you in Insert Mode
+Ctrl+V			<== puts you in Visual Block Mode
+I (A)				<== moves cursor to beginning (end) of line, then puts you in Insert Mode [capital 'i']
+:w				<== write to (save) file
+:wq				<== write, then quit
+
+Movement in Command Mode:
+h,j,k,l	<== move cursor: left, down, up, right
+W,w		
+E,e
+B,b
+%		<== brace match; i.e. if cursor is on '{', then jumps to corresponding '}'
+$
+^
+0
+f
+t
+gg,G		<== go to top (bottom) of page
+ge
+* (#)		<== search for word under cursor forwards (backwards)
+Deletions:
+d
+c
+s
+r
+
+Blocks:
+a
+i
+
+>		
+<
+Ex:  >i{		<== indent '>' all text inside '{' block
+
+# =============================
+SUBSTITUTIONS:
+:%s/thisword/thatword/g		<== search for thisword and substitute in thatword, globally
+:s/ <\thisword\> / thatword/	<== replace thisword (exactly matching), with thatword
+# =============================
+MARKS:
+m<char>		<== set a mark (checkpoint) wherever the cursor is. This is mark <char>
+`<char>		<== recall to mark <char>
+'<char>		<== recall to mark <char>, at beginning of line
+:marks		<== look at all your marks
+
+Tips:
+y'<char>		<== yank all text from current cursor position to mark <char>
+lower case registers are local marks
+UPPER case registers are GLOBAL marks (these allow you to easily move between different files)
+
+# =============================
+FOLDS:
+Collapse your functions for readability.
+zf<movement>		<== folds whatever lines the cursor touches during <movement>
+za					<== opens the fold if closed; closes the fold if open
+zo					<== opens fold
+zc					<== closes fold
+:<num1>,<num2>fo		<== fold code from line <num1> to line <num2>
+
+Add this to .vimrc if you want to save folds:
+autocmd BufWinLeave *.* mkview
+autocmd BufWinEnter *.* silent loadview
+
+
+# =============================
+TABS:
+Put code into different tabs to stay organized.
+:tabedit <file1>		<== opens <file1> in new tab
+gt (gT)				<== go to next (previous) tab
+3gt					<== go to 3rd tab
+:tabfirst(last)			<== go to first (last) tab
+:tabclose				<== close current tab
+:tabonly				<== close all other tabs except this one
+:tabs				<== see all open tabs
+vim -p <file1> <file2>	<== open <file1> <file2> in different tabs
+
+# =============================
+SESSIONS:
+Vim can also save and restore tab sessions!
+:mksession <allmytabs.vim>		<== stores current session of tabs in <allmytabs.vim> file
+vim -S <allmytabs.vim>			<== open the session called <allmytabs.vim>
+:source <allmytabs.vim>			<== open <allmytabs.vim> from command/normal mode
+:mks!						<== overwrite session with tabs currently open
+
+
+# =============================
+MACROS:
+q<char>		<== begins "recording" your commands; stores them in register <char>
+@<char>		<== replay macro stored in register <char>
+
+
+# =============================
+Window Splitting:
+:split <file2>		<== split window horizontally and load <file2>
+:vsplit <file2> 		<== split window vertically and load <file2>
+Ctrl+W, uparrow	<== move cursor up one window
+Ctrl+W, Ctrl+W	<== move cursor to next window (cycle)
+Ctrl+W |			<== maximize window horizontally
+Ctrl+W _			<== maximize window vertically
+Ctrl+W = 			<== make all windows equal size
+Ctrl+W [N] +		<== increase window height by N
+Ctrl+W [N] -		<== decrease window height by N
+Ctrl+W [N] >		<== increase window width by N
+Ctrl+W [N] <		<== decrease window width by N
+:close			<== close current window (but :q should work too)
+
+Native file explorer:
+:Explore (:Ex)	<== open file explorer (short-hand)
+:Sexplore		<== horizontal split
+:Vexplore		<== vertical split
+:Vexplore!		<== vertical split, with file explorer on right side instead of left
+:Texplore		<== open explorer in another tab
+
+# =============================
+Cute Tricks
+:112,168norm! <consecutive_cmds>	<== execute <consecutive_cmds> between L112-168 as if in normal mode
+- Example:   :10,16norm! c3E"New text I want to enter"
+- If you need to enter an Esc character while typing this command, hit Ctrl+V
+- similar to executing a macro, but doesn't take up a register, and has flexibility!
+Powerful:
+:24,48norm!@k	<== apply macro stored in reg k to lines 24-48
+
+The '=' means equalize all lines (indent):
+=i{		<== autoindents code which is inside a block of '{'
+
+Autocomplete in Insert Mode:
+Ctrl+N
+
+Modify a file on a remote server:
+vim scp://remoteuser@remote_IP_or_hostname/relative/path/of/file
+
+
+Consider using Vim-LaTeX!
+http://vim-latex.sourceforge.net/index.php?subject=download&title=Download
+
+
+
+---++ CMSSW (CMS SoftWare):
+
+https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookConfigFileIntro
+
+***If you want to use CMSSW, you must be in an environment that can reach the CMSSW libraries. 
+Example servers:
+- UF (ihepa)
+- CERN (lxplus)
+- HiPerGator (hpg)
+- Fermilab (fnal)
+
+Get  'cmsenv' and 'cmsrel' 
+export VO_CMS_SW_DIR=/cvmfs/cms.cern.ch
+source $VO_CMS_SW_DIR/cmsset_default.sh
+
+cmsrel CMSSW_X_Y_Z
+- install the CMSSW environment in a new dir, version X_Y_Z, like e.g. 9_4_2
+    - 8_0_X = 2016 data
+    - 9_4_X = 2017 data
+    - 10_2_X = 2018 data
+- once inside, be sure to do: cmsenv to "load" the environment variables (sets up your runtime environment)!
+- You will have to use different CMSSW versions for different years' data!
+- By the way "cmsrel" stands for "CMSSW Release"!
+
+See what versions of CMSSW are available:
+scram list -a
+scram list -a | egrep "CMSSW_9_4_X" > cmssw.txt
+
+See what scram architecture you are running:
+scram arch
+- or -
+echo $SCRAM_ARCH
+
+Set scram arch to something different:
+export SCRAM_ARCH=slc3_ia32_gcc
+export SCRAM_ARCH=slc6_amd64_gcc491
+
+
+Configuration Files, cmsDriver, and cmsRun:
+https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideCmsDriver
+Two kinds of config files:
+1. CRAB config files: options for submitting CRAB jobs 
+- You need crab_config files to tell how CRAB how to deal with the jobs you want processed.
+2. Parameter Set Config Files: sets all the parameters for generating MC events 
+- cmsDriver is the main tool to create these param_config files
+    - View help options: cmsDriver.py --help
+
+Example to generate a param_set_config file called "CMSDAS_MC_generation_cfg.py":
+cmsDriver.py MinBias_13TeV_pythia8_TuneCUETP8M1_cfi  --conditions auto:run2_mc -n 10 --era Run2_2016 --eventcontent FEVTDEBUG --relval 100000,300 -s GEN,SIM --datatier GEN-SIM --beamspot Realistic50ns13TeVCollision --fileout file:step1.root --no_exec --python_filename CMSDAS_MC_generation_cfg.py
+
+Use cmsRun to load modules stored in a configuration file:
+cmsRun CMSDAS_MC_generation_cfg.py
+
+You can just make sure everything properly compiles by doing:
+python CMSDAS_MC_generation_cfg.py
+- if it returns no errors, you should be good to go!
+- Do this before submitting CRAB jobs
+
+It's a good idea to check for errors in your "python generator fragment", like: 
+python -i externalLHEProducer_and_PYTHIA8_Hadronizer_cff.py
+
+A config file allows you to set all the parameters you want for a job.
+- They usually start with this line:
+import FWCore.ParameterSet.Config as cms		<== imports our CMS-specific Python classes and functions
+- And have these as the guts:
+    - A source (which might read Events from a file or create new empty events) 
+    - A collection of modules (e.g. EDAnalyzer, EDProducer, EDFilter) which you wish to run
+    - An output module to create a ROOT file which stores all the event data
+    - A path which will list in order the modules to be run 
+
+A configuration file written using the Python language can be created as: 
+- a top level file, which is a full process definition (naming convention is _cfg.py ) which might import other configuration files 
+- external Python file fragment, which are of two types:
+    - those used for module initialization (naming convention is _cfi.py)       <== configuration fragment include
+    - those used as configuration fragment (naming convention is _cff.py)  <== configuration fragment file?
+
+process.load()		<== Import fragment to top level, also attaches imported objects
+
+Standard fragments are available in the CMSSW release's Configuration/StandardSequences/python/ area. They can be read in using syntax like 
+process.load("Configuration.StandardSequences.Geometry_cff")
+
+The word "module" has two meanings. A Python module is a file containing Python code and the word also refers to the object created by importing a Python file. In the other meaning, EDProducers, EDFilters, EDAnalyzers, and OutputModules are called modules. 
+
+
+Standard Steps for full simulation and real data 
+Building blocks of the created configurations are the standard processing steps:
+
+* GEN : the generator plus the creation of GenParticles and GenJets 
+* SIM : Geant4 simulation of the detector (energy deposits in the detector volumes) 
+* DIGI : simulation of detector signal response to the energy deposits 
+* L1: simulation of the L1 trigger 
+* DIGI2RAW : data format conversion of the digi signals into the RAW format that will be provided in the online system 
+* HLT : high level trigger 
+Usually all the above steps are executed in one single job. Remaining building blocks are: 
+
+* RAW2DIGI : data format conversion of the RAW format into digi signals 
+* RECO : full event reconstruction 
+* ALCA : production of alignment and calibration streams 
+* DQM : code run for DQM 
+* VALIDATION : code run for validation 
+The above list is usually referred to as 'step2'. 
+
+
+Use PhEDEx to transfer datasets between storage areas:
+https://cmsweb.cern.ch/phedex/prod/Request::Create?type=xfer#
+
+ED Analyzer == .cc file
+python config file
+
+git cms-merge-topic <github_user>:<branch_of_any_repo>
+- I think this merges the branch and its contents into local directory?
+
+---+++ xrootd
+
+https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookXrootdService<br />xrootd is a command to retrieve Any data, Anytime, Anywhere (AAA) on the CMS servers from anywhere in the world. <br />Uses logical file names (LFN) to find files <br /><br />For the US, use:<br />cmsxrootd.fnal.gov<br /><br />Must first do:<br />voms-proxy-init -voms cms<br /><br />e.g.<br />TFile f = TFile::Open("root://cmsxrootd.fnal.gov///store/mc/SAM/GenericTTbar/GE.root");<br /><br />If you wish to check if your desired file is actually available through AAA, execute the command:<br />`xrdfs cms-xrd-global.cern.ch locate /store/path/to/file’<br />(xrd = xrootd, fs = file search?)<br /><br />In a MC cfg.py file, use: <br />fileNames = cms.untracked.vstring('root://cmsxrootd.fnal.gov//store/myfile.root')<br /><br />Change password<br />In command line, do:<br />yppasswd<br /><br />
+
+---+++ CRAB Utility
+
+a utility to submit CMSSW jobs to distributed computing resources<br />https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideCrab<br />CRAB Tutorial<br />https://twiki.cern.ch/twiki/bin/view/CMSPublic/CRAB3AdvancedTutorial<br />CRAB FAQ<br />https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideCrabFaq<br />CRAB job errors:<br />https://twiki.cern.ch/twiki/bin/view/CMSPublic/JobExitCodes<br />CRAB Commands:<br />https://twiki.cern.ch/twiki/bin/view/CMSPublic/CRAB3Commands<br /><br />There is ONE Tier0 site: <br />1. CERN<br />Seven T1 sites: <br />1. USA<br />2. France<br />3. Spain<br />4. UK<br />5. Taiwan<br />6. Germany <br />7. Italy<br />~55 T2 sites<br />You must specify config.Site.storageSite, which will depend on which center is hosting your area, and user_remote_dir which is the subdirectory of /store/user/ you want to write to. <br />* Caltech storage_element = T2_US_Caltech <br />* Florida storage_element = T2_US_Florida <br />* MIT storage_element = T2_US_MIT <br />* Nebraska storage_element = T2_US_Nebraska <br />* Purdue storage_element = T2_US_Purdue <br />* UCSD storage_element = T2_US_UCSD <br />* Wisconsin storage_element = T2_US_Wisconsin <br />* FNAL storage_element = T3_US_FNALLPC <br /><br />Check out all the tiers here:<br />https://cmsweb.cern.ch/sitedb/prod/sites<br /><br /><br />You need a CRAB config file in order to run an MC event generation code.<br />- The cmsDriver.py tool helps to generate config files<br />- examples of crab_cfg.py files:<br />crab_GEN-SIM.py<br />crab_PUMix.py<br />crab_AODSIM.py<br />crab_MINIAODSIM.py<br /><br />A typical CRAB config file looks like:<br />====================================<br />from WMCore.Configuration import Configuration<br />config = Configuration()<br /><br />config.section_("General")<br />config.General.requestName = 'CMSDAS_Data_analysis_test0'<br />config.General.workArea = 'crab_projects'<br /><br />config.section_("JobType")<br />config.JobType.pluginName = 'Analysis'<br />config.JobType.psetName = 'slimMiniAOD_data_MuEle_cfg.py'<br />config.JobType.allowUndistributedCMSSW = True<br /><br />config.section_("Data")<br />config.Data.inputDataset = '/DoubleMuon/Run2016C-03Feb2017-v1/MINIAOD'<br />config.Data.inputDBS = 'global'<br />config.Data.splitting = 'LumiBased'<br />config.Data.unitsPerJob = 50<br />config.Data.lumiMask = 'https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions16/13TeV/Cert_271036-275783_13TeV_PromptReco_Collisions16_JSON.txt'<br />config.Data.runRange = '275776-275782'<br /><br />config.section_("Site")<br />config.Site.storageSite = 'T2_US_Florida'<br />====================================<br /><br />The /store/user/ area at LPC is commonly used for the output storage from CRAB jobs<br /><br />How to make CRAB commands available: (must be in CMSSW environment)<br />cmsenv<br />source /cvmfs/cms.cern.ch/crab3/crab.sh      #.csh for c-shells<br /><br />To check that it worked successfully, do:<br />which crab<br />&gt; /cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1707.patch1/bin/crab<br />or:<br />crab --version<br />&gt; CRAB client v3.3.1707.patch1<br /><br />crab checkusername<br />&gt; Retrieving username from SiteDB...<br />&gt; Username is: drosenzw<br /><br />Can also test your EOS area grid certificate link:<br />crab checkwrite --site=T3_US_FNALLPC   &lt;== checks to see if you have write permission at FNAL<br />crab checkwrite --site=T2_US_Nebraska<br />crab checkwrite --site=T2_US_Florida<br /><br />***N.B. It is better to use: low num jobs, high num events/job!***<br /><br />First you can run a job locally, to make sure all is well:<br />cmsRun &lt;step1_cfg.py&gt;<br /><br />Submitting CRAB job:<br />crab submit -c crabConfig_MC_generation.py<br /><br />Resubmitting a CRAB job:<br />crab resubmit --siteblacklist='T2_US_Purdue' &lt;crabdir1&gt;/&lt;crabdir2&gt;   &lt;== don't submit to Purdue<br />- N.B. only failed jobs get resubmitted<br />- There are lots of flags to call to change things like memory usage, priority, sitewhitelist, etc.<br />- --sitewhitelist=T2_US_Florida,T2_US_MIT<br />- Can also use wildcards: --siteblacklist=T1_*<br /><br />Resubmitting SPECIFIC CRAB jobs:<br />crab resubmit --force --jobids=1,5-10,15 &lt;crabdir1/crabdir2&gt;   &lt;== N.B. you must --force successful jobs to resubmit<br /><br />Check number of events from CRAB job:<br />crab report &lt;crab_DIR&gt;/&lt;crab_job&gt;<br /><br />Check status:<br />crab status<br />crab status &lt;crab_DIR&gt;/&lt;crab_job&gt;<br /><br />Kill a job:<br />crab kill -d &lt;crab_DIR/crab_job&gt;<br /><br />For help with MC generation (step1):<br />https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookCRAB3Tutorial#2_CRAB_configuration_file_to_run<br /><br />
+---+++ LXBATCH
+
+https://twiki.cern.ch/twiki/bin/view/Main/BatchJobs<br />http://www.slac.stanford.edu/exp/atlas/computing/batchDesc.html<br /><br />echo "cd $CMSSW_BASE &&" `eval $(scram ru -sh)` "cd $(pwd) && ./JHUGen ....." | bsub -q 1nd -J jobname<br /><br />Useful commands:<br />bjobs [-l]      &lt;== check job status<br />bpeek      &lt;== check stdout so far<br />bkill &lt;job_id&gt;   &lt;== kill a job<br /><br />OPTIONS:<br />-c &lt;[hh:]mm&gt;      &lt;== sets CPU time limit, supposedly default is no-limit, but I don't trust that<br /><br />
+
+---+++ CONDOR
+
+https<br />CASTOR is a big storage space for lxplus<br /><br />3 MAIN FILES:<br />bash script      &lt;== a wrapper, "condor.sh", call the code that you want to run, kind of sets parameters<br />- e.g. condor.sh<br />submit script      &lt;== typical cluster parameters, memory, universe, queue, group<br />- condor.sub<br />DAG script      &lt;== contains the jobs, children, parents needed for condor<br />- this dag script is produced from a perl/bash command<br />- then condor reads this DAG script<br /><br />Run condor:<br />condor_submit &lt;submitfile.sub&gt;<br />condor_submit_dag &lt;file.dag&gt;   &lt;== this submits the dag file to condor (i.e. submits your jobs!)<br /><br />log/&lt;bunch_of_log_files&gt;<br />- one of which is:<br />   output.log      &lt;== has stdout from code that you want condor to process!<br /><br />Kill ALL jobs under your username:<br />condor_rm &lt;username&gt;      &lt;== <br />condor_q               &lt;==
+
+---+++ CASTOR
+
+https://twiki.cern.ch/twiki/bin/view/Main/HowtoUseLxplus#Helpful_linux_commands<br />CASTOR is a big storage space for lxplus<br /><br />New commands!<br />ls      ==&gt; nsls<br />mkdir   ==&gt;   nsmkdir<br />cp      ==&gt; rfcp<br />rm      ==&gt; rfrm<br />chmod   ==&gt; rfchmod
+
+---++ LXPLUS
+
+Your user area:   /afs/cern.ch/user/d/drosenzw      &lt;== 10 GB storage<br />Your work area:   /afs/cern.ch/work/d/drosenzw   &lt;== 100 GB storage
+---+++ EOS Storage
+
+Must be logged into the LPC machines (Fermilab) or on lxplus<br />https://uscms.org/uscms_at_work/computing/LPC/usingEOSAtLPC.shtml<br />Big storage area for big files<br /><br />Past Jake says: <b>DON'T store big files in EOS</b><br />They are easier to access from Tier2 on HiPerGator through UF: /cms/data/store/user/drosenzw/<br />- use uberftp or gfal-copy to access them<br />if on IHEPA, can store big files in /raid/raid{5,6,7,8,9}<br /><br />Only lxplus accounts can access EOS storage!<br /><br />See if you have an eos area on an LPC machine:<br />eosls -d /store/user/drosenzw/<br /><br />Tier2 Storage is better:<br />/cms/data/store/user/drosenzw/         &lt;== HiPerGator at UF. ONLY WRITABLE BY CRAB. Output of CRAB stored here.<br />/cms/data/store/user/t2/users/rosedj1/      &lt;== HPG at UF. Put NTuples here.<br /><br />There are different eos storage areas:<br />/eos/uscms/store/user/drosenzw/         &lt;== My allocated EOS area. LPC's Tier3 eos storage (also: /store/user/drosenzw/ ). Use: eosls<br />/eos/cms/                        &lt;== lxplus<br />/eos/user/d/drosenzw/               &lt;== easily accessible from lxplus. SWAN also uses this<br />/uscms_data/d1/drosenzw/            &lt;== normal LPC area<br />/eos/uscms_data/d1/drosenzw/         &lt;== What even is this?<br /><br />MAIN COMMANDS:<br />On lxplus, do: <br />ls /eos/cms/<br />ls -l /eos/user/d/drosenzw/ <br />mkdir /eos/user/d/drosenzw/&lt;new_dir&gt;<br />eos ls -l /eos/user/d/drosenzw/            &lt;== different kind of listing?<br />eos mkdir /eos/user/d/drosenzw/&lt;new_dir_path&gt;   &lt;== different kind of mkdir?<br />xrdcp &lt;source_file&gt; root://eosuser.cern.ch//eos/user/d/drosenzw/&lt;new_file_name&gt; &lt;== copy files   <br />- SWAN is also connected to /eos/user/d/drosenzw/SWAN_projects<br /><br />Set up your environment:<br />export EOS_MGM_URL=root://eoscms.cern.ch <br /><br />File Names:<br />MGM:            root://cmseos.fnal.gov/<br />LFN (shortcut name):   /store/user/drosenzw/<br />- the LFN is an alias which can be used at ANY site (The LFN is Lenient, i.e. uses a short path like /store/user/...)<br />- the PFN is the actual file path <br /><br />eosquota<br />returns the amount of storage space used/available in personal EOS area<br /><br />`eosgrpquota lpctau’<br />checks the storage space for the group “lpctau”<br /><br />LISTING<br />`eosls /LFN’<br />lists files (NEVER USE `ls’!)<br /><br />`eosls -d /store/user/drosenzw/‘<br />lists directory entries<br />-l option for long listing<br />-a option for listing hidden entries<br /><br />DON’T USE WILDCARDS OR TAB-COMPLETION!<br />DON’T USE TRADITIONAL COMMANDS! ls, rm, cd, etc.<br /><br />COPYING<br />`xrdcp &lt;source_file&gt; root://cmseos.fnal.gov//store/user/drosenzw/newNameOfFile.txt' (Local file to EOS)<br />`xrdcp root://cmseos.fnal.gov//store/user/drosenzw/whateverFile.txt ~/newName.txt’ (EOS to local file)<br />`xrdcp root://cmseos.fnal.gov//store/user/drosenzw/whateverFile.txt \<br />? root://cmseos.fnal.gov//store/user/drosenzw/newFile.txt'<br />-f option can overwrite existing files<br />-s option for silent copy<br /><br />MAKE DIR<br />`eosmkdir /store/user/drosenzw/newDir’<br />-p option will make parent directories as needed<br />`eosmkdir /store/user/drosenzw/newDir1/newDir2/newDir3’<br /><br />REMOVING<br />`eosrm /store/user/drosenzw/EOSfile.txt’ - removes files<br />`eosrm -r /store/user/drosenzw/dir1’ - removes directory and all contents<br /><br />if you get scram b errors, first run:<br />cmsrel CMSSW_X_Y_Z<br /><br />MUST set up environment in working directory (YOURWORKINGAREA):<br />cd ~/nobackup/YOURWORKINGAREA/CMSSW_9_3_2/src<br />cmsenv<br /><br />For condor batch jobs:<br />xrdcp outputfile.root root://cmseos.fnal.gov//store/user/username/outputfile.root <br />or <br />xrdfs root://cmseos.fnal.gov ls /store/user/username<br /><br />Attaching files:<br />root -l root://cmsxrootd.fnal.gov//store/user/jjesus/rootFile.root<br />or <br />TFile theFile = TFile::Open("root://cmsxrootd.fnal.gov//store/user/jjesus/rootFile.root");<br /><br />in IHEPA, you add root://cmsio5.rc.ufl.edu//store/user/&lt;filepath&gt; in the front<br />TFile::Open() instead of TFile(path,"READ")<br /><br />
+
+---+++ LPC / Fermilab / CMSDAS
+
+LPC Contact for CMS DAS problems<br />cmsdasatlpc@fnal.gov <br />USCMS T1 Facility Support Team<br />uscms-t1@fnal.gov<br />Fireworks Problems:<br />fireworks-support@cernSPAMNOT.ch<br />Mattermost Problems:<br />service-desk@cern.ch<br /><br />Subscribe to hypernews: <br />https://hypernews.cern.ch/HyperNews/CMS/login.pl?&url=%2fHyperNews%2fCMS%2fcindex<br /><br />For CRAB Issues: CMSDASATLPC@fnal.gov<br /><br />Get Kerberos ticket: kinit UN@FNAL.GOV<br />to check: klist<br /><br />Log onto cmslpc-sl6 cluster:<br />ssh -Y &lt;UN&gt;cmslpc-sl6.fnal.gov<br />ssh -Y &lt;UN&gt;@cmslpcN.fnal.gov, where N is whatever node you want to join<br /><br />Initialize your proxy: <br />voms-proxy-init -voms cms --valid 168:00 (makes the proxy valid for a week instead of a day!)<br />source /cvmfs/cms.cern.ch/cmsset_default.sh   &lt;== or put this in .bash_profile<br /><br />Storage Areas:<br />/uscms/homes/d/drosenzw   &lt;== 2 GB storage area<br />/nobackup/            &lt;== larger mass storage area<br /><br />For DAS, each time I log into the sl6 cluster, I need to:<br />cd ~/nobackup/YOURWORKINGAREA/CMSSW_10_2_0/src<br />cmsenv<br /><br />Switch default shell from tcsh to bash:<br />To permanently change your default login shell, use the LPC Service Portal, login with your Fermilab Services username and password. Choose the " Modify default shell on CMS LPC nodes" ticket and fill it out.<br /><br />***<br />If you want to get the nice command line after a switch to bash, put source /etc/bashrc in your cmslpc ~/.bash_profile file<br />***<br /><br /><br />For help with Fireworks, contact Basil Schneider: basil.schneider@cern.ch<br /><br />I may still have issues pushing to GitHub. <br /><br />Keep getting this error in ROOT plots: <br />AutoLibraryloader::enable() and AutoLibraryLoader.h are deprecated.<br />Use FWLiteEnabler::enable() and FWLiteEnabler.h instead<br />Info in &lt;TCanvas::MakeDefCanvas&gt;: created default TCanvas with name c1<br /><br />FWLite (found in PhysicsTools):<br />Frame Work Lite is an interactive analysis tool integrated with the CMSSW EDM (Event Data Model) Framework. It allows you to automatically load the shared libraries defining CMSSW data formats and the tools provided, to easily access parts of the event in the EDM format within ROOT interactive sessions. It reads produced ROOT files, has full access to the class methods and there is no need to write full-blown framework modules. Thus having FWLite distribution locally on the desktop one can do CMS analysis outside the full CMSSW framework.<br /><br />Example command:<br />FWLiteHistograms inputFiles=slimMiniAOD_MC_MuEle.root outputFile=ZPeak_MC.root maxEvents=-1 outputEvery=100<br /><br />Fireworks: turns EDM collections into visual representations… i.e., turns .root files into event displays!<br />cmsShow DoubleMuon <i>n100.root<br />cmsShow --no-version-check root://cmseos.fnal.gov//store/user/cmsdas/2017/pre_exercises/DYJetsToLL.root<br /><br /><br />F</i>or help with: <br />process.maxEvents = cms.untracked.PSet<br />- https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuidePoolInputSources<br /><br />An Event is a C++ object container for all RAW and reconstructed data related to a particular collision.<br /><br /><br />
+
+---+++ DAS (Data Aggregation Service)
+
+Big database to hold MC and data samples<br />https://cmsweb.cern.ch/das/<br />FAQ:<br />https://cmsweb.cern.ch/das/faq<br />Examples:<br />https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookDataSamples<br /><br />/object_type/campaign/datatier <br />or<br />/Primary/Processed/Tier<br />/&lt;primary-dataset&gt;/&lt;CERN-username_or_groupname&gt;-&lt;publication-name&gt;-&lt;pset-hash&gt;/USER<br /><br />Given a file, DAS can return a dataset!<br />Given a dataset, DAS can return all the associated files.<br /><br />Datasets (whether MC or actual data) are published on DAS<br />- A dataset is comprised of many root files<br />- Find the name of a dataset based on the file name:<br />dataset file=/store/relval/CMSSW_10_2_0/RelValZMM_13/MINIAODSIM/PUpmx25ns_102X_upgrade2018_realistic_v9_gcc7-v1/10000/3017E7A1-178D-E811-8F63-0025905A6070.root<br />&gt;&gt;&gt; /RelValZMM_13/CMSSW_10_2_0-PUpmx25ns_102X_upgrade2018_realistic_v9_gcc7-v1/MINIAODSIM<br /><br />If you have trouble finding a file that you KNOW is on DAS:<br />- change the dbs instance to something other than global, e.g. "prod/phys03"<br /><br />Example DAS Searches:<br />dataset release=CMSSW_9_3_0_pre5 dataset=/RelValZMM*/*CMSSW_9_3_0*/MINIAOD* <br />dataset release=CMSSW_10_2_0 dataset=/RelValZMM*/*CMSSW_10_2_0*/MINIAOD*<br />dataset=/DoubleMu*/*Run2017C*/MINIAOD*   &lt;== /object_type/campaign/datatier (/Primary/Processed/Tier)<br /><br />Can search for datasets from the command line using dasgoclient:<br />dasgoclient --query="dataset=/DoubleMuon*/Run2018A-PromptReco-v1/MINIAOD" --format=plain<br />- must first do: voms-proxy-init -voms cms<br /><br /><br />Get the LFN of a dataset by doing a DAS search, like:<br />file dataset=/GenericTTbar/HC-CMSSW_5_3_1_START53_V5-v1/GEN-SIM-RECO<br />which will retrieve the following LFN:<br />/store/mc/HC/GenericTTbar/GEN-SIM-RECO/CMSSW_5_3_1_START53_V5-v1/0010/00CE4E7C-DAAD-E111-BA36-0025B32034EA.root<br /><br />MCM (Monte Carlo Manager)<br />Not the same thing as DAS!<br />Use /mcm/ to find the correct info to find MC samples on DAS:<br />/mcm/ is the bookkeeping of all produced MC samples<br />- tells you details of how the MC samples were produced<br />- e.g., tells you location of makecards.sh and data sets<br />Put into mcm:<br />GluGluHToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8<br /><br />MCM tutorial with David:<br />Did a search on DAS:<br />/GluGluHToZZ*4L*125*/*Fall17*94X*/MINIAODSIM<br />/Primary/Processed/Tier<br /><br />David noticed that the location of the MC files couldn't be found here.<br />So then he checked mcm (Monte Carlo Manager):<br />David's MCM user profile: https://cms-pdmv.cern.ch/mcm/users?prepid=dsperka&page=0&shown=51<br />- click: Request &gt; Navigation &gt; dataset_name<br />   - Here, type in the name of the dataset from DAS (without leading forward slash!)<br />e.g. GluGluHToZZTo4L _M125_13TeV_powheg2_JHUGenV7011_pythia8<br />- may have to click: Select view &gt; Fragment <br />- Then go back to Navigation and scroll to right to click the "enlarge" button<br />- This will bring up important information from "rawGitHub" about the MC samples<br />Of these, most notably is:<br />https://cms-pdmv.cern.ch/mcm/public/restapi/requests/get_fragment/HIG-RunIIFall17wmLHEGS-00607/0<br />- It has "Links to cards" - these are MC generation cards<br />- may have to manually search for a specific URL to get the &lt;whatev&gt;template.input:<br />https://raw.githubusercontent.com/cms-sw/genproductions/fd7d34a91c3160348fd0446ded445fa28f555e09/bin/Powheg/production/2017/13TeV/Higgs/gg_H_ZZ_quark-mass-effects_NNPDF31_13TeV/gg_H_ZZ_quark-mass-effects_NNPDF31_13TeV_template.input<br /><br />—————————————<br />EDM Utilities<br /><br />Commands:<br />edmFileUtil - uses a LFN (logical file name, an alias used for any site) to find a PFN (physical file name, actual file path)<br />edmDumpEventContent - see what class names etc. to use in order to access the objects in the MiniAOD file<br />edmProvDump - Prov=Provenance (origin, source, history), one can print out all the tracked parameters used to create the data file. For example, one can see which modules were run and the CMSSW version used to make the MiniAOD file.<br />edmEventSize - determines size of different branches<br /><br />e.g.<br />For any of the below commands, you can do: --help <br />edmFileUtil -d /store/relval/CMSSW_10_2_0/RelValZMM_13/MINIAODSIM/PUpmx25ns_102X_upgrade2018_realistic_v9_gcc7-v1/10000/3017E7A1-178D-E811-8F63-0025905A6070.root<br />&gt;&gt;&gt; root://cmsxrootd-site.fnal.gov//store/relval/CMSSW_10_2_0/RelValZMM_13/MINIAODSIM/PUpmx25ns_102X_upgrade2018_realistic_v9_gcc7-v1/10000/3017E7A1-178D-E811-8F63-0025905A6070.root<br /><br />edmDumpEventContent --all --regex slimmedMuons root://cmsxrootd.fnal.gov//store/user/cmsdas/2019/pre_exercises/0EE14BA8-41BB-E611-AD2F-0CC47A4D760A.root <br />&gt;&gt;&gt; spits out info about class names to access objects in MiniAOD file<br />- the columns are: (1) type of data, (2) module label, (3) product instance label, (4) process name<br /><br />edmProvDump root://cmseos.fnal.gov//store/user/cmsdas/2019/pre_exercises/0EE14BA8-41BB-E611-AD2F-0CC47A4D760A.root &gt; EdmProvDump.txt<br /><br />edmEventSize -v `edmFileUtil -d /store/user/cmsdas/2019/pre_exercises/0EE14BA8-41BB-E611-AD2F-0CC47A4D760A.root` &gt; EdmEventSize.txt <br />edmEventSize -v slimMiniAOD_MC_MuEle.root<br /><br />In a MiniAOD file, each event only contains about 30-50 KB of data.<br />The main contents of the MiniAOD are: <br />* High level physics objects (leptons, photons, jets, ETmiss), with detailed information in order to allow e.g. retuning of identification criteria, saved using PAT dataformats. &#x2028;Some preselection requirements are applied on the objects, and objects failing these requirements are either not stored or stored only with a more limited set of information. &#x2028;Some high level corrections are applied: L1+L2+L3(+residual) corrections to jets, type1 corrections to ETmiss. <br />* The full list of particles reconstructed by the ParticleFlow, though only storing the most basic quantities for each object (4-vector, impact parameter, pdg id, some quality flags), and with reduced numerical precision; these are useful to recompute isolation, or to perform jet substructure studies. &#x2028;For charged particles with pT &gt; 0.9 GeV, more information about the associated track is saved, including the covariance matrix, so that they can be used for b-tagging purposes. <br />* MC Truth information: a subset of the genParticles enough to describe the hard scattering process, jet flavour information, and final state leptons and photons; GenJets with pT &gt; 8 GeV are also stored, and so are the other mc summary information (e.g event weight, LHE header, PDF, PU information). &#x2028;In addition, all the stable genParticles with mc status code 1 are also saved, to allow reclustering of GenJets with different algorithms and substructure studies. <br />* Trigger information: MiniAOD contains the trigger bits associated to all paths, and all the trigger objects that have contributed to firing at least one filter within the trigger. In addition, we store all objects reconstructed at L1 and the L1 global trigger summary, and the prescale values of all the triggers.
+
+---+++ svn
+
+<span>"subversion" - seems like the lxplus version of git and version control<br />Use this to edit Analysis Notes in CMS<br /><br />Excellent tutorial on svn:<br />http://cmsdoc.cern.ch/cms/cpt/tdr/notes_for_authors_temp.pdf<br /><br />https://twiki.cern.ch/twiki/bin/view/Main/HowtoNotesInCMS<br /><br />https://twiki.cern.ch/twiki/bin/viewauth/CMS/Internal/TdrProcessing<br /><br />To get your AN/paper started:<br />svn co -N svn+ssh://svn.cern.ch/reps/tdr2 myDir<br />cd myDir<br />svn update utils<br />svn update -N [papers|notes]         &lt;=</span> choose one, papers or notes<br />svn update [papers|notes]/XXX-YY-NNN   &lt;== enter your AN or paper code<br />eval `[papers|notes]/tdr runtime -sh`   <br /><br />To modify:   <br />cd [papers|notes]/XXX-YY-NNN/trunk   <br /><br />To build the document:<br />tdr --style=pas b XXX-YY-NNN      # --style=paper for papers<br /><br /><br />Git-like commands to update files:<br />svn add &lt;newfiles&gt;      &lt;== YOU ONLY NEED TO DO THIS ONCE FOR ANY FILE<br />svn commit -m '&lt;Commit message&gt;'   &lt;== This will update the file<br /><br />svn status <br />svn status -u (--show-updates)<br /><br />Figures should reside in the fig/ directory<br />Figure &#x303;\ref{fig:test} shows a figure prepared with the TDR<br />template and illustrates how to include a picture in a document<br />and refer to it using a symbolic label.<br />\begin{figure}[!Hhtb]<br />\centering<br />\includegraphics{width=0.55\textwidth}{c1_BlackAndWhite}<br />\caption[Caption for TOC]{Test of graphics inclusion.\label{fig:test}}<br />\end{figure}<br />The result of the above is roughly as follows:<br />Figure 1 shows a figure prepared with the TDR template and illustrates how to<br />include a picture in a document and refer to it using a symbolic label.<br /><br />Colour versions of figures can by provided for PDF output using the combinedfigure macro in place of the \ includegraphics<br />command. This takes two arguments corresponding re-<br />spectively to the black and white and the coloured versions of the same picture, for example:<br />Figure &#x303;\ref{fig:test} shows a figure prepared with the TDR<br />template and illustrates how to include a picture in a document<br />and refer to it using a symbolic label.<br />\begin{figure}[!Hhtb]<br />\centering<br />\combinedfigure{width=0.4\textwidth}{c1_BlackAndWhite}{c1_Colour}<br />\caption[Caption for TOC]{Test of graphics inclusion.\label{fig:test}}<br />\end{figure}<br /><br />the recommended procedure is to use multiple instances of the<br />\includegraphics command, combined with the tabular environment if needed.<br /><br /><br />Lucien ditched svn and switched to git for our AN-18-194.<br />https://twiki.cern.ch/twiki/bin/viewauth/CMS/Internal/TdrProcessing<br /><br />Compare what version of the AN you have:<br />git log      &lt;== shows recent commits<br /><br />
+
+---+++ Certificate Stuff:
+
+Followed instructions on:
+https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookStartingGrid#ObtainingCert
+Anytime you want to access data on a TCreate a temporary proxy:
+voms-proxy-init --rfc --voms cms
+voms-proxy-init --voms cms --valid 168:00       &lt;== makes the proxy valid for a week instead of a day!
+voms-proxy-init -debug
+
+voms-proxy-info      &lt;== check your info
+
+When your grid certificate expires, you get an error like:
+“Error during SSL handshake:Either proxy or user certificate are expired.”
+
+Request a new grid user certificate:
+https://ca.cern.ch/ca/help/?kbid=024010
+
+Must have these permissions:
+<verbatim class="cmd">
+usercert.pem -rw-r--r-- %BR%
+userkey.pem -r-------- </verbatim>
+
+So do:
+<verbatim class="cmd">
+chmod 644 path/to/usercert.pem
+chmod 400 path/to/userkey.pem</verbatim>
+
+Put certificate into browser and then into VOMS:
+https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideVomsFAQ
+
+Also need to link certificate to your account in SiteDB:
+https://resources.web.cern.ch/resources/Manage/Accounts/MapCertificate.aspx
+Check if it worked:
+https://cmsweb.cern.ch/sitedb/prod/mycert
+
+Potentially Useful:
+https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookStartingGrid#ObtainingCert
+https://twiki.cern.ch/twiki/bin/viewauth/CMS/SiteDBForCRAB
+
+*Successfully registered for VO CMS membership on 2018-06-26*
+*Able to submit crab jobs on 2018-07-17*
+
+Your certificate subject (DN):
+/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=*yourusername*/CN=820970/CN=&lt;your_name&gt;
+/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=drosenzw/CN=820970/CN=Jake Rosenzweig  &lt;== NEW
+The CA that issued your certificate:
+/DC=ch/DC=cern/CN=CERN Grid Certification Authority
+
+---+++ Local System
+
+In case you ever get this kind of error:
+“Could not install packages due to an EnvironmentError: [Errno 13] Permission denied: '/private/var/folders/zj/mnvc1p6542bgc5j7npt_2jkh0000gn/T/pip-install-1uj6p02b/tabula-py/tabula/tabula-1.0.2-jar-with-dependencies.jar'
+Check the permissions.”
+
+This is because Homebrew doesn’t play nicely with pip. So do:
+`python -m pip install --user --install-option="--prefix=" ’
+
+If you ever get the following error:
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!
+Someone could be eavesdropping on you right now (man-in-the-middle attack)!
+Then the simple fix is:
+ssh-keygen -f ~/.ssh/known_hosts -R <hostname or ip address>
+- for example, <hostname> = lxplus.cern.ch
+
+---+++ Version Control
+
+GitHub<br />BitBucket<br />svn<br /><br />A good collaborative workflow:<br />1. Fork the group's repo so that you have your own repo.<br />2. Make your own, new branch in the forked repo that you can work on.<br />3. Keep the master branch of the forked repo synched up with the group's master branch. (upstream)<br /><br />git config --global user.name [Name]<br />git config --global user.email [Email]<br />git config --global user.github [Account]<br />git config --global core.editor [your preferred text editor]<br /><br />Make the print log easier to read:<br />git config --global alias.lol 'log --graph --decorate --pretty=oneline --abbrev-commit'<br /><br />Pull a specific file from the GitHub repo:<br />git fetch                  &lt;== downloads all the recent changes, but it will not put it in your current <br />                        checked out code (working area).<br />git fetch origin <br /><br />git cherry-pick &lt;commit-ID&gt;      &lt;== grab the files from a specific commit(?)<br /><br />git checkout origin/master -- &lt;path/to/file&gt;<br />//git checkout &lt;local repo name(default is origin)&gt;/&lt;branch name&gt; -- path/to/file will checkout the particular file from the downloaded changes (origin/master).<br /><br />If a Core folder gets updated, do:<br />git submodule init   &lt;== may not need to do this every time<br />git submodule update<br /><br />If you need to pull down more recent code from a repo, you can stash your current changes:<br />git stash         &lt;== saves your modifications for later (so now you can: git pull)<br />git stash apply   &lt;== brings those saved modifications back to life!<br /><br />Remotes:<br />Add a remote called "upstream" to push to original (not forked) repo:<br />git remote add upstream git@github.com:GitHATSLPC/GitHATS.git<br />- this is equivalent to doing:<br />      git fetch upstream master<br />      git merge upstream/master<br /><br />To keep from having to put in your password each time you push:<br />git remote show origin   &lt;== This shows you your repo_name<br />git remote set-url origin git+ssh://git@bitbucket.org/&lt;username&gt;/&lt;repo_name&gt;.git<br />Can also remove remotes:<br />git remote rm origin<br /><br />Two ways to make a repo:<br />1. Create repo in terminal:<br />   1. git init<br />   2. git add .<br />   3. git commit -m 'Commit message’<br />       1. undo with: git reset --soft HEAD~1<br />   4. git remote add origin &lt;remote_repo_URL&gt;<br />       1. GitHub:    git@github.com:&lt;user_name&gt;/&lt;repo_name&gt;.git   &lt;== make &lt;repo_name&gt; whatever you want!<br />       2. bitbucket: https://username@your.bitbucket.domain:7999/yourproject/repo.git<br />   5. git push -u origin master<br /><br />2. Create repo online and clone into terminal:<br />   1. make repo on BitBucket or GitHub <br />   2. git clone &lt;remote_repo_URL&gt;<br /><br /><br />Check the status of latest changes in your own repo:<br />git status<br />git status -s   &lt;== short format<br />Also useful:<br />git diff      &lt;== shows edits between old and new files, line by line<br />git diff &lt;file&gt;   &lt;== specifically, compares the changes you have made to last committed version of file<br /><br />If you get the following error:<br />error: The requested URL returned error: 403 Forbidden while accessing https://github.com/rosedj1/AN-18-194/info/refs<br />Then do:<br />1. edit .git/config file under your repo directory<br />2. find url=entry under section [remote "origin"]<br />3. change it from <br />url=https://MichaelDrogalis@github.com/derekerdmann/lunch_call.git to url=ssh://git@github.com/derekerdmann/lunch_call.git <br />that is, change all the texts before @ symbol to ssh://git<br /><br /><br />True = use_syst ! Enable systematics studies<br /><br /><br /><br />USEFUL!<br />To remove a file from your remote git repo:<br />git rm &lt;file1&gt;               &lt;== I think this also deletes the file locally!<br />git rm --cached &lt;file1&gt;         &lt;== does NOT delete file locally; only on the remote repo!<br />then do:<br />git commit -m "removing &lt;file1&gt;"<br />git push origin &lt;branch_name&gt;<br /><br />Remove a directory:<br />git rm -r &lt;dir1&gt;<br /><br />Say you have made a pull request and a bunch of commits which you can see on GitHub.<br />Now you want to remove those files from the PR. <br />Doing rm &lt;file&gt; from your local computer won't take it away from GitHub.      &lt;== may not be true<br />So you can REMOVE previously committed files by doing:               &lt;== also may not be true<br />git rm &lt;file&gt;<br /><br />If you have a file in a PR that you want to delete, or say you have sensitive info in a PR<br />which must be deleted, you should 'rewrite' the commit:<br />git commit --amend         &lt;== just do this if your most recent commit is local (not online)<br />git push --force origin &lt;branch&gt;   &lt;== otherwise, include this part too to rewrite the history online<br /><br />If you move a repo to a new location:<br />git remote set-url origin ssh://git@gitlab.cern.ch:7999/cms-rcms-artifacts/gitlab-maven.git<br />or<br />git remote set-url origin https://gitlab.cern.ch/cms-rcms-artifacts/gitlab-maven.git<br /><br /><br />GitHub Markdown:<br />*&lt;words&gt;*   or   _&lt;words&gt;_   &lt;== make &lt;words&gt; italic      (called "emphasis")<br />**&lt;words&gt;**   or   __&lt;words&gt;__   &lt;== make &lt;words&gt; bold      (called "strong emphasis")<br />**&lt;words&gt; and _&lt;newwords&gt;_**   &lt;== &lt;words&gt; and &lt;newwords&gt;   (called "combined emphasis")<br />~~&lt;words&gt;~~            &lt;== make &lt;words&gt; strikethrough<br />{code}&lt;words&gt;{code}   &lt;== make &lt;words&gt; monospace and code-like<br />!!&lt;space&gt;         &lt;== make entire message monospace by beginning message with '!!' and then a space!<br />@@&lt;space&gt;         &lt;== ignore all special formatting by beginning message with '@@' and then a space<br /><br />Code<br />`&lt;code&gt;`         &lt;== inline &lt;code&gt;<br /><br />```python<br />&lt;code&gt;<br />```            &lt;== block &lt;code&gt; with python syntax highlighting<br /><br />Headers<br /># H1         &lt;== biggest text<br />## H2<br />### H3<br />#### H4<br />##### H5   &lt;== smallest text<br />###### H6   &lt;== smallest text, but greyed out<br /><br />Lists<br />1. First ordered list item<br />2. Another item<br />&sdot;&sdot;* Unordered sub-list. <br />1. Actual numbers don't matter, just that it's a number<br />&sdot;&sdot;1. Ordered sub-list<br />&sdot;&sdot;1. Second item in the sub-list. Remember, GitHub Markdown has automatic numbering<br />4. And another item.<br /><br />&sdot;&sdot;&sdot;You can have properly indented paragraphs within list items. Notice the blank line above, and the leading spaces (at least one, but we'll use three here to also align the raw Markdown).<br /><br />&sdot;&sdot;&sdot;To have a line break without a paragraph, you will need to use two trailing spaces.&sdot;&sdot;   &lt;== two trailing spaces keeps you in same paragraph<br />&sdot;&sdot;&sdot;Note that this line is separate, but within the same paragraph.&sdot;&sdot;<br /><br />Unordered Lists<br />* Unordered list can use asterisks<br />- Or minuses<br />+ Or pluses<br /><br />Tables<br />| Tables       | Are          | Cool |<br />| ------------- |:-------------:| -----:|<br />| col 3 is     | right-aligned | $1600 |<br />| col 2 is     | centered     |  $12 |<br />| *zebra stripes* | `are neat`     |   $1 |<br /><br />- Colons can be used to align columns.<br />- There must be at least 3 dashes separating each header cell.<br /><br /><br />Blockquotes         &lt;== look like quotes from a forum or email<br />&gt; &lt;quoted_text&gt;<br /><br /><br />Make a horizontal line (all methods are the same):<br />***   or   ___   or   ---   <br /><br />You can also add: Images, Hyperlinks, inline HTML, and YouTube videos<br /><br /><br /><br /><br />Git Tutorial with Matt Gitzendanner:<br />Matt's slides can be found at: <br />github.com/ufresearchcomputing/git-training<br />- It can actually host slides and presentations<br />- Could be used for writing text<br /><br />git-scm.com   &lt;== helps download and install git<br /><br />Master branch = main copy of the code, function code<br />Repository = collection of files, place where you want to organize projects<br />Working Copy --&gt; Staging Area --&gt; Commit to local repo<br /><br />Some commands:<br />git init      &lt;== turn current directory into a repo<br />git fetch      &lt;== goes between online repo and local repo<br />git checkout   &lt;== goes between local repo and working area<br />git merge      &lt;== goes between local repo and working area<br />git reset HEAD~1   &lt;== delete the last commit<br />git commit --amend   &lt;== Merge commits and commit again<br /><br /><br />BRANCHING<br />git branch newbranch<br />git checkout newbranch<br />(or just: git checkout -b newbranch)<br />git branch -a            &lt;== shows all local and remote branches<br />git branch -r            &lt;== only show remote branches<br />git branch -d branch_name   &lt;== delete local branch<br />git branch -D branch_name   &lt;== force delete local branch<br />git push &lt;remote_name&gt; --delete &lt;branch_name&gt;   &lt;== delete remote branch<br /><br />git push --set-upstream origin newbranch<br /><br />git reset HEAD &lt;file&gt;   &lt;== unstage files which have been added<br />git log   &lt;== shows changes you've made<br /><br />CMS has its own git init command: git cms-init<br />- be sure to do cmsenv first<br /><br />—————————————<br />IDEs and Interpreters<br /><br />SWAN<br />A Jupyter Notebook for CMSSW, ROOT, and PyROOT!<br /><br />Start a session:<br />https://swan001.cern.ch/hub/home<br /><br />You can jump straight into a Jupyter Notebook and/or jump into a terminal.<br />The terminal is linked to:<br />/eos/user/d/drosenzw/SWAN_projects/<br /><br />URL to access SWAN:<br />swan003.cern.ch<br />potential nodes: [1-5]<br /><br /><br /><br /><br />Jupyter Notebook Stuff<br />Go to: https://help.rc.ufl.edu/doc/Remote_Jupyter_Notebook<br />Copy and paste the SLURM script there.<br />sbatch &lt;SLURM_job.sh&gt;<br />localhost:&lt;port_number&gt;<br /><br />ssh -NL 26686:c25a-s26.ufhpc:26686 &lt;UN&gt;@hpg2.rc.ufl.edu<br /><br />module add jupyter<br />launch_jupyter_notebook<br /><br />In the job's log file, you will find the host <br /><br />module key &lt;keyword&gt;<br />module spider &lt;keyword&gt;<br /><br />There is a thing called: Jupyter lab<br />- There's also jhub (jupyter hub)<br /><br />Cmd + ]      &lt;== tab/indent<br />Cmd + [      &lt;== untab/dedent<br />Cmd + /      &lt;== (un)comment highlighted text<br />X         &lt;== delete selected cell<br />Z         &lt;== undo cell deletion<br /><br />Other cool tricks:<br />Click the left part of the output of a cell to contract and scroll through the output<br />- makes your Jupyter Notebook more manageable<br /><br /><br /><br />C++ IDE:<br />If you want a C++ IDE like Jupyter, check out:<br />xeus-cling   &lt;== never successfully worked...<br />binder      &lt;== kept crashing<br /><br />conda activate xeus<br />conda deactivate<br /><br />A command that starts with % is called a "line magic" and %% is called a "cell magic"<br />- these are non-native to C++ or python, but understood by the IDE for really cool effects!<br /><br />%%file &lt;filename&gt;      &lt;== writes over file &lt;filename&gt; with cell contents<br />%%file -a &lt;filename&gt;   &lt;== appends to &lt;filename&gt;\<br /><br /><br /><br />
+
+---+++ TWiki Markdown:
+
+CMSNewcomerHandbook
+https://twiki.cern.ch/twiki/bin/view/Sandbox/CMSNewcomerHandbook
+Intro:
+https://twiki.cern.ch/twiki/bin/view/TWiki/ATasteOfTWiki?slideshow=on;skin=print#GoSlide1
+User guide:
+https://twiki.cern.ch/twiki/bin/view/TWiki/TWikiUsersGuide
+Markdown help:
+https://twiki.cern.ch/twiki/bin/view/TWiki/TextFormattingRules    (long version)
+https://twiki.cern.ch/twiki/bin/view/TWiki/TWikiShorthand       (short version)
+TWiki variables:
+https://twiki.cern.ch/twiki/bin/view/TWiki/TWikiVariables
+TWiki plugins:
+twiki.org/cgi-bin/view/Plugins
+
+   * Easiest to edit the TWiki using Raw Edit.
+
+Markdown:
+_italics_
+*bold*
+__bold italic__
+=monospace=
+==bold monospace==
+
+<verbatim class="cmd">
+block of code</verbatim>
+
+Disable formatted text:
+<nop>*word*
+!*word*
+
+Separate paragraphs with a blank line
+
+---+ &lt;== This is a heading
+---++ &lt;== Deeper heading
+
+---         &lt;== horizontal bar
+
+%TOC{title="Goodies:"}%      &lt;== Table of Contents
+
+   * text &lt;== three spaces, then * starts a bulleted list
+    - (further bullets are indented via whitespace triplets)
+   1 text &lt;== three spaces, then some number, starts a numbered list
+    - doesn't matter what number you put!
+    - Use the %BR% variable to add a paragraph without renumbering the list
+
+| Cat | Dog
+| boo | yah! |    &lt;== creates a table
+
+%RED% your_text %ENDCOLOR      &lt;== color your text red
+
+BumpyWord   &lt;== using CamelCase like this creates an auto-hyperlink to BumpyWord 's TWiki
+[[BumpyWords][bumpy words]] appears as bumpy words
+[[http://www.google.com/][Google]] appears as Google
+
+%SEARCH   &lt;== This is an interface to a sophisticated search engine that embeds the results of the search in your page
+
+Three kinds of documents on the TWiki:
+1. DocumentMode = community property, anyone can edit
+2. ThreadMode = Q&A
+3. StructuredMode = has definite structure and rules to follow
+
+Import an image:
+
+<verbatim class="cmd"><img align="right" alt="CRAB Logo" src="http://cmsdoc.cern.ch/cms/ccs/wm/www/Crab/img/crab_logo_3.png" width="154" /> </verbatim>
+
+---++ Important Particle Physics Stuff:
+
+---+++ MadGraph5_aMC@NLO
+
+MadGraph5 (MG5) is a leading order (LO) and next-to-leading order (NLO) Monte Carlo event generator.
+   * "Mad" stands for *Mad*ison-Wisconsin!
+
+*Excellent !MadGraph5 tutorial:* <br />
+https://twiki.cern.ch/twiki/bin/view/CMSPublic/MadgraphTutorial
+
+---
+
+*How to install !MadGraph5 (MG5):*
+   1 Go to *https://launchpad.net/mg5amcnlo* and right-click a green button with your favorite version of MG5.
+   1 Click *Copy Link Location*.
+   1 Download MG5 by going to your shell and pasting in the link:
+<verbatim class="cmd">wget https://launchpad.net/mg5amcnlo</verbatim>
+
+Untar the downloaded tarball and display the contents:
+<verbatim class="cmd">
+tar -zxf MG5_aMC_v2.6.5.tar.gz
+ls -l MG5_aMC_v2_6_5/
+</verbatim>
+
+You should see something like this:
+<verbatim class="output">
+total 7.4M
+drwxr-xr-x.  4 drosenzw zh 2.0K Jul 12 00:49 Delphes
+drwxr-xr-x.  3 drosenzw zh 2.0K Jul 12 00:49 ExRootAnalysis
+drwxr-xr-x.  3 drosenzw zh 6.0K Jul 12 00:49 HELAS
+drwxr-xr-x. 15 drosenzw zh 2.0K Jul 12 00:49 HEPTools
+-rw-r--r--.  1 drosenzw zh 1.9K Jul 12 00:48 INSTALL
+lrwxr-xr-x.  1 drosenzw zh   16 Jul 12 00:48 LICENSE -> madgraph/LICENSE
+drwxr-xr-x.  3 drosenzw zh 2.0K Jul 12 00:48 MadSpin
+drwxr-xr-x.  2 drosenzw zh 2.0K Jul 12 00:48 PLUGIN
+-rw-r--r--.  1 drosenzw zh 2.2K Jul 12 00:49 README
+drwxr-xr-x.  8 drosenzw zh 2.0K Jul 12 00:48 Template
+-rw-r--r--.  1 drosenzw zh 122K Jul 12 00:48 UpdateNotes.txt
+-rw-r--r--.  1 drosenzw zh   41 Jul 12 00:49 VERSION
+drwxr-xr-x.  4 drosenzw zh 2.0K Jul 12 01:01 aloha
+drwxr-xr-x.  2 drosenzw zh 2.0K Jul 12 00:49 apidoc
+drwxr-xr-x.  2 drosenzw zh 2.0K Jul 12 00:48 bin
+drwxr-xr-x.  2 drosenzw zh 2.0K Jul 12 00:49 doc
+-rw-r--r--.  1 drosenzw zh 7.2M Jul 12 00:48 doc.tgz
+drwxr-xr-x.  2 drosenzw zh 2.0K Jul 12 00:48 input
+drwxr-xr-x. 10 drosenzw zh 2.0K Jul 12 01:01 madgraph
+drwxr-xr-x.  2 drosenzw zh 2.0K Jul 12 01:01 mg5decay
+drwxr-xr-x. 10 drosenzw zh 2.0K Jul 12 01:01 models
+-rw-r--r--.  1 drosenzw zh 1.8K Jul 12 00:49 proc_card.dat
+-rw-r--r--.  1 drosenzw zh    0 Jul 12 00:49 pythia-pgs.tgz
+drwxr-xr-x.  7 drosenzw zh 2.0K Jul 12 00:48 tests
+drwxr-xr-x.  7 drosenzw zh 2.0K Jul 12 01:01 vendor
+</verbatim>
+
+*Notes about a couple of these:*
+   * The =models/= dir contains different theoretical models which MG5 can import.
+      * Put new models inside this dir to successfully ==import model <new_model>==.
+   * The =proc_card.dat= file contains the default process to be generated.
+   * The =bin/= dir contains the executable =mg5_aMC=. Let's play with that next.
+
+Boot up the MG5 interpreter:
+<verbatim class="cmd">./MG5_aMC_v2_4_2/bin/mg5_aMC</verbatim>
+Note that by default the *Standard Model* gets imported: 
+<verbatim class="output">Loading default model: sm</verbatim>
+
+See what particles MG5 currently knows about:
+<verbatim class="cmd">display particles</verbatim>
+Look at the particles with a little more detail:
+<verbatim class="cmd">display multiparticles</verbatim>
+Look at the possible vertices:
+<verbatim class="cmd">display interactions</verbatim>
+
+Let's *generate a Drell-Yan process*:
+<verbatim class="cmd">generate p p > z > l+ l-</verbatim>
+
+*Draw the Feynman diagrams* associated with this process:
+(If you have graphics-forwarding set up correctly on your system, MG5 will draw some purdy-lookin' Feynman diagrams for you.)
+<verbatim class="cmd">display diagrams</verbatim>
+
+Save this generated process in a *newly-created dir*:
+<verbatim class="cmd">output <new_dir_name></verbatim>
+   * Note: Executing =output= automatically writes the Feynman diagrams to the subprocess/matrix.ps file
+
+*Calculate the cross section* of the process:
+<verbatim class="cmd">launch</verbatim>
+   * Now type ==0== to bypass extraneous programs to run.<br />
+   * Then press ==1== to modify the =param_card.dat= using Vim. Change anything you want and then do =:wq= to write (save) and quit. <br />
+   * Now press ==2== to modify the =run_card.dat=. Change whatever run conditions and then write and quit out of Vim. <br />
+   * Finally, press ==0== to *calculate the cross section*.
+
+---++++*EXTRA INFO ON MG5* 
+
+Bring up the *help menu* or *help on a specific command*:
+<verbatim class="cmd">
+help
+help <cmd>
+</verbatim>
+
+Syntax for =generate= :
+<verbatim class="cmd">
+generate INITIAL STATE &gt; REQ S-CHANNEL &gt; FINAL STATE $ EXCL S-CHANNEL / FORBIDDEN PARTICLES COUP1=ORDER1 COUP2=ORDER2 @N
+
+### Examples:
+generate g g > h > l- l+ l- l+ [QCD]    # loop process
+generate l+ vl > w+ > l+ vl a $ z / a h QED=3 QCD=0 @1
+generate p p > h , (h > hs hs, (hs > zp zp, (zp > l+ l-)))
+generate p p > h > j j e+ e- vm vm~ QCD=0 QED=6
+</verbatim>
+
+Specify the number of vertices:
+<verbatim class="cmd">
+generate p p > h > j j e+ e- vm vm~ QCD=0 QED=6
+
+p p &gt; t t~    # Gives only dominant QCD vertices; ignores QED vertices
+p p &gt; t t~ QED=2    # Gives both QCD and QED vertices
+</verbatim>
+
+Add new processes to current process:
+<verbatim class="cmd">
+add process p p > h > j j mu+ mu- ve ve~ QCD=0 QED=6
+</verbatim>
+
+*Define new particles* (or groups of particles):
+<verbatim class="cmd">
+define v = w+ w- z a    # Define the vector bosons
+define p = p b b~    # Redefine the proton
+</verbatim>
+
+Import a *new model*:
+<verbatim class="cmd">import model mssm</verbatim>
+   * *Note:* The model must exist in the =/MG5_aMC_v2_4_2/models/= dir.
+
+Modify the model:
+<verbatim class="cmd">
+customize_model 
+customize_model --save=<new_model_name>    # Save new model
+</verbatim>
+   * Useful for setting a mass to zero, or removing some interaction, etc.
+
+Save MG5 commands from interactive session:
+history &lt;my_mg5_cmd&gt;.dat
+
+Execute commands stored in history file:
+import command   &lt;my_mg5_cmd&gt;.dat      &lt;== from MG5 CLI
+./bin/mg5_aMC   my_mg5_cmd.dat         &lt;== from your shell
+
+Execute shell commands from MG5 CLI:
+!<cmd>      &lt;== option 1
+shell <cmd>   &lt;== option 2
+
+./bin/madevent
+do: pythia run_01
+
+Rerun a =launch= command from a dir that was produced using =output <new_dir>=
+<verbatim class="cmd">./bin/generate_events</verbatim>
+
+After you do <verbatim>output <new_dir></verbatim>, inside that dir you will find a *very useful README file* that shows you how to:
+   A. generate events
+   B. how to run in cluster/multi-core mode
+   C. how to launch sequential run (called multi-run)
+   D. How to launch Pythia/PGS/Delphes
+   E. How to prevent automatic opening of html pages
+   F. How to link to lhapdf   
+   G. How to run in gridpack mode
+
+
+import model HAHM_variablesw_v3_UFO
+define q = u d s c t b u~ d~ c~ s~ t~ b~
+generate q q &gt; z z / g h h2 , z &gt; l+ l-
+output <dirname>
+launch <dirname>
+
+
+---++++ How to make a gridpack
+Run =gridpack_generation.sh=.
+   * I think you get this from *cmssw/genproductions github* but I need to double check.
+
+Tips:
+- Usually good to put: ptj = 0.01 (= 0 has caused problems)
+- qscale at ME level is controlled by ptj at NLO and by xqcut at LO
+- draj = 0.05 (this is the deltaR between gamma and jets)
+- jetradius = 0.7 (for non-FXFX merging samples)
+- lhaid = 292000 (for 4 fermion final state)
+
+Fix:
+******Appending [QCD]    &lt;== applies NLO QCD corrections to process
+
+generate p p &gt; w+, w+ &gt; ell+ vl @0   &lt;== '@0' is still leading order...
+
+How to fix certain errors:
+Error detected in "import model
+Must put a "model dir" with all the model cards inside MG5_aMC_v2_6_5/models/
+- a model dir has files like: "couplings.py", "vertices.py", "decays.py"
+
+*For help on using MCM or php:* <br />
+https://indico.cern.ch/event/807778/contributions/3362163/attachments/1826349/2989132/mccmTutorial.pdf
+
+How to install LHAPDF sets:
+Open up a MG5 interpreter and do:
+install lhapdf6
+BEWARE! IT'S NOT GUARANTEED TO WORK!
+while doing 'install lhapdf6' some errors are encountered,
+specifically that the desired dir is never created:
+/20190422_HAHM_qqZZ4L/MG5_aMC_v2_6_5/HEPTools/lhapdf6/share/LHAPDF/
+
+instead it only creates:
+/20190422_HAHM_qqZZ4L/MG5_aMC_v2_6_5/HEPTools/lhapdf6/
+
+Need to MANUALLY put these files into .../share/LHAPDF/:
+- pdfsets.index
+- lhapdf.conf
+/cvmfs/cms.cern.ch/lhapdf/pdfsets/6.2/pdfsets.index
+
+Then download the desired pdfs into .../share/LHAPDF/:
+wget https://lhapdf.hepforge.org/downloads?f=pdfsets/6.1/NNPDF23_lo_as_0130_qed.tar.gz -O NNPDF23_lo_as_0130_qed.tar.gz
+tar xvfz  NNPDF23_lo_as_0130_qed.tar.gz
+
+If you want to view the code that fails:
+MG5_aMC_v2_6_5/HEPTools/HEPToolsInstallers/installLHAPDF6.sh
+
+value '230000' for entry 'pdlabel' is not valid.  Preserving previous value: 'nn23nlo'.
+allowed values are lhapdf, cteq6_m, cteq6_d, cteq6_l, cteq6l1, nn23lo, nn23lo1, nn23nlo
+
+Change Fortran compiler to "gfortran":
+MG5_aMC_v2_6_5/input/mg5_configuration.txt
+
+LHAPDF_DATA_PATH=/cvmfs/cms.cern.ch/lhapdf/pdfsets/6.2/NNPDF30_nlo_nf_5_pdfas
+PATH
+PYTHONPATH
+LD_LIBRARY_PATH
+/afs/cern.ch/work/d/drosenzw/DarkZ/MG5_gridpacks_practice/CMSSW_10_2_0/biglib/slc6_amd64_gcc700:/afs/cern.ch/work/d/drosenzw/DarkZ/MG5_gridpacks_practice/CMSSW_10_2_0/lib/slc6_amd64_gcc700:/afs/cern.ch/work/d/drosenzw/DarkZ/MG5_gridpacks_practice/CMSSW_10_2_0/external/slc6_amd64_gcc700/lib:/cvmfs/cms.cern.ch/slc6_amd64_gcc700/cms/cmssw/CMSSW_10_2_0/biglib/slc6_amd64_gcc700:/cvmfs/cms.cern.ch/slc6_amd64_gcc700/cms/cmssw/CMSSW_10_2_0/lib/slc6_amd64_gcc700:/cvmfs/cms.cern.ch/slc6_amd64_gcc700/cms/cmssw/CMSSW_10_2_0/external/slc6_amd64_gcc700/lib:/cvmfs/cms.cern.ch/slc6_amd64_gcc700/external/llvm/6.0.0-gnimlf2/lib64:/cvmfs/cms.cern.ch/slc6_amd64_gcc700/external/gcc/7.0.0-omkpbe2/lib64:/cvmfs/cms.cern.ch/slc6_amd64_gcc700/external/gcc/7.0.0-omkpbe2/lib:/cvmfs/cms.cern.ch/slc6_amd64_gcc700/external/cuda/9.2.88-gnimlf/drivers
+
+Maybe need to do this:
+export PATH=$PATH:&lt;MG_PATH&gt;/HEPTools/lhapdf6/bin
+/afs/cern.ch/work/d/drosenzw/DarkZ/MG5_gridpacks_practice/HAHM_LO/HAHM_variablesw_v3/HAHM_variablesw_v3_gridpack/work/LHAPDF-6.2.1/bin
+
+/afs/cern.ch/work/d/drosenzw/DarkZ/MG5_gridpacks_practice/HAHM_LO/HAHM_variablesw_v3/HAHM_variablesw_v3_gridpack/work/LHAPDF-6.2.1/bin/lhapdf
+
+---++++++ Les Houches Events (LHE) Files
+When a LHE file is made, inside you will find something like this:
+<verbatim class="output">
+<event>
+ 8   1  0.6793200E-07  0.9147429E+02  0.7818608E-02  0.1356938E+00
+   particleID    1    4    4    0    0       px                 py               pz                  E                   mass
+        2   -1    0    0  501    0  0.00000000000E+00  0.00000000000E+00  0.68369358717E+03  0.68369358717E+03  0.00000000000E+00 0. -1.
+       -2   -1    0    0    0  501 -0.00000000000E+00 -0.00000000000E+00 -0.69562716985E+01  0.69562716985E+01  0.00000000000E+00 0.  1.
+       23    2    1    2    0    0 -0.39165990322E+01  0.82379263440E+01  0.32833201641E+03  0.34083640999E+03  0.91018361847E+02 0.  0.
+     1023    2    1    2    0    0  0.39165990322E+01 -0.82379263440E+01  0.34840529906E+03  0.34981344888E+03  0.29999890451E+02 0.  0.
+      -11    1    3    3    0    0  0.17753759019E+02  0.35304624130E+01  0.31380369896E+03  0.31432534356E+03  0.51100000000E-03 0. -1.
+       11    1    3    3    0    0 -0.21670358051E+02  0.47074639310E+01  0.14528317452E+02  0.26511066425E+02  0.51100000000E-03 0.  1.
+      -11    1    4    4    0    0  0.85238449545E+01  0.88209596645E+01  0.94289826123E+02  0.95084365554E+02  0.51100000000E-03 0.  1.
+       11    1    4    4    0    0 -0.46072459224E+01 -0.17058886009E+02  0.25411547294E+03  0.25472908333E+03  0.51100000000E-03 0. -1.</verbatim>
+
+
+
+---++ UF-Specific Stuff
+
+For potentially GREAT scripts, check out:
+David:   /afs/cern.ch/user/d/dsperka/public/Run2MC/
+Filippo:    /afs/cern.ch/user/f/ferrico/cmsonly/fitdymass.py
+
+DON'T store big files in EOS
+They are easier to access from Tier2: /cms/data/store/user/drosenzw/
+- user uberftp or gfal-copy to access them
+if on IHEPA, can store big files in /raid/raid{5,6,7,8,9}      &lt;== There's only 5-9!
+- native raid areas:
+| Path | Server |
+| =/raid/raid5/= | gainesville |
+| =/raid/raid6/= | newberry |
+| =/raid/raid7/= | alachua |
+| =/raid/raid8/= | melrose |
+| =/raid/raid9/= | archer |
+             raid:  5      6     7    8   9
+(Mnemonic: Ga-New-Ala-M-Ar, pronounced "GNU Alamar")
+
+Share files with others on lxplus:
+/afs/cern.ch/work/<path>
+
+Want to use Jupyter Notebooks on remote servers?
+On remote server, do:
+jupyter notebook --no-browser --port=8880
+Then, on local computer:
+ssh -N -L localhos8888:localhost:8880 rosedj1@melrose.ihepa.ufl.edu
+
+For general tips on CMS analysis basics:
+https://indico.cern.ch/event/759915/page/14801-pre-exercisesinstructions
+
+For excellent code structure and interesting ideas like PyROOT and Jupyter Notebooks:
+https://github.com/guitargeek/geeksw/tree/master/geeksw
+
+---++++++ UF Tier2 Commands (uberftp, xrootd, etc.)
+
+A full list of IHEPA machines:
+archer, alachua, melrose, newberry, or gainesville.ihepa.ufl.edu
+ssh -X -Y lucien@newberry.ihepa.ufl.edu
+
+Interact with UF Tier 2 storage directly
+uberftp cmsio.rc.ufl.edu "ls /cms/data/store/user/drosenzw/"
+uberftp cmsio.rc.ufl.edu "help" # To see available commands
+uberftp cmsio.rc.ufl.edu "mkdir /cms/data/store/user/drosenzw/mynewdir/"
+uberftp cmsio.rc.ufl.edu "rename /cms/data/store/user/drosenzw/olddir/ /cms/data/store/user/drosenzw/newdir/"
+
+Copy files to/from UF Tier 2 storage
+N.B. with gfal-copy, you CAN'T USE WILDCARDS! Just end with .../dir/
+
+gfal-copy &lt;source_dir&gt; gsiftp://cmsio.rc.ufl.edu//cms/data/store/user/drosenzw/&lt;dest_dir&gt;
+
+gfal-copy  -r  gsiftp://cmsio.rc.ufl.edu//cms/data/store/user/drosenzw/<filepath>    file:///home/rosedj1/DarkZ-EvtGeneration/CMSSW_9_3_1/src/DarkZ-EvtGeneration/workDir_DarkPhoton_mZd35/
+
+T2 (HiPerGator):
+My home path to which I can write:
+/cms/data/store/user/t2/users/drosenzw/
+
+t2_prefix = root://cmsio5.rc.ufl.edu/
+Attach a file from T2
+root -l root://cmsio5.rc.ufl.edu//store/user/drosenzw/rootfiles_2018/
+f = TFile.Open("root://cmsio5.rc.ufl.edu//store/user/drosenzw/rootfiles_2018/UFHZZAnalysisRun2/Test3/","READ")
+
+You may have to use one of the following paths instead
+To access CMS data from IHEPA,
+    please use root://cmsio5.rc.ufl.edu//store/...
+            or root://cms-xrd-global.cern.ch//store/.. # access the file in any site
+            or root://cms-xrd-global.cern.ch//store/test/xrootd/T2_US_Florida//store/...
+             ( if cmsio5.rc.ufl.edu does not work for some reason )
+               gsiftp://cmsio.rc.ufl.edu/cms/data/store/...
+
+The best way to display plots on a website for easy viewing:
+On IHEPA, do:
+mkdir  -p  /home/<UN>/public_html/&lt;dest_dirs&gt;
+cp  /home/rosedj1/index.php  /home/<UN>/public_html&lt;dest_dirs&gt;/
+
+Then the plots will show up at this website:
+http://tier2.ihepa.ufl.edu/~&lt;your_UN&gt;/
+
+---+++ HiPerGator (HPG)
+
+HiPerGator (HPG)
+
+HiPerGator lectures given by Matt Gitzendanner
+
+Find notes on HiPerGator (Find Matt Gitzendanner's presentations):
+training.it.ufl.edu
+Find SLURM commands at:
+help.rc.ufl.edu
+Interactive Jupyter Notebook session that uses HiPerGator!:
+jhub.rc.ufl.edu
+
+Location of SLURM example scripts:
+/ufrc/data/training/SLURM/*.sh
+- for single jobs, grab: single_job.sh
+- for parallel jobs, grab: parallel_job.sh
+
+You have a couple main directories:
+/                  &lt;== where HPG first drops you off
+/home/<gatorlink>/         &lt;== CANNOT handle big files (only has 20 GB of storage)
+/ufrc/<group>/<gatorlink>   &lt;== can handle 51000 cores!
+
+/ufrc/phz5155/$USER
+- parallel file system
+- CAN handle 51000 cores, reading and writing to it
+- 2 TB limit per group
+after ssh’ing into HPG, it will take you to:
+/home/$USER
+- for me this is: /home/rosedj1
+- Get 20GB of space
+- Has one server (node) hosting
+
+My groups:
+/ufrc/korytov/rosedj1/   &lt;== for particle physics research
+/ufrc/phz5155/         &lt;== for computing course
+- so I'm part of two different groups
+
+To use class resources, instead of Korytov’s resources:
+module load class/phz5155
+- each time you want to submit a job, do this command^
+
+It is useful to use the extension: .slurm for SLURM scripts
+
+<verbatim class="cmd">
+######################
+## Basic SLURM job script:
+#!/bin/bash
+#SBATCH --job-name=test       # Name for job
+#SBATCH -o job_%j.out          #
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=&lt;rosedj1@ufl.edu&gt;
+#SBATCH --ntasks=1
+#SBATCH --mem-per-cpu=100mb      or    #SBATCH --mem=1gb
+#SBATCH --time=2:00:00 (hh:mm:ss)   or   #SBATCH -t=00:01:00
+
+SCRIPT STUFF BELOW, e.g.
+hostname
+module load python
+python -V
+######################
+</verbatim>
+
+SLURM sbatch directives
+multi-letter directives are double dashes:
+--nodes=1   # processors
+--ntasks
+--ntasks-per-node
+--ntasks-per-socket
+--cpus-per-task (cores per task)
+Memory usage:
+--mem=1gb
+--mem-per-cpu=1gb
+--distribution
+Long option   short option      description
+--nodes=1      -N         request num of servers
+--ntasks=1      -n         num tasks that job will use (useful for MPI applications)
+--cpus-per-task=8   -c
+
+If you invest in 10 cores, burst qos can use up to 90 cores!
+#SBATCH --nodes=1
+
+Task Arrays
+#SBATCH --array=1-200%10   &lt;== run on 10 jobs at a time to be nice
+$SLURM_ARRAY_TASK_ID
+%A: job id
+%a: task id
+
+HPG COMMANDS:
+id            &lt;== see your user id, your group id, etc.
+sbatch   &lt;== submit script.sh to scheduler
+sbatch --qos=phz5155-b   &lt;==
+squeue         &lt;== see ALL jobs running
+squeue -u rosedj1   &lt;== just see your jobs
+squeue -j &lt;job_id&gt;
+scancel &lt;job_id&gt;   &lt;== kill a job
+sacct         &lt;==
+sstat         &lt;==
+slurmInfo         &lt;== see info about resource utilization; must do: module load ufrc
+slurmInfo -p      &lt;== partition, a better summary
+slurmInfo -g &lt;group_name&gt;   &lt;==
+srun --mpi=pmix_v2 myApp
+
+Memory utilization = MAX amount used at one point
+Memory request = aim for 20-50% of total use
+
+BE WISE ABOUT USING RESOURCES!
+- Users have taken up 16 cores and TOOK MORE TIME than just using 1 core!!!
+
+It would be interesting write a SLURM script which submits
+many of the same job with different cores, plots the efficiency vs. num cores
+
+QOS or burstQOS
+"Quality of Service"
+When you do sbatch, the -b option is “burst capacity” to allow 9x allocation of resources when resources are idle
+--qos=phz5155-b
+--qos=<group>
+
+*In the job summary email, the memory usage is talking about RAM efficiency*
+
+Time:
+-t
+time limit is 31 days
+- It is to our benefit to be accurate with job time
+- infinite loops will just waste resources and make you think your job is actually working
+- the scheduler might postpone your job if it sees it will delay other people's jobs
+
+Module system organizes file paths
+If you want to use common modules on HPG, you must load them first:
+module load <module>
+module load python
+module load python3
+module load = ml    &lt;== already aliased automagically into HPG
+module list      &lt;== list modules
+module spider      &lt;== list everything?
+module spider cl   &lt;== list everything with cl in name
+module purge      &lt;== unloads all modules
+ml intel         &lt;== allows you to do "make" commands
+module load intel/2018 openmpi/3.1.0   &lt;== compiling
+
+Learning about Xpra:
+module load gui
+launch_gui_session -h   &lt;== shows help options
+- This will load a session on a graphical node on the cluster
+- Default time on server is 4 hrs
+- use the -a option to use secondary account
+- use the -b option to use burst SLURM qos
+
+Paste the xpra url into your local terminal
+
+Do:
+module load gui
+launch_gui_session -e <executable>   (e.g., launch_rstudio_gui)
+xpra attach ssh:<stuff>
+xpra_list_sessions
+scancel &lt;job_id&gt;
+
+ln -s &lt;file_path_that's_way_far_away&gt; &lt;dest_path&gt;   &lt;== makes a symbolic link from &lt;far_file&gt; to &lt;dest_path&gt;
+
+Development Sessions
+When to use a dev session?
+- When a job requires multiple cores and maybe a few days to run
+- There are 6 dev nodes!
+
+module load ufrc
+srundev -h               &lt;== help!
+srundev --time=04:00:00      &lt;== begin a 4 hr dev session, with the default 1 processor core and 2 GB of memory
+srundev --time=60 --ntasks=1 --cpus-per-task=4 --mem=4gb      &lt;== additional flags
+srundev -t 3-0             &lt;== session lasts 3 days
+srundev -t 60               &lt;== session lasts 60 min
+- default time is 00:10:00 (10 min) and max time is 12:00:00
+These are all wrappers for:
+srun --partition=hpg2-dev --pty bash -i
+
+Getting CMSSW on HPG!!!
+1. Start a dev session
+2. source /cvmfs/cms.cern.ch/cmsset_default.sh    &lt;== this makes cmsrel and cmsenv two new aliases for you!
+3. Now cmsrel your favorite CMSSW_X_Y_Z
+
+Misc Info on HPG:
+Terminology:
+8 cpus/task = 8 cores on that one server
+1 node has: RAM, maybe 2 sockets (processors), each with 2 cores
+A node is a physical server
+Each server has either 2 or 4 sockets
+You can also specify the number of tasks per processor: ntasks-per-socket
+each processor only has a certain bandwidth to memory
+processor = cpu= core
+15000 servers all networked together, each node has either 32 or 64 cores on it
+
+Entire PHZ5155 course is allocated a whole node!
+- This is 32 cores on HPG2
+The slowdown of your job may be in the bandwidth!
+
+Data center near Satchel’s where HiPerGator resides
+51000 cores in HPG2 cluster
+(only 14000 cores in HPG1)
+world-class cluster
+3 PB of storage
+
+It’s essentially just a big rack of computers, where each computer has:
+HPG2: 2 servers, 32 cores per server, 128 GB RAM/core?
+HPG1: 1 servers, 64 cores per server, 256 GB RAM/core?
+
+hpg1 is 3 years old and has older nodes
+3.5 GB/core available
+
+threaded=parallel=open MPI
+
+Can do parallel applications:
+- OpenMP, Threaded, Pthreads applications
+- all cores on ONE server, shared memory
+- CAN'T talk to other servers
+MPI (Message Passing Interface)
+- applications which can run across multiple servers
+
+ntasks = # of MPI rinks
+say you want to run 100 tasks across 10 nodes
+100 MPI ranks
+You might think the scheduler would put 10 MPI ranks on each node,
+- but it won't be so equal per node, necessarily!
+The scheduler may put 30 tasks on one node, and distribute the remaining 70 tasks on other nodes.
+Though you can control the ntasks-per-node
+Two processors, each processor has 2 cores
+16 cores per processor
+64 cores per node
+
+For Windows users who need a Terminal:
+- MobaXterm
+- or the Ubuntu subsystem
+Need an SFTP client to move from to your computer
+- Cyberduck
+- FileZilla
+Text editor:
+- BBedit(?)
+
+Cluster basics:
+ssh’ing puts you into a login node
+Then submit a job to the scheduler.
+- The scheduler submits the job to the 51000 cores!
+- You must prepare a file to tell scheduler what to do (BATCH script)
+    - number of CPUS
+    - RAM
+    - how long to process the job
+
+There are also compute nodes
+- this is where the money is!
+- They are optimized to distribute jobs across different computers efficiently
+
+---++ Extra Stuff:
+
+*Mantra:* <br />
+"GUIs make easy tasks easier; CLIs make difficult tasks possible."
+
+Neat commenting styles:
+<verbatim class="cmd">
+@@@@@@@@@@@@@@@@@@@@@@
+@ IMPORTANT MESSAGE  @
+@@@@@@@@@@@@@@@@@@@@@@
+
+ccccccccccc
+c message c
+ccccccccccc
+
+-*-*-*-*-* title *-*-*-*-*-
+
+#________________________|
+
+==========
+ My Title
+==========
+
+// ============ Initialize Variables ============= //
+// ------------ other title ------------
+</verbatim>
+
+---+++ Tips on how to be more efficient with code:
+Use lots of print statements
+sys.exit() to test sections
+use the interpreter to test dummy examples
+Talk about your code
+Comment heavily at first, and then trim it down
+When reading someone's code:
+- Comment their code and explain it in plain English
+- Start from some point that you the end and work your way backwards
+- Just go line by line very carefully figuring out what each line does
+- Try rewriting their code in chunks to reproduce what it is, but in your own way
