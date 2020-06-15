@@ -1,5 +1,6 @@
-| <b>Acronym</b> | <b>...Stands For</b> | <b>More Details</b> |
-| ACLiC	 | Automatic Compiler of Libraries for CINT | |
+| **Acronym** | **...Stands For...** | **More Details** |
+|---------|----------------------|---------------------|
+| ACLiC  | Automatic Compiler of Libraries for CINT | |
 | AFEB	 | Anode Front-End Board  | |
 | ALCA	 | ALignment and CAlibration| |
 | ALCT	 | Anode Local Charged Track | A trigger board that sits on top of the CSC chamber. |
@@ -8,7 +9,7 @@
 | API 	 | Application Programming Interface| |
 | APS	 | American Physical Society| |
 | APV	 | Analogue Pipeline Voltage| |
-| ARC 	 | Analysis Review Committee| |
+| ARC 	 | Analysis Review Committee| Internal CMS review committee. The final decision on publishing. |
 | ASIC	 | Application-Specific Integrated Circuit| |
 | ASO 	 | Asynchronous Stage Out| |
 | B2G	 | Beyond 2nd Generation| |
@@ -149,7 +150,7 @@
 | SLC 	 | Scientific Linux CERN| |
 | SLURM  | Simple Linux Utility for Resource Management | A computer cluster which allocates resources and schedules jobs. |
 | SR	 | Signal Region| |
-| SSL    | Secure Sockets Layer | | 
+| SSL    | Secure Sockets Layer | |
 | STEP	 | Simultaneous Track and Error Propagation | | 
 | STEP	 | System Test of Endcap Peripheral (electronics) | Validation tests done on the ME chambers to analyze their performance|
 | SUSY	 | SuperSymmetry| |
