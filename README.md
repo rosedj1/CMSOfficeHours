@@ -1,4 +1,8 @@
-# UC_Darin
-CMS Summer School for some dedicated UF students!
+# CMS Office Hours
 
-By the way, UC_Darin = UF CMS Darin, or University of California at Darin. Probably the latter.
+## Topics:
+- ROOT
+- Relativistic Kinematics
+- Programming
+- Python
+
