@@ -1,3 +1,5 @@
+# Acronyms and their Descriptions in CMS
+
 | **Acronym** | **...Stands For...** | **More Details** |
 |---------|----------------------|---------------------|
 | ACLiC  | Automatic Compiler of Libraries for CINT | |
@@ -5,9 +7,9 @@
 | ALCA   | ALignment and CAlibration| |
 | ALCT   | Anode Local Charged Track | A trigger board that sits on top of the CSC chamber. |
 | ALICE  | A Large Ion Collider Experiment| |
-| AOD 	 | Analysis Object Data| |
-| API 	 | Application Programming Interface| |
-| APS	 | American Physical Society| |
+| AOD    | Analysis Object Data| |
+| API    | Application Programming Interface| |
+| APS    | American Physical Society| |
 | APV	 | Analogue Pipeline Voltage| |
 | ARC 	 | Analysis Review Committee| Internal CMS review committee. The final decision on publishing. |
 | ASIC	 | Application-Specific Integrated Circuit| |

@@ -1,8 +1,3 @@
 # CMS Office Hours
 
-## Topics:
-- ROOT
-- Relativistic Kinematics
-- Programming
-- Python
-
+Resources for the beginning particle physicist. 

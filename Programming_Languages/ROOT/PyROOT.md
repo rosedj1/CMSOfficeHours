@@ -3,10 +3,10 @@
 ## Example
 
 ```python
-import ROOT
+import ROOT as r
 # You must open/create your file before playing with the TTree.
-newfile = ROOT.TFile("/work/area/newfile.root", "recreate")
-tree = ROOT.TTree("t1", "My New Tree")
+newfile = r.TFile("/work/area/newfile.root", "recreate")
+tree = r.TTree("t1", "My New Tree")
 
 # Make a pointer to store values. 
 ptr = array('f', [0.])  # Use 'f' for floats, 'd':doubles, 'i':ints. 
@@ -154,3 +154,15 @@ plt.tight_layout()
 pdf.savefig()
 plt.clf()
 ```
+
+## Common ROOT Objects
+
+### TPad
+
+```python
+pad = ROOT.Tpad("pad", "A pad with a hist", 0.03, 0.02, 0.97, 0.57)
+```
+
+## Extract info from:
+
+- [ ] [PyROOT Hats](https://indico.cern.ch/event/917673/)
