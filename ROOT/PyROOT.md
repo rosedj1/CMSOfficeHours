@@ -1,4 +1,6 @@
-### How to make a TTree and store values using PyROOT.
+# How to make a TTree and store values using PyROOT.
+
+## Example
 
 ```python
 import ROOT
@@ -21,6 +23,9 @@ ptr[0] = val
 # Finally fill the tree with this value.
 tree.Fill()  
 ```
+
+- Also check out [this nice explanation](https://wiki.physik.uzh.ch/cms/root:pyroot_ttree).
+- [More elaborate way](https://root.cern.ch/gitweb/?p=root.git;a=blob;f=tutorials/pyroot/staff.py;h=d955e2ca7481a9a507cb40dbb71c2f85ac12bbbc;hb=HEAD), using C++ structs.
 
 When you close a file (`f.Close()`), then your histograms may be closed with them. 
 To keep your hist open, do:

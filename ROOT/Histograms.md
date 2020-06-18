@@ -18,6 +18,57 @@ Rebinning should be rather easy!
 Normalizing Histos:
 Use: Scale(1/h->Integral)
 
+```python
+from ROOT import TH1F
+h = TH1F("h_name", "The Histogram Title", 10, 0, 50)
+```
+
+- This makes a histogram (**H**) that is 1-dimensional (**1**) of floating point numbers (**F**).
+- The hist has 10 bins, which span the x-axis from `x = 0` to `x = 50`. 
+- The _internal name_ of the histogram is `h_name` and the _title_ is `The Histogram Title`.
+
+### Common Histogram Methods
+
+```python
+h.GetEntries()            # Return the number of total entries in all bins.
+h.GetName()               # Returns the internal name of hist.
+h.GetTitle()              # Returns the title of hist.
+h.GetNbinsX()             # Return the number of bins along the x-axis.
+h.Fill(7)                 # Put one entry into the bin where x = 7.
+h.Fill(7, 100)            # Put 100 entries into the bin where x = 7.
+h.GetBinContent(3)        # Return the number of entries in bin 3.
+                          # (bin 0 is underflow and bin max+1 is overflow)
+htest.GetBinCenter(2)     # Get the x-axis value corresponding to the center of bin 2.
+h.GetBinWidth(2)          # Get the bin width of bin 2.
+h.FillRandom("gaus", 10)  # Fill the hist with 10 random entries from a gaus distribution.
+h.Sumw2()                 # IMPORTANT! Tells the hist to handle errors using sum(weights^2).
+h.Write()                 # Save your hist to the open root file.
+```
+
+### Statistics of your Hist
+
+```python
+h.GetMean()         # Return: 1/N * sum(entries_bin_k * center_bin_k)
+h.GetMeanError()    # Return the error on the mean.
+h.GetStdDev()       # Return the root-mean-square (RMS).
+h.GetStdDevError()  # Return the error on the RMS.
+```
+
+### Draw your Hist
+
+```python
+h_Jpsi_m2mu.SetTitle("MC 2017 J/#psi mass resonance, fit range = #mu#pm%.1f#sigma"%num_sigmas)
+h_Jpsi_m2mu.SetXTitle(m_mumu_str)
+h_Jpsi_m2mu.SetYTitle("Events / [%.4f GeV]" % h_Jpsi_m2mu.GetBinWidth(0) )
+#h.SetLogy()  # Set y axis to be log scale? CANVAS SETS LOGSCALE: c.SetLogy(True)
+
+canv = TCanvas(filename, filename, 600, 600)
+canv.Print(fullpath_pdf + "[")  # Opens DPF.
+canv.cd()
+canv.Print(fullpath_pdf + "]")  # Closes PDF.
+
+```
+
 ```c++
 // Load histo from root file:
 TFile f("histos.root");
@@ -26,37 +77,26 @@ TH1F *h = (TH1F*)f.Get("hgaus");
 // Make histogram pointer.
 TH1F* h = new TH1F("h","My Histogram",100,-20,20)
 TH1F h("hgaus", "histo from a gaussian", 100, -3, 3);
-h.FillRandom("gaus", 10000);
-h->Write();
 
 h->FillRandom("gaus", 5000)		# Fill h1 with 5000 random points pulled from Gaussian Distribution
 h->Fill(gRandom->Gaus(4,2))	# Fill h1 with a single point pulled from Gaussian with mu=4, sigma=2
 								(do a for loop to fill it with many points)
 	for (int i=0; i<1000; i++) {h->Fill(gRandom->Gaus(40,15));}
-h->GetEntries()				# Returns how many total values have been put into the bins
 h->GetMaximum()				# Returns the number of entries inside the bin which holds the most entries
 h->GetMinimum()				# Returns the number of entries inside the bin which holds the fewest entries
-h->GetBinContent(<int bin_num>)	# Returns the number of entries inside bin number bin_num
 h->GetMaximumBin()			# Tells you which bin holds the most entries; Returns the bin number(not x value of bin!)
 
 	mumuMass->GetXaxis()->GetBinCenter(mumuMass->GetMaximumBin())		# returns most-probable value of histo
 
 h->GetMaximumStored()				# ???
-h->GetMean()							# Get average of histogram
-h->GetStdDev()						# Get standard deviation of histo
 h->GetXaxis()->GetBinCenter(<int bin>)	# returns the x value where the center of bin is located
 h->GetXaxis()->SetRangeUser(-5, 5)  // Changes the x-axis range to [-5, 5].
-h->GetNbinsX()						# Returns the number of bins along x axis
-h->Fill(<int bin_num>, <double val>)		# Fills bin number bin_num with value val
 h->SetBinContent(<int bin>, <double val>)	# Deletes whatever is in bin number bin, and fills it with value val
 											(this counts as adding a NEW entry!)
 h->SetAxisRange(double <xmin>, double <xmax>, "<X or Y>") 	# 
 h->IntegralAndError(<bin1>,<bin2>,<err>)					# calculates the integral 
     - err will store the error that gets calculated
     - so before you execute the IntegralAndError, first do err = Double(2) to create the err variable 
-h->SetLogy()							# set y axis to be log scale
-ACTUALLY CANVAS SETS c1.SetLogy(True)
-h->GetName()    # Returns name of histo.
 
 TH2F
 h2->Integral()									# calculate integral over ALL bins

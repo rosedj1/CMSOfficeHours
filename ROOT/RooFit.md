@@ -1,6 +1,6 @@
-```python
 # More info here: https://github.com/clelange/roofit/blob/master/rf108_plotbinning.py
 
+```python
 dtframe = dt.frame(ROOT.RooFit.Range(-15, 15),
                        ROOT.RooFit.Title("dt distribution with custom binning"))
 data.plotOn(dtframe, ROOT.RooFit.Binning(tbins))

@@ -1,9 +1,9 @@
 | **Acronym** | **...Stands For...** | **More Details** |
 |---------|----------------------|---------------------|
 | ACLiC  | Automatic Compiler of Libraries for CINT | |
-| AFEB	 | Anode Front-End Board  | |
-| ALCA	 | ALignment and CAlibration| |
-| ALCT	 | Anode Local Charged Track | A trigger board that sits on top of the CSC chamber. |
+| AFEB   | Anode Front-End Board  | |
+| ALCA   | ALignment and CAlibration| |
+| ALCT   | Anode Local Charged Track | A trigger board that sits on top of the CSC chamber. |
 | ALICE  | A Large Ion Collider Experiment| |
 | AOD 	 | Analysis Object Data| |
 | API 	 | Application Programming Interface| |
@@ -25,6 +25,7 @@
 | CDS	 | CERN Document Server| |
 | CFEB	 | Cathode Front-End Board | An electronic board found on a CSC that stores analog signals from strips in SCA for digitization.| 
 | CINCO	 | CMS Information on Conferences| |
+| CINT   | C INTerpreter | A C/C++ interpreter, like the terminal is for Linux commands. | 
 | CJLST	 | CMS Joint 4Lepton Study Team| |
 | CLCT	 | Cathode Local Charged Track | A trigger board |
 | CMSSDT | CMS Software Development Tools | |
