@@ -1,32 +1,16 @@
-# RooFit
-
-A powerful fitting and statistics package for ROOT.
-
-## Philosophy
-
-Essentially everything in RooFit is a C++ object:
-
-| **RooFit Object** | **...corresponds to...** |
-|-------------------|--------------------------|
-| `RooRealVar` |      a variable (like x) |
-| `RooAbsReal` |      a function (like f(x)) |
-| `RooAbsPdf` |       a pdf |
-| `RooArgSet` |       a vector (space point) |
-| `RooRealIntegral` | integral |
-| `RooAbsData` |      list of space points |
-| `RooFormulaVar` |   formula with variables |
-| `RooDataSet`|       a list of data |
-| `RooDataHist` |     a histogram |
-
-- "Abs" stands for **abs**tract
-RooDataHist	# a histogram: only accepts values as a RooArgList object
+# RooFit Python
 
 Make an independent variable `x`:
 
 ```python
-x = ROOT.RooRealVar("x","x",-10,10)
+x = ROOT.RooRealVar("x","The Independent Variable",-10,10)  # (name, title, min, max)
+x.setBins(50)
+x.setRange('fit_region', 105, 140)
+x.getBins()  # Returns the number of bins.
+x.getTitle()  # Returns the title of the variable.
+x.getUnit()  # Returns the unit.
+x.getMax()  # Returns the max possible? or max populated within x?
 ```
-
 How some of these work:
 massZ = RooRealVar("name", "title", value, min, max)
 RooArgSet(w.var.("massZErr"))
@@ -67,19 +51,19 @@ fit_result = pdf.fitTo(data, ROOT.RooFit.Save(), ROOT.RooFit.PrintLevel(-1))
 pdf.plotOn(frame)
 frame.Draw()
 
+```python
 mean = ROOT.RooRealVar("mean","Mean of Gaussian",-10,10)
-sigma = ROOT.RooRealVar("sigma","Width of Gaussian",3,-10,10)
+sigma = ROOT.RooRealVar("sigma","Width of Gaussian",3,-10,10, "GeV")  # Can assign units to var.
 gauss = ROOT.RooGaussian("gauss","gauss(x,mean,sigma)",x,mean,sigma)
-
+```
 
 View fit values:
-fit_result = my_pdf.fitTo(my_data)    # my_data is a RooDataSet
+fit_result = my_pdf.fitTo(roodataset)
 fit_result.Print()
 - fit values (e.g. "my_mean") will get printed
 
 Retrieve fit values:
 w.var("my_mean").getVal()	# 
-
 
 w.pdf(<RooAddPdf>).fitTo(<RooDataSet>)
 
@@ -92,46 +76,43 @@ voigt = RooVoigtian()
 Convolute PDFs:
 RooFFTConvPdf("name", "title", variable, pdf1, pdf2)
 
-### RooDataSet
+```python
+import ROOT as r
+rds = RooDataSet("rds","dataset from tree", tree, ROOT.RooArgSet(x))
+rds = RooDataSet("rds","dataset from tree", tree, ROOT.RooArgSet(x), "cut string")  # Needs testing.
+rds = RooDataSet('data', 'dataset', r.RooFit.Import(tree), r.RooArgSet(rooVar), r.RooFit.Cut(Cut + ' && 1' ))  # Needs testing.
+```
 
-A RooDataSet is like a list of data. It can be used to do **unbinned fits**.
-
-How to do a binned vs. unbinned fit:
-
-- Put data in RooDataSet -> unbinned fit
-- Put data in RooDataHist -> binned fit
-
-`rds = RooDataSet(name, title, data, self.Data_Zlls.get(), "1", "weight")`
-
-Some RooDataSet methods:
+Useful RooDataSet methods:
 
 ```python
+rds.SaveAs('my_RooDataSet.root')  # FIXME: Test this.
 rds.Print()       # get basic info about dataset
 rds.numEntries()  # get entries of the dataset
+rds.sumEntries()  # Fast method than rds.numEntries()?
 rds.ls()          # get a little info about dataset
 rds.get()         # returns the coordinates of the current RooArgSet (vectors?)
 rds.GetName()     # returns name
 rds.GetTitle()    # returns title
 rds.add(<val>)    # add some value to your dataset?
+rds.reduce(RooFit.Cut(cuts_str))  # Applies cuts to dataset?
 ```
 
 Convolute PDFs into a RooAbsPdf object (sig+bkg model):
+```python
 CBxBW     = RooFFTConvPdf("CBxBW","CBxBW", massZ, BW, CB)
 bkg = RooExponential("bkg","bkg", massZ, tau)
 fsig = RooRealVar("fsig","signal fraction", self.shapePara["fsig"])
 model = RooAddPdf("model","model", CBxBW, bkg, fsig)
-
 
 import ROOT as rt
 p = rt.RooRealVar(‘x’,’x’,6.9,0,15)
 
 w = rt.RooWorkspace(‘w’)
 w.factory(‘x[6.8,0,15]’)
+```
 
-
-
-
-# More info here: https://github.com/clelange/roofit/blob/master/rf108_plotbinning.py
+## More info here: https://github.com/clelange/roofit/blob/master/rf108_plotbinning.py
 
 ```python
 dtframe = dt.frame(ROOT.RooFit.Range(-15, 15),
@@ -156,4 +137,8 @@ c.SaveAs("rf108_plotbinning.png")
 
 ## Other Resources on RooFit
 
-[](https://www.nikhef.nl/~vcroft/GettingStartedWithRooFit.html)
+- [Links to RooFit Tutorials](https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsWG/HCombExercise#Documentation)
+- [A short Jupyter Notebook using PyROOT](https://www.nikhef.nl/~vcroft/GettingStartedWithRooFit.html)
+- [Hands-on Advanced Tutorials](https://lpc.fnal.gov/programs/schools-workshops/hats.shtml) (HATS)
+   - Will require access to Indico.
+   

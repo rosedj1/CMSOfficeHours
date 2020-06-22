@@ -1,6 +1,5 @@
-# The ROOT of all ~Evil~ High-Energy Physics Data Analysis
+# Histograms
 
-## Histograms
 It's probably more efficient to set the binwidth than the num_bins!
 NOTE!!!
 The stats box that appears on histogram refers to the UNBINNED data!

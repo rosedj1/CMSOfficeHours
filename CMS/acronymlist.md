@@ -1,7 +1,7 @@
 # Acronyms and their Descriptions in CMS
 
 | **Acronym** | **...Stands For...** | **More Details** |
-|---------|----------------------|---------------------|
+|---|---|---|
 | ACLiC  | Automatic Compiler of Libraries for CINT | |
 | AFEB   | Anode Front-End Board  | |
 | ALCA   | ALignment and CAlibration| |
@@ -10,36 +10,36 @@
 | AOD    | Analysis Object Data| |
 | API    | Application Programming Interface| |
 | APS    | American Physical Society| |
-| APV	 | Analogue Pipeline Voltage| |
-| ARC 	 | Analysis Review Committee| Internal CMS review committee. The final decision on publishing. |
-| ASIC	 | Application-Specific Integrated Circuit| |
-| ASO 	 | Asynchronous Stage Out| |
-| B2G	 | Beyond 2nd Generation| |
-| BEST	 | Boosted Event Shape Tagger| |
-| BPH	 | B-physics and general quarkonia| |
-| BR	 | Background Region| |
-| BRIL	 | Beam Radiation Instrumentation and Luminosity| |
-| B2G	 | Beyond 2 Generations| |
-| CADI	 | CMS Analysis Database Interface| |
-| CAF	 | CERN Analysis Facility| |
-| CAF	 | Central Analysis Facility| |
-| CB	 | Crystal Ball function| |
-| CDS	 | CERN Document Server| |
-| CFEB	 | Cathode Front-End Board | An electronic board found on a CSC that stores analog signals from strips in SCA for digitization.| 
-| CINCO	 | CMS Information on Conferences| |
-| CINT   | C INTerpreter | A C/C++ interpreter, like the terminal is for Linux commands. | 
-| CJLST	 | CMS Joint 4Lepton Study Team| |
-| CLCT	 | Cathode Local Charged Track | A trigger board |
+| APV | Analogue Pipeline Voltage| |
+| ARC  | Analysis Review Committee| Internal CMS review committee. The final decision on publishing. |
+| ASIC | Application-Specific Integrated Circuit| |
+| ASO | Asynchronous Stage Out| |
+| B2G | Beyond 2nd Generation| |
+| BEST | Boosted Event Shape Tagger| |
+| BPH | B-physics and general quarkonia| |
+| BR | Background Region| |
+| BRIL | Beam Radiation Instrumentation and Luminosity| |
+| B2G | Beyond 2 Generations| |
+| CADI | CMS Analysis Database Interface| |
+| CAF | CERN Analysis Facility| |
+| CAF | Central Analysis Facility| |
+| CB | Crystal Ball function| |
+| CDS | CERN Document Server| |
+| CFEB | Cathode Front-End Board | An electronic board found on a CSC that stores analog signals from strips in SCA for digitization.| 
+| CINCO | CMS Information on Conferences| |
+| CINT | C INTerpreter | A C/C++ interpreter, like the terminal is for Linux commands. | 
+| CJLST | CMS Joint 4Lepton Study Team| |
+| CLCT | Cathode Local Charged Track | A trigger board |
 | CMSSDT | CMS Software Development Tools | |
 | CMSSW  | CMS SoftWare| |
-| CR	 | Control Region| |
-| CRAB	 | CMS Remote Analysis Builder| |
-| CSV	 | Combined Secondary Vertex| |
-| CVMFS	 | Cern Virtual Machine File System| |
-| CWR	 | Collaboration-Wide Review| |
-| DAS 	 | Data Aggregation Service (used to be DBS, Data Bookkeeping Service)| |
-| DB 	 | Data Base| |
-| DMB 	 | DAQ MotherBoard| |
+| CR | Control Region| |
+| CRAB | CMS Remote Analysis Builder| |
+| CSV | Combined Secondary Vertex| |
+| CVMFS | Cern Virtual Machine File System| |
+| CWR | Collaboration-Wide Review| |
+| DAS | Data Aggregation Service (used to be DBS, Data Bookkeeping Service)| |
+| DB | Data Base| |
+| DMB | DAQ MotherBoard| |
 | DOC	 | Detector On-Call| |
 | DPF	 | Division of Particles and Fields| |
 | DPG	 | Data Particle Group| |
@@ -74,12 +74,12 @@
 | HELAS	 | HELicity Amplitude Subroutine library| |
 | HEP	 | High Energy Physics| |
 | HF	 | Heavy Flavor| |
-| HI	 | Heavy Ion| |
-| HSCP	 | Heavy Stable Charged Particle| |
-| JEC	 | Jet-Energy Corrections| |
-| JER	 | Jet-Energy Resolution| |
-| JP	 | Jet Probability| |
-| JSON	 | JavaScript Object Notation| |
+| HI | Heavy Ion| |
+| HSCP | Heavy Stable Charged Particle| |
+| JEC | Jet-Energy Corrections| |
+| JER | Jet-Energy Resolution| |
+| JP | Jet Probability| |
+| JSON | JavaScript Object Notation| |
 | KF	 | Kalman Filter| |
 | LCG 	 | LHC Computing Grid| |
 | LFN 	 | Logical File Name| |
@@ -103,23 +103,24 @@
 | MPI    | Message Passing Interface | Almost synonymous with parallel-processing. |
 | MPO	 | Multi-Fiber Push On | a type of fiber used in indoor conditions| 
 | MSSM 	 | Minimal Supersymmetric Standard Model| |
-| MTCC	 | Magnet Test and Cosmic Challenge| |
-| MTD	 | MIP Timing Detector| |
-| MTP	 | Multi-fiber Termination Push-on | a type of fiber|
+| MTCC | Magnet Test and Cosmic Challenge| |
+| MTD | MIP Timing Detector| |
+| MTP | Multi-fiber Termination Push-on | a type of fiber|
 | NCU    | Normalized Computing Units | The amount of memory (RAM) per CPU core. |
-| NNLL	 | Next-to-Next-to-Leading-Logarithmic| |
-| ODH	 | Oxygen Deficiency Hazard| |
+| NNLL | Next-to-Next-to-Leading-Logarithmic| |
+| ODH | Oxygen Deficiency Hazard| |
 | OMTF	 | Overlap Muon Track Finder | |
 | OSSF	 | Opposite Sign, Same Flavor| |
 | PAD	 | Personnel Access Device| |
 | PAG 	 | Physics Analysis Groups| |
 | PAS	 | Physics Analysis Summary| |
-| PAT 	 | Physics Analysis Toolkit| |
-| PAW 	 | Physics Analysis Workstation| |
+| PAT  | Physics Analysis Toolkit| |
+| PAW  | Physics Analysis Workstation| |
 | PCA    | Point of Closest Approach | E.g., the point on a reconstructed muon track which is closest to the coordinate system origin (0,0).|
-| PDF	 | Parton Distribution Function| |
-| PDF	 | Particle Data Group| |
-| PD	 | Primary Dataset| |
+| PDF | Parton Distribution Function| |
+| PDF | Particle Data Group| |
+| PD | Primary Dataset| |
+| PERL | Practical Extraction and Report Language | It powers TWikis and much more. |
 | PF	 | Particle Flow| |
 | PFN 	 | Physical File Name| |
 | PhEDEx | Physics Experiment Data Export service| |
@@ -136,7 +137,7 @@
 | RAID	 | Redundant Array of Independent Disks| |
 | RAISIN | Radiological Risk Areas Inventory | |
 | RECO	 | Reconstructed| |
-| RelVal | new Release Validation| |
+| RelVal | Release Validation|  |
 | ROC	 | ReadOut Chip| |
 | ROC	 | Receiver Operating Characteristic | |
 | RP	 | Radiation Protection| |

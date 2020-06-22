@@ -1,6 +1,10 @@
-# How to make a TTree and store values using PyROOT.
+# The Power of ROOT within the Comfort of Python
 
-## Example
+Mention `conda activate my_root_env`.
+
+## How to make a TTree and store values using PyROOT
+
+### Example
 
 ```python
 import ROOT as r
@@ -163,6 +167,10 @@ plt.clf()
 pad = ROOT.Tpad("pad", "A pad with a hist", 0.03, 0.02, 0.97, 0.57)
 ```
 
-## Extract info from:
+## Extract info from these
 
 - [ ] [PyROOT Hats](https://indico.cern.ch/event/917673/)
+
+## More Resources
+
+- [Pyroot_Zen](https://pyroot-zen.readthedocs.io/en/latest/#): Make ROOT even more Pythonic.
