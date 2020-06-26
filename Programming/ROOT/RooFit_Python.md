@@ -78,8 +78,8 @@ RooFFTConvPdf("name", "title", variable, pdf1, pdf2)
 
 ```python
 import ROOT as r
-rds = RooDataSet("rds","dataset from tree", tree, ROOT.RooArgSet(x))
-rds = RooDataSet("rds","dataset from tree", tree, ROOT.RooArgSet(x), "cut string")  # Needs testing.
+rds = RooDataSet("rds","dataset from tree", tree, r.RooArgSet(x))
+rds = RooDataSet("rds","dataset from tree", tree, r.RooArgSet(x), "cut string")  # Needs testing.
 rds = RooDataSet('data', 'dataset', r.RooFit.Import(tree), r.RooArgSet(rooVar), r.RooFit.Cut(Cut + ' && 1' ))  # Needs testing.
 ```
 
