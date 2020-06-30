@@ -94,27 +94,43 @@ open the TTree inside, and extract a value (`m4mu`) stored inside.
 void open_file_print_val() {
     // Open the root file.
     TFile* infile = TFile::Open("/path/to/root_file.root");
-
     // Access the TTree.
     TTree* tree = (TTree*)gDirectory->Get("tree_name");
-
     // Tell ROOT to read from the TTree branch called "m4mu".
     tree->SetBranchStatus("m4mu",1);
-
     // Use a variable to hold the values from the TTree.
     Float_t m4mu;
     tree->SetBranchAddress("m4mu", &m4mu);
-
     // Extract a value from the 5th event.
     tree->GetEntry(5);
     cout << "For event 5, m4mu = " << m4mu << endl;
-
     return 0;
 }
 ```
 
 Save the script above in a file called **open_file_print_val.C**.
 Then do `root -l open_file_print_val.C` to run it.
+
+## TCanvas
+
+Canvases:
+Make a pointer:
+```c++
+TCanvas * c = new TCanvas()
+// Make an object (from TCanvas class):
+c = TCanvas("<internal_name>", "<canvas_title>", int <num_x_pixels>, int <num_y_pixels>);
+```
+
+After you draw a histogram to your canvas, you can save the figure:
+c->SaveAs("path/to/myplot.pdf")
+
+**Save many plots into one pdf!**
+```c++
+c1->Print("MyPdf.pdf[")    // Note the opening '['.
+c1->Print("MyPdf.pdf")
+...
+c1->Print("MyPdf.pdf]")    // Close the PDF, with the ']'.
+```
 
 ## Other ROOT Info
 
@@ -135,6 +151,17 @@ The most important ROOT objects:
 | `TH1` | Histogram |  |
 | `TF1` | 1-dim Function | |
 | `TLorentzVector` | 4-vector | |
+
+### Format text
+
+Use the `Form()` function:
+
+```c++
+nome_canvas += Form("%d", h+1);
+histo_name = lepton_type.at(j) + Form("Pt_Lep%d", i);
+histo_name = Form("UnbinnedPt_%s_%.0f_%.0f_%s_%s", lepton_type[j].Data(), pT_bins.at(y-1), pT_bins.at(y), eta_bins_name[x-1].Data(), eta_bins_name[x].Data());
+nome = Form("eta_%d_phi_%d", x, y);
+```
 
 ### Global Pointers
 

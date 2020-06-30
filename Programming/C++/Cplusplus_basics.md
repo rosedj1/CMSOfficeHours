@@ -26,6 +26,8 @@ continue;
 
 ## Derived Types
 
+[Basic c++ types found here.](https://www.tutorialspoint.com/cplusplus/cpp_data_types.htm)
+
 For every type, there are some _derived types_: reference, pointer and array types:
 
 - **variable** : an association between a name and an object.

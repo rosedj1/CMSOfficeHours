@@ -53,7 +53,9 @@ xframe->getAttText()->SetTextSize(0.025);
 xframe->getAttText()->SetTextColor(kRed);
 xframe->Draw();
 
-TLatex* tex1 = new TLatex(0.6,0.3, integ);
-tex1->SetNDC();
-tex1->Draw();
+TString integ = Form("Integral = %.0f", 136.5);
+TLatex* tex = new TLatex(0.6, 0.3, integ);  // TLatex(x_left, y_top, text)
+tex->SetNDC();
+tex->SetTextColor(kGreen+2);
+tex->Draw();
 ```
