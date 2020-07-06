@@ -111,14 +111,33 @@ void open_file_print_val() {
 Save the script above in a file called **open_file_print_val.C**.
 Then do `root -l open_file_print_val.C` to run it.
 
-## TCanvas
+## Most Common ROOT Objects
 
-Canvases:
-Make a pointer:
+### TCanvas
+
+This is the "canvas" onto which your plots will be drawn. Make a TCanvas pointer:
+
 ```c++
-TCanvas * c = new TCanvas()
-// Make an object (from TCanvas class):
-c = TCanvas("<internal_name>", "<canvas_title>", int <num_x_pixels>, int <num_y_pixels>);
+TCanvas* c1 = new TCanvas("c1_name", "The Title", 800, 600);  // int pixel_width_x, int pixel_width_y
+c_obj = TCanvas("name", "The Title");  // This is not a pointer, but a TCanvas object.
+```
+
+#### Change the look of your TCanvas
+
+```c++
+c1->SetTickx(1);    // Add x-ticks to the right side of the canvas.
+c1->SetTicky(0);    // Remove y-ticks from the top of the canvas.
+c1->SetTicks(1,0);  // x-ticks on, y-ticks off.
+
+// Other TCanvas methods.
+c1->SetBatch();     // Don't let plots pop up to the screen. Makes your code run faster.
+c1->SetFillColor(42);  // Paint the area outside the axes of the plot. 
+
+// Move the edges of the canvas (say to make room for a ratio plot):
+c1->SetBottomMargin(0.2);
+c1->SetTopMargin(0.0);
+c1->SetLeftMargin(0.1);
+c1->SetRightMargin(0.1);
 ```
 
 After you draw a histogram to your canvas, you can save the figure:
@@ -126,11 +145,86 @@ c->SaveAs("path/to/myplot.pdf")
 
 **Save many plots into one pdf!**
 ```c++
+c1 = ROOT.TCanvas()
+c1.Print(outpath_pdf + "[")
+h_m4mu.Draw("hist")
+c1.Print(outpath_pdf)
+h_m4mu_corr.Draw("hist")
+c1.Print(outpath_pdf)
+h_m4mu_diff.Draw("hist")
+c1.Print(outpath_pdf)
+c1.Print(outpath_pdf + "]")
+
 c1->Print("MyPdf.pdf[")    // Note the opening '['.
 c1->Print("MyPdf.pdf")
 ...
 c1->Print("MyPdf.pdf]")    // Close the PDF, with the ']'.
 ```
+
+Put multiple plots on the same TCanvas:
+
+```c++
+TCanvas* c1 = new TCanvas("c1", "Main plot and ratio plot", 800, 800);
+TPad* ptop = new TPad("ptop", "Main plot", 0.0, 0.3, 1.0, 1.0);  // (name,title,xmin,ymin,xmax,ymax)
+TPad* pbot = new TPad("pbot", "Ratio plot", 0.0, 0.0, 1.0, 0.3);
+ptop->Draw();
+pbot->Draw();
+
+TH1F* h1 = new TH1F("h1", "Main hist", 200, -10, 10);
+TH1F* h2 = new TH1F("h2", "Bottom hist", 100, 0, 5);
+h1->FillRandom("gaus", 10000);
+h2->FillRandom("expo", 5000);
+
+ptop->cd();
+h1->Draw();  // h1 will be drawn to top pad.
+pbot->cd();
+h2->Draw();  // h2 will be drawn to bottom pad.
+
+
+// Alternatively you can divide the original canvas up into equal regions.
+TCanvas *c1 = new TCanvas("c1","multipads",900,700);
+gStyle->SetOptStat(0);
+c1->Divide(1,2,0,0);  // Make 1 col and 2 rows of plots, with 0 x-spacing and 0 y-spacing.
+TH21 *h1 = new TH21("h1","test1",10,0,1);
+TH21 *h2 = new TH21("h2","test2",10,0,1);
+
+c1->cd(1);
+gPad->SetTickx(2);
+h1->Draw();
+
+c1->cd(2);
+gPad->SetTickx(2);
+gPad->SetTicky(2);
+h2->GetYaxis()->SetLabelOffset(0.01);
+h2->Draw();
+```
+
+### Graphs
+
+TGraph
+
+gr1.GetXaxis().SetRangeUser(-3.5, -2)  
+
+Multigraph:
+
+mg = TMultiGraph("<internal_name>", "<title>")
+
+mg.SetMaximum(<maxval>)		# set y-axis to <maxval>
+
+You can fit functions to the histogram:
+mumuMass->Fit("gaus")
+- or use a histogram
+g1 = new TF1("m1","gaus",85,95);
+mumuMass->Fit(g1,"R");
+- here mumuMass is the name of the histogram
+- Easy way to fit a histo:
+h1.Fit("gaus", "S", "", x_min, x_max) 
+- the "S" argument lets you Save the parameters in a variable for later access
+
+To learn more about fitting functions, go to LPC machines at Fermilab:
+/uscms/home/drosenzw/nobackup/YOURWORKINGAREA/CMSSW_9_3_2/src/
+And follow these directions:
+https://twiki.cern.ch/twiki/bin/viewauth/CMS/SWGuideCMSDataAnalysisSchoolPreExerciseFourthSet
 
 ## Other ROOT Info
 
@@ -163,6 +257,15 @@ histo_name = Form("UnbinnedPt_%s_%.0f_%.0f_%s_%s", lepton_type[j].Data(), pT_bin
 nome = Form("eta_%d_phi_%d", x, y);
 ```
 
+How to pass in a string to `tree->GetEntries(cuts)`:
+
+```c++
+Double_t m4mu_min = 105.0;
+Double_t m4mu_max = 140.0;
+string cuts = Form("m4mu > %.1f && m4mu < %.1f", m4mu_min, m4mu_max)
+tree->GetEntries(cuts.c_str())
+```
+
 ### Global Pointers
 
 They begin with a "g".
@@ -190,10 +293,15 @@ Jupyter Notebook running ROOT C++ by typing this in your terminal: `root --noteb
 
 ## General Tips while Using ROOT
 
+Objects should be drawn (`obj->Draw()`) only **once**.
+- Use `c->Modified()` to update an already drawn object.
+
 Use the ROOT interpreter to **test pieces of your code**, before you put it into a script.
 
 ## More Resources
 
+- [ROOT Presentation (shorter)](http://physics.bu.edu/NEPPSR/2007/TALKS-2007/ROOT_Tutorial_Bose.pdf)
+- [ROOT Presentation (longer)](http://nuclear.ucdavis.edu/~calderon/Presentations/ROOT-TipsTricks.pdf)
 - [Nevis Columbia links](https://www.nevis.columbia.edu/~seligman/root-class/links.html)
 - [ROOT for Beginners](https://en.wikitolearn.org/ROOT_for_beginners)
 

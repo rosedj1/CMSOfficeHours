@@ -137,7 +137,6 @@ c.SaveAs("rf108_plotbinning.png")
 
 ## Other Resources on RooFit
 
-- [Links to RooFit Tutorials](https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsWG/HCombExercise#Documentation)
 - [A short Jupyter Notebook using PyROOT](https://www.nikhef.nl/~vcroft/GettingStartedWithRooFit.html)
 - [Hands-on Advanced Tutorials](https://lpc.fnal.gov/programs/schools-workshops/hats.shtml) (HATS)
    - Will require access to Indico.

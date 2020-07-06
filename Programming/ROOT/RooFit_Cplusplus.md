@@ -42,8 +42,10 @@ RooDataSet *data = sum.generate(x,2000);
 ### Put fit parameters on the plot
 
 ```c++
+using namespace RooFit;
 RooPlot* xframe = x.frame(RooFit::Title("My RooFit Plot"));  // x is a RooRealVar.
-DSCB.paramOn(xframe, RooFit::Layout(xmin, xmax, ymax));  // ymin will be automatically determined.
+DSCB.paramOn(xframe);  // ymin will be automatically determined.
+DSCB.paramOn(xframe, Layout(xmin, xmax, ymax), Components("bkg"), LineColor(kBlue), LineStyle(kDashed));
 ```
 
 #### Pretty up the plot
@@ -59,3 +61,7 @@ tex->SetNDC();
 tex->SetTextColor(kGreen+2);
 tex->Draw();
 ```
+
+## Other Resources about RooFit
+
+- [RooFit Manual](https://root.cern.ch/download/doc/RooFit_Users_Manual_2.91-33.pdf)

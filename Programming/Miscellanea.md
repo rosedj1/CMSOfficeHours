@@ -411,3 +411,6 @@ Generate a QR (quick response) code for any website:
 qr <website_url>
 
 DDG Search Syntax:
+
+## Good Coding Practices
+

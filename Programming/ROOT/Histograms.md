@@ -53,6 +53,67 @@ h.GetStdDev()       # Return the root-mean-square (RMS).
 h.GetStdDevError()  # Return the error on the RMS.
 ```
 
+After drawing a histogram, you can **modify the statistics box** (see below).
+To change what info it displays, [check this out](https://root.cern.ch/root/htmldoc/guides/users-guide/Histograms.html#statistics-display).
+
+```python
+# Create the statsbox and access it.
+h.Draw()
+gPad.Update()              # Not always necessary, but sometimes helpful.
+statsbox = h.FindObject("stats")  # "stats" is a reserved name for the stats box.
+
+# Now you can access and modify the statsbox info.
+statsbox.GetOptStat()      # Will return something like `1111` (from ksiourmen).
+statsbox.SetOptStat(1010)  # Controls what info is displayed in statsbox.
+# mode = ksiourmen  (default = 000001111)
+# k = 1;  kurtosis printed
+# k = 2;  kurtosis and kurtosis error printed
+# s = 1;  skewness printed
+# s = 2;  skewness and skewness error printed
+# i = 1;  integral of bins printed
+# o = 1;  number of overflows printed
+# u = 1;  number of underflows printed
+# r = 1;  rms printed
+# r = 2;  rms and rms error printed
+# m = 1;  mean value printed
+# m = 2;  mean and mean error values printed
+# e = 1;  number of entries printed
+# n = 1;  name of histogram is printed
+
+# Access the coordinates of the edges of the statsbox.
+statsbox.GetX1NDC()  # Return the x-val of box left edge, as a fraction of canvas width.
+statsbox.SetX2NDC()  # Set the x-val of box left edge, as a fraction of canvas width.
+statsbox.SetY1NDC()  # Set the y-val of box bottom edge, as a fraction of canvas height.
+statsbox.GetY2NDC()  # Return the y-val of box top edge, as a fraction of canvas height.
+# Alternatively you can use the x-axis and y-axis values as a reference,
+# instead of using a fraction of the canvas:
+statsbox.GetX1()  # Return the x-val of box left edge, according to x-axis scale.
+statsbox.SetY2()  # Set the x-val of box right edge, according to x-axis scale.
+
+# Default NDC() vals:
+statsbox.GetX1NDC() : 0.780
+statsbox.GetX2NDC() : 0.980
+statsbox.GetY1NDC() : 0.695
+statsbox.GetY2NDC() : 0.935
+```
+
+Example showing how to move the stats box:
+
+```python
+h.Draw()
+statsbox = h.FindObject("stats")
+statsbox.SetX1NDC(0.6)
+statsbox.SetX2NDC(0.8)
+h.Draw()  # Must redraw hist.
+c1.Update()
+```
+
+See what objects your histogram knows about:
+
+```python
+h.GetListOfFunctions().Print()
+```
+
 ### Draw your Hist
 
 ```python
@@ -184,3 +245,7 @@ else{
     tree->SetBranchStatus("Run",1);     
 
 ```
+
+## Tutorials on ROOT Histograms
+
+- [From the ROOT website](https://root.cern/manual/histograms/)

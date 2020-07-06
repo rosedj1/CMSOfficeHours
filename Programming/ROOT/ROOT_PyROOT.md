@@ -167,10 +167,15 @@ plt.clf()
 pad = ROOT.Tpad("pad", "A pad with a hist", 0.03, 0.02, 0.97, 0.57)
 ```
 
-## Extract info from these
+## Tutorials
 
-- [ ] [PyROOT Hats](https://indico.cern.ch/event/917673/)
+- [PyROOT Manual](https://root.cern/manual/python/) from ROOT website.
+- [PyROOT Tutorials](https://root.cern.ch/doc/v612/group__tutorial__pyroot.html) from the ROOT website.
 
 ## More Resources
 
 - [Pyroot_Zen](https://pyroot-zen.readthedocs.io/en/latest/#): Make ROOT even more Pythonic.
+
+### Jake: to do
+
+- [ ] [PyROOT Hats](https://indico.cern.ch/event/917673/)
