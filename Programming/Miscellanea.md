@@ -348,9 +348,12 @@ mutate(gpd = gdpPercap * pop)
 Ctrl+Cmd+Q			# Lock screen.
 
 In terminal:
+
+```bash
 Cmd+up				# Go to last shell prompt.
 Cmd+Shift+right		# Go to next terminal tab.
 Cmd+right			# Go to next terminal window.
+```
 
 Comment multiple highlighted lines:
 Cmd+/
@@ -411,6 +414,55 @@ Generate a QR (quick response) code for any website:
 qr <website_url>
 
 DDG Search Syntax:
+
+## VNC Viewer
+
+1. Connect to an lxplus machine:
+to check if any screen is open  type : screen -ls
+
+2. Open new screen:  `screen -S screen_name`  (any name you want to give)
+3. In the screen write:
+
+```bash
+k5reauth -x -f pagsh
+aklog
+```
+
+Go to bash and do:
+
+4. write: `vncserver -geometry 1368x768 :0` (screen number)
+
+5. after getting your screen number:
+
+```bash
+k5reauth -x -f pagsh
+aklog
+```
+
+- Press : `ctrl+a   d`
+
+to go inside screen : screen -x
+
+6. in bashrc: `alias vnc='ssh -L abcd:localhost:abcd -N -f -l your_username lxplusYYY.cern.ch'`
+
+lxplus YYY : machine number
+abcd : 4-digit number, the last number (d) -> screen number
+
+7. Install tigervnc-viewer
+
+1. In local terminal type : vnc
+2. Open Tigervnc-viewer : ready to go
+
+errors: vnc already open and thus showing end of stream
+Solution:
+ps aux | grep ssh   : will show all connection
+kill -9 process_number : kill that running process if exists
+
+Note : If the screen is closed for some reason, either the system connection timedout, you have to make a new screen and a new connection 
+
+To kill old screen : go to the machine 
+ open screen : screen -x 
+ and kill screen Press : ctrl+a   k
 
 ## Good Coding Practices
 

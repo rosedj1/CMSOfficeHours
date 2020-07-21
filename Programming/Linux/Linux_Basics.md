@@ -7,6 +7,7 @@ It is the standard interpreter on most Linux distributions .
 
 ## MUST KNOW Bash commands:
 
+```bash
 ls					# list most contents in current directory
 ls -a					# list all contents (including hidden files) in current dir
 ls -l 					# list contents in a long format (just more detailed way)
@@ -16,7 +17,7 @@ cd ..
 cd -					# go back to previous dir
 cp <source> <dest>
 mkdir <newdir>
-
+```
 
 Here's a [Linux Tutorial](https://ryanstutorials.net/linuxtutorial/commandline.php).
 
@@ -147,6 +148,8 @@ while true; do
 done
 
 Many different flags:
+
+```bash
 ! EXPRESSION	The EXPRESSION is false.
 -n STRING	The length of STRING is greater than zero.
 -z STRING	The length of STRING is zero (ie it is empty).
@@ -155,13 +158,13 @@ STRING1 != STRING2	STRING1 is not equal to STRING2
 INTEGER1 -eq INTEGER2	INTEGER1 is numerically equal to INTEGER2
 INTEGER1 -gt INTEGER2	INTEGER1 is numerically greater than INTEGER2
 INTEGER1 -lt INTEGER2	INTEGER1 is numerically less than INTEGER2
--d FILE	FILE exists and is a directory.
--e FILE	FILE exists.
--r FILE	FILE exists and the read permission is granted.
--s FILE	FILE exists and it's size is greater than zero (ie. it is not empty).
--w FILE	FILE exists and the write permission is granted.
--x FILE	FILE exists and the execute permission is granted.
-
+-d FILE	 # FILE is a directory.
+-e FILE	 # FILE exists.
+-r FILE	 # FILE has read permission.
+-s FILE	 # FILE has size greater than zero (i.e. is not empty).
+-w FILE  # FILE has write permission.
+-x FILE	 # FILE has execute permission.
+```
 
 Defining Functions:
 function <func_name> {
@@ -249,6 +252,7 @@ du -sh ./			# sums up the total of current workspace and all subdirs
 
 df -h				# "disk filesystem", shows usage of memory on entire filesystem 
 
+```bash
 find
 find ./ -name "*plots*"								# find all files with name plots in this dir and subsequent dir
 find /<path> -mtime +180 -size +1G					# find files with mod times >180 days and size>1GB
@@ -260,6 +264,7 @@ find ~/src/ -newer main.css							# find files newer than main.css
 
 locate
 locate -i <file_to_be_found>		# searches computer's database. -i flag means case insensitive
+```
 
 
 
@@ -337,9 +342,15 @@ eog <png>		# quickly open png files
 
 sleep 7			# make the shell sleep for 7 seconds
 
-Sexy Bash Tricks:
-quickly rename a bunch of files in a dir:
-for file in *.pdf; do mv "$file" "${file/.pdf/_standardsel.pdf}"; done		# is this bash's native renaming?
+### Sexy Bash Tricks
+
+Quickly rename a bunch of files in a dir:
+
+```bash
+for file in *.pdf;
+    do mv "$file" "${file/.pdf/_standardsel.pdf}";  # ${file/replace_this/with_this}
+done
+```
 
 Make a bunch of dir's quickly:
 mkdir newdir{1..20}							# make newdir1, newdir2, ..., newdir20

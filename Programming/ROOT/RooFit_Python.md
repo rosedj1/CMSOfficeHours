@@ -11,6 +11,7 @@ x.getTitle()  # Returns the title of the variable.
 x.getUnit()  # Returns the unit.
 x.getMax()  # Returns the max possible? or max populated within x?
 ```
+
 How some of these work:
 massZ = RooRealVar("name", "title", value, min, max)
 RooArgSet(w.var.("massZErr"))
@@ -41,6 +42,8 @@ w.Print()    # See what's inside your workspace.
 ```
 
 Generic fitting routine:
+
+```python
 x = w.var('x')
 pdf = w.pdf('model')
 frame = x.frame()
@@ -50,6 +53,7 @@ fit_result = pdf.fitTo(data)
 fit_result = pdf.fitTo(data, ROOT.RooFit.Save(), ROOT.RooFit.PrintLevel(-1))
 pdf.plotOn(frame)
 frame.Draw()
+```
 
 ```python
 mean = ROOT.RooRealVar("mean","Mean of Gaussian",-10,10)
@@ -110,6 +114,45 @@ p = rt.RooRealVar(‘x’,’x’,6.9,0,15)
 
 w = rt.RooWorkspace(‘w’)
 w.factory(‘x[6.8,0,15]’)
+```
+
+## How to do an unbinned fit
+
+Example below shows an unbinned **Gaussian** fit:
+
+```python
+data = np.array(my_fancy_data_to_be_fit)
+
+min_ = data.min()
+max_ = data.max()
+avg_ = data.mean()
+std_ = data.std()
+
+x = ROOT.RooRealVar("x","x", min_, max_)
+mean = ROOT.RooRealVar("mean","Mean of Gaussian", avg_, min_, max_)
+sigma = ROOT.RooRealVar("sigma","Width of Gaussian", std_, 0, 1000)
+gauss = ROOT.RooGaussian("gauss","gauss(x,mean,sigma)", x, mean, sigma)
+
+# Make RooDataSet.
+ptr = array('f', [0.])
+tree = ROOT.TTree("tree", "tree")
+tree.Branch("x", ptr, "x/F")
+for val in data:
+   ptr[0] = val
+   tree.Fill()
+rds = ROOT.RooDataSet("rds","dataset from tree", tree, ROOT.RooArgSet(x))
+
+# Modify fit range, if needed.
+fit_x_min = x_min + 3
+fit_x_max = x_max - 4.5
+
+# Find and fill the mean and sigma variables.
+result = gauss.fitTo(rds,
+                     ROOT.RooFit.PrintLevel(-1),  # Prints fewer details to screen.
+                     ROOT.RooFit.Range(fit_x_min, fit_x_max)
+         )
+
+fit_stats_ls = [mean.getVal(), mean.getError(), sigma.getVal(), sigma.getError()]
 ```
 
 ## More info here: https://github.com/clelange/roofit/blob/master/rf108_plotbinning.py

@@ -4,12 +4,6 @@ CRAB: a utility to submit CMSSW jobs to distributed computing resources.
 
 ## Helpful Links:
 
-$E=mc^2$
-
-$$
-\Delta R= \Delta \mathrm{R} = \sqrt{\eta^2 + \phi^2}
-$$
-
 - https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideCrab
 CRAB Tutorial
 https://twiki.cern.ch/twiki/bin/view/CMSPublic/CRAB3AdvancedTutorial
@@ -56,7 +50,8 @@ crab_AODSIM.py
 crab_MINIAODSIM.py
 
 A typical CRAB config file looks like:
-====================================
+
+```python
 from WMCore.Configuration import Configuration
 config = Configuration()
 
@@ -80,7 +75,7 @@ config.Data.runRange = '275776-275782'
 
 config.section_("Site")
 config.Site.storageSite = 'T2_US_Florida'
-====================================
+```
 
 The /store/user/ area at LPC is commonly used for the output storage from CRAB jobs
 

@@ -1,65 +1,39 @@
 # Vaex
 
-- [ ] Which is faster?
-- root2array -> DataFrame(arr) -> df.to_csv() 
-- each time, instead of saving the arr and loading 
-[ ] Still having memory trouble...
-4 GB root file can be converted to a DataFrame. 
-The DF can be saved as these files types with the follow sizes:
-== 7.97 GB hdf5
-== 8.06 GB arrow
-== 17.68 GB csv
-- I think feather beats all these... but not sure.
-You can convert root files directly into hdf5 files!
-Do the shell command (after doing `cmsenv`):
-root2hdf5 <file.root>
+The [**vaex**](https://github.com/vaexio/vaex) package provides
+a way to analyze data, similar to pandas, but completely
+*out-of-memory* (i.e. without consuming your precious RAM).
+It boasts reading an impressive 1 billion rows per second!
 
-Loading a ~4 GB root file into a DataFrame, consumes too much RAM.
-I have stored these DFs to disk (HDF, feather) but it takes too long
-to load them and, again, you then hold the DF in memory. VERY BAD!
-- The 'vaex' package IS the solution!
+Be sure to check out the [vaex introduction](https://vaex.readthedocs.io/en/latest/tutorial.html).
 
-It's quite CPU intensive to:
-1. root2array
-2. make arr into DataFrame
-3. save df as .csv file. 
-- Use: df.to_feather(outfile)
-- Fast and efficient storage type.
-EVEN BETTER? Use uproot
+## How to use vaex
 
-Looks like the package 'vaex' may be the way to go when working with large datasets.
-- It doesn't load the DF into memory! 
-- It calls the data on demand, keeping it on disk. 
+```python
 import vaex
-Load a DF into memory (bad!) from a csv:
-vdf = vaex.from_csv("path/to/data.csv")
-- Took 4m59s to load 15E6 rows (bad!)
-Convert to 'hdf5' format:
+
+# Load a DF into memory (bad!) from a csv:
+vdf = vaex.from_csv("path/to/data.csv")  # Took 4m59s to load 15E6 rows (bad!)
+
+# Convert current VDF to 'hdf5' format;
 vdf.export_hdf5("path/to/data.hdf5")
-Open hdf5 file and load DF:
+
+# Open hdf5 file and load DF:
 vdf_fromhdf5 = vaex.open("path/to/data.hdf5")    # Can also use: csv, hdf5, etc.
-- Took 153ms to load 15E6 rows (AMAZING!)
-- This DF is not stored in memory! The data are called as needed. 
-- open() is the general method and is slower than a specific method like: `from_`
+#--- Took 153ms to load 15E6 rows (AMAZING!)
+#--- This DF is not stored in memory! The data are called as needed.
+#--- open() is the general method and is slower than a specific method like: `from_`
 
-Convert to 'arrow' format:
-vdf.export_arrow("path/to/data.arrow")  # or:
+# Convert to 'arrow' format:
+vdf.export_arrow("path/to/data.arrow")
+# or:
 vdf.export("path/to/data.arrow")
-- Can export to other formats.
-Try to open arrow file, but it failed as of 2020/05/07:
+#--- Can export to other formats.
+#--- Tried to open arrow file, but it failed as of 2020/05/07:
 vdf_fromarrow = vaex.open("path/to/data.arrow")
-- Unfortunately not able to open DF from arrow file...
-- Get: AttributeError: 'pyarrow.lib.Column' object has no attribute 'chunk'
-
-What ultimately worked for me:
-Had to go from csv -> hdf5:
-`vdf = vaex.from_csv("path/to/data.csv")`
-`vdf.export_hdf5("path/to/data.hdf5")`
-`vdf_fromhdf5 = vaex.open("path/to/data.hdf5")`    # This dude consumes no RAM!!!
-
-- Unable to load a DF from a file.arrow! :-(
-- Stick with hdf5.
-- Another note: when a pandas DF converts a file to hdf5, it is not compatible with vaex hdf5. So must go through csv first.
+#--- Unfortunately not able to open DF from arrow file...
+#--- Get: AttributeError: 'pyarrow.lib.Column' object has no attribute 'chunk'
+```
 
 Can open many files at once:
 df_names_all = vaex.open_many(['file1.hdf5', 'file2.hdf5'])
@@ -117,48 +91,90 @@ vdf.pT1.count()
 
 - 
 
-PLOTTING:
-Plot a histogram (so freaking easy!):
+## Plotting
+
+Plot a histogram (so incredibly easy!):
+
+```python
+# Make a 1-D plot.
 vdf.plot1d(vdf.pT1)  # pT1 is one of the columns in vdf.
 - Can of course do: getattr(vdf, "pT1")
 vdf.plot1d(vdf.pT1, selection="pT1 < 30", limits=[0,50], marker="")
 
-Make a 2-D plot:
+# Make a 2-D plot.
 vdf.plot(vdf.d0BS1, vdf.pT1)  # (x_var, y_var)
+```
 
+## Other Cool Stuff
 
-
-OTHER COOL STUFF:
-Combine two VDFs:
+```python
+# Combine two VDFs:
 vdf_combined = vdf1.concat(vdf2)
 
-Drop a column:
-vdf.drop("pT1", inplace=True)  # inplace=True results in a permanent change.
+# Drop a column:
+vdf.drop("pT1", inplace=False)  # inplace=True results in a permanent change.
 
-Use the vdf.apply() method to apply a function to all rows in a VDF:
-- it is fast too!
-Example:
+#Use the vdf.apply() method to apply a function to all rows in a VDF:
+#--- it is fast too!
 def calc_dphi(phi2, phi1):
     dphi = phi2 - phi1
     while (dphi >= np.pi): dphi -= 2*np.pi  
     while (dphi < -np.pi): dphi += 2*np.pi
     return dphi
 vdf.apply(calc_dphi, (vdf.phi2, vdf.phi1))
-- 9.16 ms ± 1.25 ms per loop (mean ± std. dev. of 7 runs, 100 loops each)
-Compare that time to:
+#--- 9.16 ms ± 1.25 ms per loop (mean ± std. dev. of 7 runs, 100 loops each)
+#--- Compare that time to:
 tmp_dphi = vdf.phi2 - vdf.phi1
 np.where((tmp_dphi.values < -1*np.pi), tmp_dphi.values + 2*np.pi, tmp_dphi.values)
 np.where((tmp_dphi.values >    np.pi), tmp_dphi.values - 2*np.pi, tmp_dphi.values)
-- 372 ms ± 3.23 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
-- Using .values takes a long time. 
-- Had to iterate over all entries twice! (bad)
-Another test to confirm that vdf.apply() is the way to go:
+#--- 372 ms ± 3.23 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
+#--- Using .values takes a long time.
+#--- Had to iterate over all entries twice! (bad)
+
+# Another test to confirm that vdf.apply() is the way to go:
 %timeit vdf['explicit'] = np.sqrt(deta2_ser**2 + dphi2_ser**2) 
 %timeit vdf['apply'] = vdf.apply(calc_dR, (deta2_ser, dphi2_ser))
-- 9.13 ms ± 1.78 ms per loop (mean ± std. dev. of 7 runs, 100 loops each)
-- 5.86 ms ± 897 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
-HOWEVER... Perhaps it isn't as fast as doing native 
-expression manipulation...
+#--- 9.13 ms ± 1.78 ms per loop (mean ± std. dev. of 7 runs, 100 loops each)
+#--- 5.86 ms ± 897 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+#--- HOWEVER... Perhaps it isn't as fast as doing native expression manipulation...
 
 Convert a VDF to a pandas DataFrame:
 df = vdf.to_pandas_df()
+```
+
+## Notes
+
+- Vaex plays very nicely with `.hdf5` files. Store your data in `.hdf5` format.
+
+## To Consider
+
+- [ ] Which is faster?
+- root2array -> DataFrame(arr) -> df.to_csv() 
+- each time, instead of saving the arr and loading 
+[ ] Still having memory trouble...
+4 GB root file can be converted to a DataFrame. 
+The DF can be saved as these files types with the follow sizes:
+== 7.97 GB hdf5
+== 8.06 GB arrow
+== 17.68 GB csv
+- I think feather beats all these... but not sure.
+You can convert root files directly into hdf5 files!
+Do the shell command (after doing `cmsenv`):
+root2hdf5 <file.root>
+
+It's quite CPU intensive to:
+1. root2array
+2. make arr into DataFrame
+3. save df as .csv file. 
+- Use: df.to_feather(outfile)
+- Fast and efficient storage type.
+EVEN BETTER? Use uproot
+
+What ultimately worked for me:
+Had to go from csv -> hdf5:
+`vdf = vaex.from_csv("path/to/data.csv")`
+`vdf.export_hdf5("path/to/data.hdf5")`
+`vdf_fromhdf5 = vaex.open("path/to/data.hdf5")`    # This dude consumes no RAM!!!
+
+
+- Another note: when a pandas DF converts a file to hdf5, it is not compatible with vaex hdf5. So must go through csv first.

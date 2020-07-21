@@ -1,5 +1,16 @@
 # Histograms
 
+## Make Your First Histogram
+
+```python
+from ROOT import TH1F
+h = TH1F("h_name", "The Histogram Title", 10, 0, 50)
+```
+
+- This makes a histogram (**H**) that is 1-dimensional (**1**) of floating point numbers (**F**).
+- The hist has 10 bins, which span the x-axis from `x = 0` to `x = 50`.
+- The _internal name_ of the histogram is `h_name` and the _title_ is `The Histogram Title`.
+
 It's probably more efficient to set the binwidth than the num_bins!
 NOTE!!!
 The stats box that appears on histogram refers to the UNBINNED data!
@@ -11,22 +22,23 @@ as new entries!
 - There's also an underflow bin
 Therefore, entries in overflow bins DO count towards total entries, but not towards statistics, like Integral()
 
+### Make histogram with variable bin width
+
+```python
+import numpy as np
+import ROOT as r
+h1 = r.TH1F("h1", "Variable Bin Width", 5, np.array([5, 10, 20, 30, 50, 100], dtype=float))
+```
+
+- Will have bin edges at: `[5, 10, 20, 30, 50, 100]`
+
 Rebinning should be rather easy! 
 - there is a Rebin method
 - Errors are automatically recalculated
 Normalizing Histos:
 Use: Scale(1/h->Integral)
 
-```python
-from ROOT import TH1F
-h = TH1F("h_name", "The Histogram Title", 10, 0, 50)
-```
-
-- This makes a histogram (**H**) that is 1-dimensional (**1**) of floating point numbers (**F**).
-- The hist has 10 bins, which span the x-axis from `x = 0` to `x = 50`. 
-- The _internal name_ of the histogram is `h_name` and the _title_ is `The Histogram Title`.
-
-### Common Histogram Methods
+## Common Histogram Methods
 
 ```python
 h.GetEntries()            # Return the number of total entries in all bins.
@@ -37,7 +49,8 @@ h.Fill(7)                 # Put one entry into the bin where x = 7.
 h.Fill(7, 100)            # Put 100 entries into the bin where x = 7.
 h.GetBinContent(3)        # Return the number of entries in bin 3.
                           # (bin 0 is underflow and bin max+1 is overflow)
-htest.GetBinCenter(2)     # Get the x-axis value corresponding to the center of bin 2.
+h.GetBinCenter(2)     # Get the x-axis value corresponding to the center of bin 2.
+h.GetBinLowEdge(k)    # Get the left edge of the bin k. k=0 is overflow, k=1 is first bin. 
 h.GetBinWidth(2)          # Get the bin width of bin 2.
 h.FillRandom("gaus", 10)  # Fill the hist with 10 random entries from a gaus distribution.
 h.Sumw2()                 # IMPORTANT! Tells the hist to handle errors using sum(weights^2).
@@ -64,7 +77,7 @@ statsbox = h.FindObject("stats")  # "stats" is a reserved name for the stats box
 
 # Now you can access and modify the statsbox info.
 statsbox.GetOptStat()      # Will return something like `1111` (from ksiourmen).
-statsbox.SetOptStat(1010)  # Controls what info is displayed in statsbox.
+statsbox.SetOptStat(1010)  # Controls what info is displayed in statsbox. FIXME: broken?
 # mode = ksiourmen  (default = 000001111)
 # k = 1;  kurtosis printed
 # k = 2;  kurtosis and kurtosis error printed
@@ -82,8 +95,8 @@ statsbox.SetOptStat(1010)  # Controls what info is displayed in statsbox.
 
 # Access the coordinates of the edges of the statsbox.
 statsbox.GetX1NDC()  # Return the x-val of box left edge, as a fraction of canvas width.
-statsbox.SetX2NDC()  # Set the x-val of box left edge, as a fraction of canvas width.
-statsbox.SetY1NDC()  # Set the y-val of box bottom edge, as a fraction of canvas height.
+statsbox.SetX2NDC(0.7)  # Set the x-val of box left edge, as a fraction of canvas width.
+statsbox.SetY1NDC(0.8)  # Set the y-val of box bottom edge, as a fraction of canvas height.
 statsbox.GetY2NDC()  # Return the y-val of box top edge, as a fraction of canvas height.
 # Alternatively you can use the x-axis and y-axis values as a reference,
 # instead of using a fraction of the canvas:
@@ -199,8 +212,8 @@ std::cout << "Hi there. This is text from this script." << std::endl;
 
 // Vectors (arrays).
 std::vector<int> vec;
-vec.push_back(4);  // Add an element with value 4 to this vector. 
-vec[0];            // Return the value of the 0th element (4). 
+vec.push_back(4);  // Add an element with value 4 to this vector.
+vec[0];            // Return the value of the 0th element (4).
 vec.at(0)          // Another way to access the 0th element.
 vec.clear()        // Empty the vector.
 vec.size()         // Return the number of elements in vec.
@@ -232,7 +245,7 @@ TFile f("histos.root", "new");
 
 TFile* infile = TFile::Open("somerootfile.root", "read");  // Open a root file.
 TTree* tree;  // Make a TTree pointer.
-if(!infile){  // Make sure you can access the TFile. 
+if(!infile){  // Make sure you can access the TFile.
     cout << "ERROR could not find the file" << endl;
     continue;
 }
@@ -242,10 +255,43 @@ else{
     tree = (TTree*)gDirectory->Get("passedEvents");
     // Event *event   = new Event();
     tree->SetBranchStatus("*",0);
-    tree->SetBranchStatus("Run",1);     
+    tree->SetBranchStatus("Run",1);
+```
 
+## Make a 2-dim histogram
+
+```python
+import ROOT as r
+import numpy as np
+# Variable bin widths.
+h_2d = r.TH2F("h_2d", "Fill with text", 
+              7, np.array([5,7,10,14,20,27,38,50], dtype=float),
+              5, np.array([0.0, 0.2, 0.4, 0.6, 0.8, 1.0]))
+
+# Make random values and fill the hist.
+for _ in range(10000):
+    x = np.random.random() * 100.
+    y = x / 100.
+    h_2d.Fill(x, y)
+
+# Draw the hist to a canvas.
+c1 = r.TCanvas()
+h_2d.Draw("colz")  # colz will draw the z-axis as a color bar.
+c1.Draw()
+```
+
+You can play with the color bar (called a color palette in ROOT):
+
+```python
+h_2d.Draw("colz text")  # Writes the value stored in each 2D bin on the bin. 
+h_2d.GetZaxis().SetRangeUser(10, 20)  # Restrict color bar to have limits: [10, 20].
+r.gStyle.SetPalette(55)  # Change the color map.
+# More color maps: https://root.cern.ch/doc/master/classTColor.html#C06
+h_2d.SetContour(80)  # Split the color bar into 80 colors (creates a nice gradient).
+c1.Draw()
 ```
 
 ## Tutorials on ROOT Histograms
 
 - [From the ROOT website](https://root.cern/manual/histograms/)
+- [ALL histogram options](https://root.cern.ch/root/htmldoc/guides/users-guide/Histograms.html)

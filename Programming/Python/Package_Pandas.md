@@ -1,14 +1,23 @@
 # Pandas
 
-Make a quick Series (column of data):
-ser = pd.Series(np.arange(10))
+The package **pandas** gives us a way to analyze data in *DataFrames* (essentially a spreadsheet). 
 
-Make a quick DataFrame (table of data - like a spreadsheet!):
-df = pd.DataFrame(np.random.randn(15,6), columns='A B C D E F'.split())
+**Terms:**
 
-Select the row labeled "3": 
-df.loc[3]
-Select the 3rd row: 
+- **DataFrames** (df): A table of data
+- **Series** (ser): A column of data.
+
+Examples:
+
+```python
+import pandas as pd
+ser = pd.Series(np.arange(10))  # Make a quick Series (column of data).
+
+df = pd.DataFrame(np.random.randn(15,6), columns='A B C D E F'.split())  # Make a quick DataFrame (table of data - like a spreadsheet!)
+```
+
+Select the row labeled "3": `df.loc[3]`
+Select the 3rd row:
 df.iloc[3]    # Stands for "integer-location"
 Select entries 3-8:
 df.iloc[3:8]    # Still exclusive at both ends, like regular Python.
@@ -64,10 +73,13 @@ However, it is faster to check the rows of a DF by doing:
 len(df)
 
 Potentially good methods for DFs:
+
+```python
 df.assign
 df.rename
 df.query
 df.sort_values
 df.reset_index
 df.sample()    # Returns a random row of the DF. 
-df.pipe(<fn>)    # Apply a custom function to the DF (in-place!).
+df.pipe(<fn>)  # Apply a custom function to the DF (in-place!).
+```

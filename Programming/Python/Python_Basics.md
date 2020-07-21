@@ -259,29 +259,34 @@ myarr = np.arange(100000)
 
 
 
-glob
+### glob
+
+```python
 import glob
-glob.glob("/raid/raid7/rosedj1/Higgs/*/*/Data.root")	# stores matched files in a list object!
+file_list = glob.glob("/rosedj1/Higgs/*/Data*.root")  # stores matched files in a list object!
+glob.glob("/home/file?.txt")  # `?' will match a single character: fileA.txt, file7.txt
+```
 
 Remember, that it's not regex! It's standard UNIX path expansion.
 How to use wildcards:
-*		# matches 0 or more characters
-?		# matches 1 character in that position
-[0-9]	# matches any single digit
 
-glob.glob("/home/file?.txt")	# `?' will match a single character
+| `*` | matches 0 or more characters |
+| `?` | matches 1 character in that position |
+| `[0-9]` | matches any single digit |
 
 pickle
 Save your objects for later use by "pickling" them:
+```python
 import pickle    # Or: import _pickle as pickle
 my_obj = CoolClass()
-with open(<file_to_write_to>.pkl,'wb') as outfile:
-    pickle.dump(my_obj, outfile, pickle.HIGHEST_PROTOCOL)
+with open(<file_to_write_to>.pkl,'wb') as outpkl:
+    pickle.dump(my_obj, outpkl, pickle.HIGHEST_PROTOCOL)
 
 del my_obj    # To make sure it's gone.
 Easily restore the pickled object:
 with open(<file_written_to>.pkl,'rb') as infile:
     my_obj_again = pickle.load(infile)
+  ```
 
 
 sys
@@ -683,3 +688,40 @@ You can use jupyter notebooks to do remote work!
 
 - Python3: `inspect`
 
+## The logging Module
+
+5 levels:
+ 
+Debug, Info, Warning, Error, Critical
+
+```python
+import logging
+
+# Create and configure logger.
+logging.basicConfig(filename = "path/to/file.log",  # If DNE, Python will make it.
+                    level = logging.DEBUG)  # Default level is >=30 (WARNING), so make it DEBUG instead.
+logger = logging.getLogger()
+
+# Test the logger.
+logger.info("Log message here.")
+# Will print into file.log: 'INFO:root:Log message here.'
+```
+
+It is useful to print the time, etc.:
+
+```python
+LOG_FORMAT = "%(levelname)s %(asctime)s - %(message)s"  
+# More info at: https://www.python.org/dev/peps/pep-0282/
+
+logging.basicConfig(filename = "path/to/file.log",
+                    level = logging.DEBUG,
+                    format = LOG_FORMAT,
+                    filemode = "w")  # Will overwrite the existing file. 
+
+# Test messages.
+logger.debug("A harmless debug message.")
+logger.info("Hey, there you are. You're there.")
+logger.warning("Watch it, buddy.")
+logger.error("Pi is not exactly 3.")
+logger.critical("The Ancient One is awakening.")
+```
