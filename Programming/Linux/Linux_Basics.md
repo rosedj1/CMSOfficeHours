@@ -5,36 +5,73 @@ The philosophy: **small, sharp tools**
 Bash is the "**B**ourne-**a**gain **sh**ell". 
 It is the standard interpreter on most Linux distributions .
 
-## MUST KNOW Bash commands:
+## Must know Bash commands
 
 ```bash
-ls					# list most contents in current directory
-ls -a					# list all contents (including hidden files) in current dir
-ls -l 					# list contents in a long format (just more detailed way)
-pwd
-cd <path/to/files>
-cd ..
-cd -					# go back to previous dir
-cp <source> <dest>
-mkdir <newdir>
+ls     # List files. Useful flags: ls -lhtra
+pwd    # Print Working Directory. Shows you where you are.
+cd <path/to/files>  # Change Directory. This is how you move around.
+cd ..  # Go up a dir.
+cd -   # Go back to previous dir.
+mv <source> <dest>  # Move or rename a file.
+cp <source> <dest>  # Copy source to destination.
+mkdir <newdir>  # Make newdir.
 ```
 
-Here's a [Linux Tutorial](https://ryanstutorials.net/linuxtutorial/commandline.php).
+## Resources
 
-Some Bash magic:
+- [Here's a friendly Linux Tutorial](https://ryanstutorials.net/linuxtutorial/commandline.php)
+that I used to learn Linux.
+- Tutorials from [Linux.com](https://www.linux.com/training-tutorials/).
 
-!    # this is the 'bang' operator, an iconic part of bash
-!!    # execute the last command from history
-!$    # means the argument of the last command
-cd !$    # cd's into the last command's argument; e.g.
-!cat    # run the last cat command from your history that used cat
-!cat:p    # print the last cat command you used to stdout; also adds that command to your history
-^ls^rm			# if the last command used 'ls', it copies the command, replaces 
-sudo !!			# run last command with sudo privileges
-history			# check your history; displays command numbers
-!<cmd_num>		# execute command number <cmd_num>
-it with 'rm' and executes the new command
-<space> command # will not add 'command' to history!
+## Some Bash magic
+
+```bash
+!        # This is the 'bang' operator, an iconic part of bash.
+!$       # The argument of the last command. Try: `cd !$`
+!!       # Execute the last command from history. Try: `sudo !!`
+!cp      # Run the last `cp` command from your history.
+!cat:p   # Print the last `cp` command you used to stdout, add that command to history, do not execute.
+^ls^rm   # Replace `ls` in the last command with `rm`
+$?    # The return value from last cmd (0=success).
+history  # Check your history; displays command numbers.
+!<cmd_num>  # execute command number <cmd_num>
+<space>cmd # will not add 'cmd' to history!
+```
+
+### Control statements
+
+```bash
+if [[ ! -x <path/to/file> ]]; then
+    <cmds>
+fi
+
+while true; do
+    <cmds>
+done
+```
+
+#### Useful flags
+
+| Flag | What it do |
+| ---- | ---------- |
+| `! EXPRESSION` | The EXPRESSION is false. |
+| `-n STRING` | The length of STRING is greater than zero. |
+| `-z STRING` | The length of STRING is zero (ie it is empty). |
+| `STRING1 = STRING2` | STRING1 is equal to STRING2 |
+| `INTEGER1 -eq INTEGER2` | INTEGER1 is numerically equal to INTEGER2 (also: `-gt`, `-lt`)|
+| `-d FILE` |  FILE is a directory. |
+| `-e FILE` |  FILE exists. |
+| `-r FILE` |  FILE has read permission. |
+| `-s FILE` |  FILE has size greater than zero (i.e. is not empty). |
+| `-w FILE` |  FILE has write permission. |
+| `-x FILE` |  FILE has execute permission. |
+
+##### Truth testing
+
+```bash
+[ "a" = "a" ]  # Tests if the 2 strings are equal. If true, exit status = 0.
+```
 
 Redirect the output and errors to log.txt:
 cmd 2>&1 log.txt
@@ -77,12 +114,6 @@ command-name 2> errors.txt
 command1 > out.txt 2> err.txt
 
 cmd 2>&1 | tee log.txt
-
-Common Commands:
-pwd
-cd
-mv 
-ls
 
 scp					#
 scp <source> <dest>	# the remote <source> or <dest> should be of the form: user@server:/path/to/file
@@ -136,35 +167,6 @@ write	 <user>					# start a chat with <user> on your server
 mesg [y|n]					# allow [y] people to send you messages using 'write' or not [n]
 Command line language translator:
 https://www.ostechnix.com/use-google-translate-commandline-linux/
-
-
-Control Statements	
-if [[ ! -x <path/to/file> ]]; then
-	<cmds>
-fi
-
-while true; do
-	<cmds>
-done
-
-Many different flags:
-
-```bash
-! EXPRESSION	The EXPRESSION is false.
--n STRING	The length of STRING is greater than zero.
--z STRING	The length of STRING is zero (ie it is empty).
-STRING1 = STRING2	STRING1 is equal to STRING2
-STRING1 != STRING2	STRING1 is not equal to STRING2
-INTEGER1 -eq INTEGER2	INTEGER1 is numerically equal to INTEGER2
-INTEGER1 -gt INTEGER2	INTEGER1 is numerically greater than INTEGER2
-INTEGER1 -lt INTEGER2	INTEGER1 is numerically less than INTEGER2
--d FILE	 # FILE is a directory.
--e FILE	 # FILE exists.
--r FILE	 # FILE has read permission.
--s FILE	 # FILE has size greater than zero (i.e. is not empty).
--w FILE  # FILE has write permission.
--x FILE	 # FILE has execute permission.
-```
 
 Defining Functions:
 function <func_name> {
@@ -275,8 +277,6 @@ Mount a remote disk on your local system:
 sshfs <UN@remote_host> <local/dir>
 Unmount when finished:
 umount <local/dir>
-
-
 
 ***Learn more about these commands:
 rcp

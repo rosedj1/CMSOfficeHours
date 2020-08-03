@@ -3,13 +3,21 @@
 Make an independent variable `x`:
 
 ```python
-x = ROOT.RooRealVar("x","The Independent Variable",-10,10)  # (name, title, min, max)
+import ROOT as r
+x = r.RooRealVar("x", "The Independent Variable", 0, 500, "GeV")  # (name, title, min, max, units)
 x.setBins(50)
 x.setRange('fit_region', 105, 140)
 x.getBins()  # Returns the number of bins.
 x.getTitle()  # Returns the title of the variable.
 x.getUnit()  # Returns the unit.
 x.getMax()  # Returns the max possible? or max populated within x?
+```
+
+A `RooRealVar` can make a `frame()`:
+
+```python
+x.frame()
+x.frame(r.RooFit.Title("A title for the frame"))
 ```
 
 How some of these work:
@@ -56,17 +64,16 @@ frame.Draw()
 ```
 
 ```python
-mean = ROOT.RooRealVar("mean","Mean of Gaussian",-10,10)
-sigma = ROOT.RooRealVar("sigma","Width of Gaussian",3,-10,10, "GeV")  # Can assign units to var.
-gauss = ROOT.RooGaussian("gauss","gauss(x,mean,sigma)",x,mean,sigma)
-```
+mean = r.RooRealVar("mean","Mean of Gaussian",-10,10)
+sigma = r.RooRealVar("sigma","Width of Gaussian",3,-10,10, "GeV")  # Can assign units to var.
+gauss = r.RooGaussian("gauss","gauss(x,mean,sigma)",x,mean,sigma)
 
-View fit values:
+# View fit values:
 fit_result = my_pdf.fitTo(roodataset)
 fit_result.Print()
-- fit values (e.g. "my_mean") will get printed
+# - fit values (e.g. "my_mean") will get printed
 
-Retrieve fit values:
+#Retrieve fit values:
 w.var("my_mean").getVal()	# 
 
 w.pdf(<RooAddPdf>).fitTo(<RooDataSet>)
@@ -80,14 +87,13 @@ voigt = RooVoigtian()
 Convolute PDFs:
 RooFFTConvPdf("name", "title", variable, pdf1, pdf2)
 
-```python
 import ROOT as r
 rds = RooDataSet("rds","dataset from tree", tree, r.RooArgSet(x))
 rds = RooDataSet("rds","dataset from tree", tree, r.RooArgSet(x), "cut string")  # Needs testing.
 rds = RooDataSet('data', 'dataset', r.RooFit.Import(tree), r.RooArgSet(rooVar), r.RooFit.Cut(Cut + ' && 1' ))  # Needs testing.
 ```
 
-Useful RooDataSet methods:
+## Useful RooDataSet methods:
 
 ```python
 rds.SaveAs('my_RooDataSet.root')  # FIXME: Test this.
@@ -109,10 +115,10 @@ bkg = RooExponential("bkg","bkg", massZ, tau)
 fsig = RooRealVar("fsig","signal fraction", self.shapePara["fsig"])
 model = RooAddPdf("model","model", CBxBW, bkg, fsig)
 
-import ROOT as rt
-p = rt.RooRealVar(‘x’,’x’,6.9,0,15)
+import ROOT as r
+p = r.RooRealVar(‘x’,’x’,6.9,0,15)
 
-w = rt.RooWorkspace(‘w’)
+w = r.RooWorkspace(‘w’)
 w.factory(‘x[6.8,0,15]’)
 ```
 
@@ -148,8 +154,8 @@ fit_x_max = x_max - 4.5
 
 # Find and fill the mean and sigma variables.
 result = gauss.fitTo(rds,
-                     ROOT.RooFit.PrintLevel(-1),  # Prints fewer details to screen.
-                     ROOT.RooFit.Range(fit_x_min, fit_x_max)
+                     r.RooFit.PrintLevel(-1),  # Prints fewer details to screen.
+                     r.RooFit.Range(fit_x_min, fit_x_max)
          )
 
 fit_stats_ls = [mean.getVal(), mean.getError(), sigma.getVal(), sigma.getError()]
@@ -158,11 +164,11 @@ fit_stats_ls = [mean.getVal(), mean.getError(), sigma.getVal(), sigma.getError()
 ## More info here: https://github.com/clelange/roofit/blob/master/rf108_plotbinning.py
 
 ```python
-dtframe = dt.frame(ROOT.RooFit.Range(-15, 15),
-                       ROOT.RooFit.Title("dt distribution with custom binning"))
-data.plotOn(dtframe, ROOT.RooFit.Binning(tbins))
+xframe = x.frame(r.RooFit.Range(-15, 15),
+                  r.RooFit.Title("x distribution with custom binning"))
+data.plotOn(xframe, r.RooFit.Binning(30))  # Use only 30 bins.
 
-c = ROOT.TCanvas("c_plotbinning", "Playing with plotbinning", 800, 400)
+c = r.TCanvas("c_plotbinning", "Playing with plotbinning", 800, 400)
 # Split the canvas up into 2 pads.
 c.Divide(2)
 # Go into the first pad.
@@ -182,5 +188,4 @@ c.SaveAs("rf108_plotbinning.png")
 
 - [A short Jupyter Notebook using PyROOT](https://www.nikhef.nl/~vcroft/GettingStartedWithRooFit.html)
 - [Hands-on Advanced Tutorials](https://lpc.fnal.gov/programs/schools-workshops/hats.shtml) (HATS)
-   - Will require access to Indico.
-   
+  - Will require access to Indico.
