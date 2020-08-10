@@ -73,3 +73,5 @@ Data within an Event are identified by 4 quantities:
 2. Module Label (label assigned to module that created the data):"SimG4Objects" or "TrackProducer"
 3. Product Instance Label (label assigned to object from within module):"default", "picky", "first hit"
 4. Process Name
+
+## Resources

@@ -1,7 +1,25 @@
 # Python Basics
 
-Use Python3, not Python2.
-- Python2 is no longer supported.
+Use **Python3**, since Python2 is no longer supported.
+
+Boot up the Python interpreter by typing `python` into your shell. You'll see something like this:
+
+```
+Python 3.7.4 (default, Aug 13 2019, 15:17:50) 
+[Clang 4.0.1 (tags/RELEASE_401/final)] :: Anaconda, Inc. on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+>>>
+```
+
+## Anaconda
+
+"[Package, dependency and environment management for any language](https://conda.io/en/latest/) — 
+Python, R, Ruby, Lua, Scala, Java, JavaScript, C / C++, FORTRAN, and more."
+
+```python
+conda install package
+conda install scipy=2.3.4 -n my_env  # 
+```
 
 help(<object>)			# brings up a help menu (docstring?) for <object>
 e.g.	help(os.makedirs)	
@@ -419,10 +437,11 @@ then that block would NOT execute when script.py gets imported into another modu
 Find indices of the minimum of arr:
 np.unravel_index(np.argmin(<arr>, axis=None),<>.shape)
 
+Suzanne discovered how to **modify the size of different axes** (e.g. to add a ratio plot!):
 
-Suzanne discovered how to modify the size of different axes (e.g. to add a ratio plot!):
+```python
 fig, ax = plt.subplots(nrows=2, ncols=1, sharex=True, gridspec_kw={'height_ratios': [3, 1]})
-
+```
 
 Importing Packages and Modules
 If you get ImportError, then most likely the python interpreter doesn't know the path to your package
@@ -519,8 +538,6 @@ Reading this way will store each line as an element in a list:
 data = [line.strip() for line in open('mytext.txt', 'r')]
 
 
-
-
 Module Import Errors:
 Jupyter Notebook: Does `sys.executable` show what you expect?
 - Make sure that it points to the spot where your packages are stored.
@@ -539,16 +556,13 @@ print(jupyter_data_dir())
 - Then edit the <out/path>/kernel.json to contain the correct path.
 - You can find what one possible path could be by doing this in your terminal: which python
 
-Make sure 
-System Paths:
-I launched a Jupyter Notebook and 
+## IPython
 
-
-IPython
 IPython is like a quick jupyter notebook for your terminal.
 Extremely useful for its "magic" commands, tab completion, 
 and ability to go back and edit blocks of code.
 
+```python
 ?			# Intro and overview of IPython
 %quickref	# quick reference
 
@@ -562,13 +576,17 @@ A command that starts with % is called a "line magic" and %% is called a "cell m
 Cell Magic:
 %%!		
 <commands>		# begins a cell magic and then passes the cell to the shell 
+```
 
 If you need to pass in arguments into a script using ipython:
+
+```python
 ipython <script.py> -- --arg1 --arg2	# note the '--' between <script.py> and arg1
+```
 
+## uproot
 
-uproot
-import uproot
+`import uproot`
 
 Use uproot to convert a root file to np.array:
 - https://masonproffitt.github.io/uproot-tutorial/aio.html
@@ -578,7 +596,6 @@ f = uproot.open(<file.root>)
 
 See what branches and objects are stored inside:
 f.keys()
-
 
 df.iloc[num] is faster than df.loc[index]
 
@@ -593,12 +610,6 @@ df = pd.read_csv("path/to/file.csv")
 Write DF to csv:
 
 
-
-------
-Topics to research:
-import multiprocessing
-datetime.datetime.now()
-—————————————
 Jupyter Notebooks
 
 Good for exploratory coding. 
@@ -683,10 +694,15 @@ You can use jupyter notebooks to do remote work!
 2. On local machine: ssh -NL 8888:localhost:8881 <UN@host.server.com>
 3. In browser, go to: localhost:8888
 
-
 ## Things to look into
 
 - Python3: `inspect`
+- root_pandas
+- uproot
+- `conda install root-c conda-forge`
+- Topics to research:
+- import multiprocessing
+- datetime.datetime.now()
 
 ## The logging Module
 

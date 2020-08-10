@@ -1,10 +1,88 @@
-# Other Programming Info
+# Tips and Tricks with Other Software
+
+## Skype
+
+```bash
+*<words>* 			# make <words> bold
+_<words>_ 			# make <words> italic
+~<words>~ 			# make <words> strikethrough
+```<words>```		# make <words> monospace and code-like (can be multiline)
+{code}<words>{code} 	# make <words> monospace and code-like
+!!<space>			# make entire message monospace by beginning message with '!!' and then a space!
+@@<space>			# ignore all special formatting by beginning message with '@@' and then a space
+```
+
+---
+
+## DuckDuckGo Tips and Tricks
+
+*What is DuckDuckGo?*
+A search engine like Google, Bing, or Yahoo [but with none of the tracking](https://duckduckgo.com/about).
+
+Search within a website, using a bang (`!`).
+Go to the DuckDuckGo search bar and type:
+
+- `!yt cute dogs` : Searches YouTube for "cute dogs"
+
+Common bangs:
+
+- `!sopy` : Stack Overflow Python
+- `!ddso` : DuckDuckGo Stack Overflow
+- `!stack` : Stack Overflow
+- `!w` : Wikipedia
+- `!yt` : YouTube
+- `!wa` : Wolfram Alpha
+- `!reddit` : Reddit
+
+Pull up useful "Cheat Sheets":
+
+- `cheat sheet Python`
+- `cheat sheet bash`
+- `cheat sheet C++`
+  * Maybe this only works with programming languages?
+
+Immediately pull up a map:
+
+- `italy map`
+
+Instant Timer and Stopwatch:
+
+- `timer`
+- `stopwatch`
+
+Generate a QR (quick response) code for any website:
+
+- `qr <website_url>`
+
+### Useful Search Syntax
+
+| Example | Result |
+| ------- | ------ |
+| `cats dogs` | Results about cats or dogs. |
+| `"cats and dogs"` | Results for the **exact term** "cats and dogs". |
+| `cats -dogs` | Fewer dogs in results. |
+| `cats +dogs` | More dogs in results.  |
+| `cats filetype:pdf` | PDFs about cats. Supported types:<br>  `pdf, doc(x), xls(x), ppt(x), html` |
+| `dogs site:example.com` | Pages about dogs from `example.com`. |
+| `cats -site:example.com` | Pages about cats **excluding** `example.com`.|
+| `intitle:dogs` | Page title includes the word "dogs". |
+| `inurl:cats` | Page url includes the word "cats". |
+
+---
 
 ## Visual Studio Code Keyboard Shortcuts
 
-Box selection:
+Box selection on a Mac:
+
+```
 Shift + Option + Cmd + 'arrow key'
+or
 Shift + Option + highlight
+```
+
+**Multiple cursors:**
+
+- Hold `Option` and click using the cursor.
 
 ## Octave
 
@@ -369,51 +447,6 @@ Cmd+Opt+E	# Enter LaTeX equation.
 \mathrm{}    # Normal font.
 {\it your text here}    # Italic text
 \text{}    # This may give normal font, but it is bold? 
-
-## Skype
-
-```bash
-*<words>* 			# make <words> bold
-_<words>_ 			# make <words> italic
-~<words>~ 			# make <words> strikethrough
-```<words>```		# make <words> monospace and code-like (can be multiline)
-{code}<words>{code} 	# make <words> monospace and code-like
-!!<space>			# make entire message monospace by beginning message with '!!' and then a space!
-@@<space>			# ignore all special formatting by beginning message with '@@' and then a space
-```
-
-## DuckDuckGo Tips and Tricks
-
-Search within a website, using a bang (!):
-!yt cute dogs    # Searches YouTube for "cute dogs"
-
-Common bangs:
-- !sopy : Stack Overflow Python
-- !ddso : DuckDuckGo Stack Overflow
-- !stack : Stack Overflow
-- !w : Wikipedia
-- !yt : YouTube
-- !wa : Wolfram Alpha
-- !reddit : Reddit
-
-Cheat Sheets with DDG:
-- cheat sheet Python
-- cheat sheet bash
-- cheat sheet C++
-I think this only works with programming languages...
-
-Immediately pull up a map:
-- Type: italy map
-
-Instant Timer and Stopwatch:
-Just type:
-- timer
-- stopwatch
-
-Generate a QR (quick response) code for any website:
-qr <website_url>
-
-DDG Search Syntax:
 
 ## VNC Viewer
 

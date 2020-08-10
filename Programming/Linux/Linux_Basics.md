@@ -268,8 +268,6 @@ locate
 locate -i <file_to_be_found>		# searches computer's database. -i flag means case insensitive
 ```
 
-
-
 Copy multiple files from remote server to local:
 scp <username>@<host>:/path/to/files/\{file1, file2, file3\} .
 

@@ -1,23 +1,25 @@
-# Acronyms and their Descriptions in CMS
+# Acronyms and Lingo in CMS
 
-| **Acronym** | **...Stands For...** | **More Details** |
+## Acronyms
+
+| Acronym | ...Stands For... | More Details |
 |---|---|---|
-| ACLiC  | Automatic Compiler of Libraries for CINT | |
-| AFEB   | Anode Front-End Board  | |
-| ALCA   | ALignment and CAlibration| |
-| ALCT   | Anode Local Charged Track | A trigger board that sits on top of the CSC chamber. |
-| ALICE  | A Large Ion Collider Experiment| |
-| AOD    | Analysis Object Data| |
-| API    | Application Programming Interface| |
-| APS    | American Physical Society| |
-| APV | Analogue Pipeline Voltage| |
-| ARC  | Analysis Review Committee| Internal CMS review committee. The final decision on publishing. |
-| ASIC | Application-Specific Integrated Circuit| |
-| ASO | Asynchronous Stage Out| |
-| B2G | Beyond 2nd Generation| |
-| BEST | Boosted Event Shape Tagger| |
-| BPH | B-physics and general quarkonia| |
-| BR | Background Region| |
+| ACLiC | Automatic Compiler of Libraries for CINT | |
+| AFEB  | Anode Front-End Board  | |
+| ALCA  | ALignment and CAlibration| |
+| ALCT  | Anode Local Charged Track | A trigger board that sits on top of the CSC chamber. |
+| ALICE | A Large Ion Collider Experiment| |
+| AOD   | Analysis Object Data| |
+| API   | Application Programming Interface| |
+| APS   | American Physical Society| |
+| APV   | Analogue Pipeline Voltage| |
+| ARC   | Analysis Review Committee| Internal CMS review committee. The final decision on publishing. |
+| ASIC  | Application-Specific Integrated Circuit| |
+| ASO   | Asynchronous Stage Out| |
+| B2G   | Beyond 2nd Generation| |
+| BEST  | Boosted Event Shape Tagger| |
+| BPH   | B-physics and general quarkonia| |
+| BR    | Background Region| |
 | BRIL | Beam Radiation Instrumentation and Luminosity| |
 | B2G | Beyond 2 Generations| |
 | CADI | CMS Analysis Database Interface| |
@@ -25,7 +27,7 @@
 | CAF | Central Analysis Facility| |
 | CB | Crystal Ball function| |
 | CDS | CERN Document Server| |
-| CFEB | Cathode Front-End Board | An electronic board found on a CSC that stores analog signals from strips in SCA for digitization.| 
+| CFEB | Cathode Front-End Board | An electronic board found on a CSC that stores analog signals from strips in SCA for digitization.|
 | CINCO | CMS Information on Conferences| |
 | CINT | C INTerpreter | A C/C++ interpreter, like the terminal is for Linux commands. | 
 | CJLST | CMS Joint 4Lepton Study Team| |
@@ -40,56 +42,56 @@
 | DAS | Data Aggregation Service (used to be DBS, Data Bookkeeping Service)| |
 | DB | Data Base| |
 | DMB | DAQ MotherBoard| |
-| DOC	 | Detector On-Call| |
-| DPF	 | Division of Particles and Fields| |
-| DPG	 | Data Particle Group| |
-| DPG	 | Detector Performance Group| |
-| DPS	 | | |
-| DQM	 | Data Quality Monitoring| |
-| ECF	 | Energy Correlation Functions| |
-| EDM 	 | Event Data Model| |
-| EE     | ECAL Endcap | |
-| EMTF	 | Endcap Muon Track Finder| |
-| EOS	 | | |
-| EPR	 | Experimental Physics Responsibilities | You need a certain amount of EPR credit to get authorship on CMS papers. |
-| ES     | ECAL preShower | |
-| EVE 	 | Event Visualization Environment| |
-| EWPT	 | ElectroWeak Precision Tests| |
-| EWSB	 | ElectroWeak Symmetry Breaking| |
-| FAST	 | Final ASsembly and Test| |
-| FC	 | Flavor, Charge| |
-| FGSO	 | Flammable Gas Safety Officer| |
-| FOUT	 | Fraction Out (outside fiducial cuts, for example)| |
-| FSR	 | Final-State Radiation| |
-| FTR	 | | |
-| FUSE	 | Filesystem in USErspace| |
-| FWL 	 | Frame Work Lite| |
-| GEM	 | Gas Electron Multiplier| |
-| GFAL	 | Grid File Access Library| |
-| GMT	 | Global Muon Trigger| |
-| GSf	 | Gaussian-sum filter| |
-| GT	 | Global Tag| |
+| DOC | Detector On-Call| |
+| DPF | Division of Particles and Fields| |
+| DPG | Data Particle Group| |
+| DPG | Detector Performance Group| |
+| DPS | | |
+| DQM | Data Quality Monitoring| |
+| ECF | Energy Correlation Functions| |
+| EDM  | Event Data Model| |
+| EE | ECAL Endcap | |
+| EMTF | Endcap Muon Track Finder| |
+| EOS | | |
+| EPR | Experimental Physics Responsibilities | You need a certain amount of EPR credit to get authorship on CMS papers. |
+| ES | ECAL preShower | |
+| EVE  | Event Visualization Environment| |
+| EWPT | ElectroWeak Precision Tests| |
+| EWSB | ElectroWeak Symmetry Breaking| |
+| FAST | Final ASsembly and Test| |
+| FC | Flavor, Charge| |
+| FGSO | Flammable Gas Safety Officer| |
+| FOUT | Fraction Out (outside fiducial cuts, for example)| |
+| FSR | Final-State Radiation| |
+| FTR | | |
+| FUSE | Filesystem in USErspace| |
+| FWL  | Frame Work Lite| |
+| GEM | Gas Electron Multiplier| |
+| GFAL | Grid File Access Library| |
+| GMT | Global Muon Trigger| |
+| GSf | Gaussian-sum filter| |
+| GT | Global Tag| |
 | HEEP   | High-Energy Electron Pair | |
-| HEFT	 | Higgs Effective Field Theory| |
-| HELAS	 | HELicity Amplitude Subroutine library| |
-| HEP	 | High Energy Physics| |
-| HF	 | Heavy Flavor| |
+| HEFT | Higgs Effective Field Theory| |
+| HELAS | HELicity Amplitude Subroutine library| |
+| HEP | High Energy Physics| |
+| HF | Heavy Flavor| |
 | HI | Heavy Ion| |
 | HSCP | Heavy Stable Charged Particle| |
 | JEC | Jet-Energy Corrections| |
 | JER | Jet-Energy Resolution| |
 | JP | Jet Probability| |
 | JSON | JavaScript Object Notation| |
-| KF	 | Kalman Filter| |
-| LCG 	 | LHC Computing Grid| |
-| LFN 	 | Logical File Name| |
-| LFV	 | Lepton Flavor Violation| |
-| LHE	 | Les Houches Events| |
-| LLP	 | | |
-| LPC	 | LHC Physics Center| |
-| LSF	 | Load Sharing Facility| |
-| LTT	 | Long-Term Testing | refers to CMS electronics that require more testing |
-| LVDB	 | Low Voltage Distribution Board | | 
+| KF | Kalman Filter| |
+| LCG  | LHC Computing Grid| |
+| LFN  | Logical File Name| |
+| LFV | Lepton Flavor Violation| |
+| LHE | Les Houches Events| |
+| LLP | | |
+| LPC | LHC Physics Center| |
+| LSF | Load Sharing Facility| |
+| LTT | Long-Term Testing | refers to CMS electronics that require more testing |
+| LVDB | Low Voltage Distribution Board | | 
 | LXPLUS | Linux Public Login User Service| |
 | MAD	 | Material Access Device| |
 | MCFM	 | Monte Carlo for FeMtobarn processes| |
@@ -174,3 +176,13 @@
 | 2HDM	 | Two-Higgs-Doublet Model| |
 | 2P2F	 | 2 Pass 2 Fail (2 leptons pass tight selection, 2 fail)| |
 | 3P1F	 | 3 Pass 1 Fail (3 leptons pass tight selection, 1 fails)| |
+
+### To do
+
+[ ] Incorporate all acronyms from The CMS Experiment paper.
+
+## Some Terms in CMS
+
+| Term | Details  |
+| ---- | --- |
+| Global Tag | A tag that defines the offline conditions of the data, alignment, and calibration. .  |

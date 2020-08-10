@@ -285,7 +285,7 @@ You can play with the color bar (called a color palette in ROOT):
 ```python
 h_2d.Draw("colz text")  # Writes the value stored in each 2D bin on the bin. 
 h_2d.GetZaxis().SetRangeUser(10, 20)  # Restrict color bar to have limits: [10, 20].
-r.gStyle.SetPalette(55)  # Change the color map.
+r.gStyle.SetPalette(55)  # Change the color map. Default is kBird.
 # More color maps: https://root.cern.ch/doc/master/classTColor.html#C06
 h_2d.SetContour(80)  # Split the color bar into 80 colors (creates a nice gradient).
 c1.Draw()

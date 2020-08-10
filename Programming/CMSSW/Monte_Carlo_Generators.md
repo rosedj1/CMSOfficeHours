@@ -46,3 +46,9 @@ which is just a big ASCII (txt) file with all the produced event info in it.
 
 - [Tanedo's Personal Notes](https://www.physics.uci.edu/~tanedo/files/notes/ColliderMadgraph.pdf)
 on how to install MadGraph and the math behind it all.
+
+## Use CMSSW to generate events
+
+`cmsDriver.py --help`
+
+- [How to use cmsDriver](https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideCmsDriver).
