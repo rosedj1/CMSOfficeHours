@@ -1,5 +1,7 @@
 # Tips and Tricks with Other Software
 
+Make reusable, adaptable code.
+
 ## Skype
 
 ```bash

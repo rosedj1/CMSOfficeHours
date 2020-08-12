@@ -112,3 +112,74 @@ Delete a local tag:
 git tag --delete <tagname>
 Delete a remote tag:
 git push <remote_alias> :ref/tags/<tag_name> 
+
+## Github Markdown
+
+```
+*<words>*	or 	_<words>_		# make <words> italic		(called "emphasis")
+**<words>** or 	__<words>__		# make <words> bold 		(called "strong emphasis")
+**<words> and _<newwords>_**	# <words> and <newwords> 	(called "combined emphasis")
+~~<words>~~ 					# make <words> strikethrough
+{code}<words>{code} 			# make <words> monospace and code-like
+!!<space>						# make entire message monospace by beginning message with '!!' and then a space!
+@@<space>						# ignore all special formatting by beginning message with '@@' and then a space
+
+Code
+`<code>`			# inline <code>
+
+```python
+<code>
+```				# block <code> with python syntax highlighting
+
+Headers
+# H1			# biggest text (used for headings)
+## H2
+### H3
+#### H4
+##### H5	# smallest text
+###### H6	# smallest text, but greyed out
+
+Lists	('⋅' is a whitespace)
+1. First ordered list item
+2. Another item
+⋅⋅* Unordered sub-list. 
+1. Actual numbers don't matter, just that it's a number
+⋅⋅1. Ordered sub-list
+⋅⋅1. Second item in the sub-list. Remember, GitHub Markdown has automatic numbering
+4. And another item.
+
+⋅⋅⋅You can have properly indented paragraphs within list items. Notice the blank line above, and the leading spaces (at least one, but we'll use three here to also align the raw Markdown).
+
+⋅⋅⋅To have a line break without a paragraph, you will need to use two trailing spaces.⋅⋅	# two trailing spaces keeps you in same paragraph
+⋅⋅⋅Note that this line is separate, but within the same paragraph.⋅⋅
+
+Unordered Lists
+* Unordered list can use asterisks
+- Or minuses
++ Or pluses
+
+Tables
+| Tables        | Are           | Cool  |
+| ------------- |:-------------:| -----:|
+| col 3 is      | right-aligned | $1600 |
+| col 2 is      | centered      |   $12 |
+| *zebra stripes* | `are neat`      |    $1 |
+
+- Colons can be used to align columns.
+- There must be at least 3 dashes separating each header cell.
+
+Blockquotes			# look like quotes from a forum or email
+> <quoted_text>
+
+Hyperlink:
+[<words>](<URL>)			# inserts a hyperlink at the string <words>
+
+Image:
+![<Image>](<URL>)			# inserts an image
+
+You can also add: Images, Hyperlinks, inline HTML, and YouTube videos
+
+
+Make a horizontal line (all methods are the same):
+*** 	or 	___ 	or 	---	
+```

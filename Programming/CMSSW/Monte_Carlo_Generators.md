@@ -20,8 +20,9 @@ to test a new kind of trigger, for example.
 
 ## Resources
 
-- [Intro to MC Generation](https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookGenIntro)
-- https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookGeneration)
+- [OpenData intro to MC](http://opendata.cern.ch/docs/cms-mc-production-overview)
+- [TWiki: Intro to MC Generation](https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookGenIntro)
+- [TWiki: Another CMS Workbook](https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookGeneration)
 
 ## Notes on MC generators
 
@@ -33,6 +34,7 @@ to test a new kind of trigger, for example.
 | `MadGraph5_amCatNLO` | ME calculator | [How to use it](https://twiki.cern.ch/twiki/bin/view/CMS/QuickGuideMadGraph5aMCatNLO) |
 | `Alpgen` | ME calculator | |
 | `JHUGen` | | |
+| `Tauola` ||
 
 ### Notes on ME generators
 
@@ -47,8 +49,43 @@ which is just a big ASCII (txt) file with all the produced event info in it.
 - [Tanedo's Personal Notes](https://www.physics.uci.edu/~tanedo/files/notes/ColliderMadgraph.pdf)
 on how to install MadGraph and the math behind it all.
 
+---
+
 ## Use CMSSW to generate events
 
-`cmsDriver.py --help`
+You can build any configuration file out of the large collection of CMSSW pre-fabricated configuration application fragments by using `cmsDriver.py`.
 
+- To get this script, simply do: `cmsenv` under a CMSSW dir.
+- Help menu: `cmsDriver.py --help`
 - [How to use cmsDriver](https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideCmsDriver).
+
+Here's a picture that shows the general MC workflow:
+![wordshere](https://twiki.cern.ch/twiki/pub/CMS/PdmVAnalysisSummaryTable/AnalysisSummaryTable_20200609.png)
+
+https://twiki.cern.ch/twiki/bin/viewauth/CMS/PdmVAnalysisSummaryTable
+
+### How to make GEN-SIM events
+
+First install the Generator package into your CMSSW area:
+
+```bash
+cmsrel CMSSW_10_2_18
+cd CMSSW_10_2_18/src/
+cmsenv        # Set CMS environment variables.
+mkdir -p Configuration/Generator/python/
+cd !$         # Fancy way of `cd`ing into that new dir.
+# Now go grab your favorite GEN fragment from:
+# https://github.com/cms-sw/cmssw/tree/master/Configuration/Generator/python
+# and place it into your Configuration/Generator/python/ dir.
+scram b -j 8  # Compile everything.
+```
+
+Monte Carlo generator **fragments** live in `Configuration/Generator/python/`.
+
+- A "fragment" file is the initial script used to start the MC process.
+- These configuration files usually end in `*_cfi.py` or `*_cff.py`.
+- Use `cmsDriver.py` on a fragment to generate a "step1" config file (the GEN-SIM step):
+
+```bash
+cmsDriver.py ZMM_13TeV_TuneCUETP8M1_cfi  --conditions auto:run2_mc -n 10 --era Run2_2018 --eventcontent RAWSIM --step GEN,SIM --datatier GEN-SIM --beamspot Realistic25ns13TeVEarly2018Collision --no-exec
+```
