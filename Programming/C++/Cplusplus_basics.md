@@ -57,24 +57,28 @@ int myarr[] = {4, 6, 8, 9};
 sizeof(myarr)/sizeof(*myarr)
 VECTORS ARE BETTER THAN ARRAYS! # more flexibility!
 
-Vectors:
-Similar to arrays, but dynamically sized
+### Vectors
 
-```c++
+Similar to arrays, but dynamically sized.
+
+```cpp
 #include <vector>
-vector<type> vecName;
-vecName.push_back(value);		# append value at the end of vecName
-vecName[index];				# index vecName, just like arrays
-vecName;					# show all entries in vecName
-vecName.size();				# number of elements in vecName
+vector<type> vec;
+vec.push_back(value);  // Append value at the end of vec.
+vec[index];            // Index vec, just like arrays.
+vec;                   // Show all entries in vec.
+vec.size();            // Number of elements in vec.
 ```
 
-Access last element of vector:
-vecName[vecName.size()-1]
+#### Other ways to play wth vectors
 
-make a pointer to the array: (PROBABLY UNNECESSARY)
-vector<type> * vecPtr = &vecName	# initialize pointer to point to address of vecName
-*vecPtr							# 
+Access last element of vector: `vec[vec.size()-1]`
+
+Make a pointer to the array (...but the vector *is* a pointer...):
+```cpp
+vector<type> * vecPtr = &vec  // Initialize pointer to point to address of vec.
+*vecPtr                       // Return the 
+```
 
 std::vector<int> *lep_ecalDriven;
 if (lep_ecalDriven->size() > 0) {
@@ -84,9 +88,9 @@ if (lep_ecalDriven->size() > 0) {
 
 Good way to slice a pointer vector?
 std::vector<int> *lep_id;
-unsigned int L1 = passLepIndex[0]; 
+unsigned int L1 = passLepIndex[0];
 unsigned int L2 = passLepIndex[1];
-int idL1 = (*lep_id)[L1]; 
+int idL1 = (*lep_id)[L1];
 int idL2 = (*lep_id)[L2];
 
 ## Other Notes

@@ -34,7 +34,8 @@ to test a new kind of trigger, for example.
 | `MadGraph5_amCatNLO` | ME calculator | [How to use it](https://twiki.cern.ch/twiki/bin/view/CMS/QuickGuideMadGraph5aMCatNLO) |
 | `Alpgen` | ME calculator | |
 | `JHUGen` | | |
-| `Tauola` ||
+| `Tauola` | | |
+| `Delphes` | Fast multipurpose detector response simulation | [How to use it](https://cp3.irmp.ucl.ac.be/projects/delphes/wiki)| 
 
 ### Notes on ME generators
 
