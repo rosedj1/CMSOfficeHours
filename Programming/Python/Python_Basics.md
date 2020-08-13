@@ -18,75 +18,82 @@ Python, R, Ruby, Lua, Scala, Java, JavaScript, C / C++, FORTRAN, and more."
 
 ```python
 conda install package
-conda install scipy=2.3.4 -n my_env  # 
+conda install scipy=2.3.4 -n my_env  # Can install specific versions into specific virtual envs.
 ```
 
 help(<object>)			# brings up a help menu (docstring?) for <object>
 e.g.	help(os.makedirs)	
 
-It is often useful to debug a python script by doing: 
+It is often useful to debug a python script by doing:
 python -i <script.py>
 - this executes the script and then puts you in the python interpreter
 - This is beneficial because now all variables have been initialized and you can play around!
 
-Printing and Formatting
+## Printing and Formatting
 
 The preferred way to print is to use "f-strings":
+
+```python
 var1 = "this"
 var2 = "AWESOME"
 mystr = f"Use brackets like {var1} and even call methods: {var2.lower()}"
 
-Specify precision, padding, alignment:
+# Specify precision, padding, alignment:
 val = 12.3
 print(f"the value is {val:>7.4f}")
-- the `.4f` means to 4 decimal places as a float
-- the `7` means to pad using a width of 7 chars
-- the `>` means "right-aligned"
+# The `.4f` means to 4 decimal places as a float
+# The `7` means to pad using a width of 7 chars
+# The `>` means "right-aligned"
 
-You can do multiline f-strings:
+# You can do multiline f-strings:
 msg = (
     f"Put your text on {num_lines} lines."
     f"It looks really good this way!"
 )
+```
 
-If you are (unfortunately) working in Python2, then you can import f-strings:
-Put this at the top of your code:
-# -*- coding: future_fstrings -*-
+If you are (unfortunately) working in Python2, then you can import f-strings.
+Simply put this at the top of your code:
+`# -*- coding: future_fstrings -*-`
 
 Another flexible way to print variables:
-"Hello, {}. You are {}.".format(name, age)
-You can specify which var goes where:
-"Hello, {1}. You are {0}.".format(age, name)
 
-General format: 
-{<var>:<width>.<prec><type>}
+```python
+print "Hello, {}. You are {}.".format(name, age)
+# You can specify which var goes where:
+print "Hello, {1}. You are {0}.".format(age, name)
+# General format:
+# {<var>:<width>.<prec><type>}
 
-Example:
+# Example:
 print "Time={:.1f}, {:15.4E}".format(t, nanosec)
-- Here the :15 will "pad" (make room for) 15 chars
+# Here the :15 will "pad" (make room for) 15 chars
 
-Other useful tricks:
-{:>8}    # Pad with 8 spaces, align text to the right.
-{:8}    # Default aligns left.
+# Other useful tricks:
+{:>8}     # Pad with 8 spaces, align text to the right.
+{:8}      # Default aligns left.
 {:_>8}    # Pad with '_' chars.
-{:^8}    # Align to the center.
+{:^8}     # Align to the center.
 {:8.5}    # Pad with 8 spaces, but keep only first 5 chars of string. 
-
-{:d}    # Digit (integer).
-{:06.2f}    # Floats. 
-- This pads 6 spaces, puts 0's out front, at a decimal precision of 2.
+{:d}      # Digit (integer).
+{:06.2f}  # Floats.
+# - This pads 6 spaces, puts 0's out front, at a decimal precision of 2.
+```
 
 Least preferred way to print:
+
+```python
 "Hello, %s. You are %s." % (name, age)		# called "%-formatting", not suggested by the docs!
 - However, this method seems the most reliable and easy to read when using LaTeX substitution.
 Example: cuts =  r"$%.1f < m_{\mu\mu} < %.1f$ GeV" % (self.massZ_min, self.massZ_max)
 - If you tried to use .format, then the m_{...} would be mistaken for a variable substitution. 
     - I think you can escape this though by doing double m_{{\mu\mu}}
+```
 
+## The most common objects in Python
 
-The most common objects in Python:
+### Dictionaries
 
-Dictionaries
 mydict = {}
 - Mutable
 
@@ -133,12 +140,12 @@ sorted_ls_of_vals = [value for (key, value) in sorted(my_dict.items())]
 Sort by values, return keys:
 sorted_ls_of_keys = sorted(my_dict, key=my_dict.__getitem__)
 
-Lists
+### Lists
 - Unordered and mutable!
 mylist = [1,3,'hey']			# lists can hold different data types
 mylist.append(4.6)			# permanently appends value to mylist
 
-Sets
+### Sets
 Unordered, immutable objects
 - good for removing duplicates and for doing math operations like: union, intersection, subset, etc.
 
@@ -153,11 +160,8 @@ Unordered, immutable objects
 - return a new set with elements from set1 which are not in set2
 `set1 <= set2`
 - return a 
-asdf
-asdf
-asdf
 
-Tuples
+### Tuples
 - Ordered and immutable!
 Very similar to lists... except tuples are immutable!
 They are processed faster than lists
@@ -180,7 +184,8 @@ Ternary operator:
 How to check the type of an object:
 isinstance(obj, float)
 
-Functions:
+### Functions
+
 Variable number of arguments:
 def asManyAsYouWant(var, *argv):	# pass in as many arguments into argv as you want
 	for arg in argv:					# each one will be iterated over
@@ -202,13 +207,11 @@ Call these functions with:
 Probably safer to put the arguments of an if statement in parentheses:
 if (not os.path.exists(<path_to_dir>)): print "this dir doesn't exist"
 
-
 Passing arguments to script:
 myscript.py  arg1  arg2
 sys.argv[0]	# name of script (myscript.py)
 sys.argv[1]	# first argument passed to script (arg1)
 sys.argv[2]	# first argument passed to script (arg2)
-
 
 Useful string methods:
 <string>.lstrip()			# temporarily removes whitespace from beginning of <string> to first non-whitespace char
@@ -223,21 +226,26 @@ Module vs. Script:
 - a script is executed by the Python interpreter  # `python script.py`  # Though script is a module!
 - Remember that 
 
-Classes:
+### Classes
 
+A class is a *blueprint* that you use to make objects (like cars, ninjas, galaxies, etc.).
+
+
+```python
 class Vectors:
-	def __init__(self,x,y,z):
-		self.x = x
-		self.y = y
-		self.z = z
-	
-	def length(self):
-		return np.sqrt(x**2+y**2+z**2)
+    def __init__(self,x,y,z):
+        self.x = x
+        self.y = y
+        self.z = z
 
-Now you can create objects:
-myobj = Vector(9,4,2)
-myobj.x			# get x coord
-myobj.length()		# get length of myobj
+    def length(self):
+        return np.sqrt(x**2 + y**2 + z**2)
+
+# Now you can create objects:
+myobj = Vector(9,4,2)  # Create the object.
+myobj.x                # Get x coord.
+myobj.length()         # Get length of myobj.
+```
 
 Built-in methods:__doc__
 __init__
@@ -252,8 +260,9 @@ Useful statements:
 Can also do:
 assert <condition>, "Error message here"
 
+---
 
-Packages:
+## Packages
 
 numpy
 import numpy as np
@@ -368,36 +377,46 @@ def processCmd(cmd):
     return out, err                                                            
 
 
-time
+### time
+
+
+```python
 import time
 time.perf_counter()  # Stands for "performance counter"
-- This gives you a number of seconds elapsed since the program began. 
-- Handy for taking differences in times:
+# - This gives you a number of seconds elapsed since the program began. 
+# - Handy for taking differences in times:
 start = time.perf_counter()
-<lots of tasty code>
+# <lots of tasty code>
 end = time.perf_counter()
 elapsed_time = end - start
 print(elapsed_time)
+```
 
-argparse
-# Note that it is difficult to use bools as input arguments!
-# A quick hack is to pass in '0' and '1' instead. Python is forgiving. :-)
+### argparse
+
+Pass in command line options to your script: `python myscript.py --xmin=0 --xmax=10`
+
+**Note:** It is difficult to use **bools** as input arguments!
+
+- A quick hack is to pass in `0` and `1` instead. *Python is forgiving.* :-)
+
+```python
 import argparse
 def ParseOption():
-    parser = argparse.ArgumentParser(description='submit all')                                                         
-    parser.add_argument('--min', dest='min_relM2lErr', type=float, help='min for relMassZErr')                                                                                  
-    parser.add_argument('--filename', dest='filename', type=str, help='')                                                                                                                                                                 
-    parser.add_argument('--zWidth', dest='Z_width', type=float, help='Z width in MC or pdg value')                     
-    parser.add_argument('--plotBinInfo', dest='binInfo', nargs='+', help='', type=int)#, required=True)                       
-    parser.add_argument('--doubleCB_tail',dest='doubleCB_tail', nargs='+', help='', type=float)#, required=True) 
+    parser = argparse.ArgumentParser(description='submit all')
+    parser.add_argument('--min', dest='min_Zmass', type=float, help='min for Zmass')
+    parser.add_argument('--filename', dest='filename', type=str, help='output file')
+    parser.add_argument('--widthZ', dest='widthZ', type=float, help='Z width in MC or pdg value')
+    parser.add_argument('--plotBinInfo', dest='binInfo', nargs='+', help='', type=int)
+    parser.add_argument('--doubleCB_tail',dest='doubleCB_tail', nargs='+', help='', type=float)
     parser.add_argument('--doREFIT', dest='doREFIT', action='store_true', default=False, help='doREFIT')
-    args = parser.parse_args()                                                                                         
-    return args                
+    args = parser.parse_args()
+    return args
 
-# Call the function.                                                                                                              
-args=ParseOption()                    
-# Get values from args.
-args.Z_width                                                                          
+# Call the function.
+args = ParseOption()
+# Retrieve values from args object.
+args.Z_width
 massZErr_rel_min = args.min_relM2lErr
 
 # This is the correct way to handle accepting multiple arguments.
@@ -409,14 +428,13 @@ parser.add_argument('--nargs', nargs='+')
 
 # To make the input integers
 parser.add_argument('--nargs-int-type', nargs='+', type=int)
-
-
+```
 
 # Execute other python scripts from a python script:
 Python3: exec(open("script_to_run.py").read())
 Python2: execfile("script_to_run.py")
 
-# How does the internal variable `__name__` work?
+How does the internal variable `__name__` work?
 When the python interpreter runs over a script, it sets that module's 
 __name__ variable to "__main__". 
 Example:
@@ -433,7 +451,6 @@ python another.py
 If script.py had the canonical `if __name__=="__main__":` block, 
 then that block would NOT execute when script.py gets imported into another module!
 
-
 Find indices of the minimum of arr:
 np.unravel_index(np.argmin(<arr>, axis=None),<>.shape)
 
@@ -443,7 +460,8 @@ Suzanne discovered how to **modify the size of different axes** (e.g. to add a r
 fig, ax = plt.subplots(nrows=2, ncols=1, sharex=True, gridspec_kw={'height_ratios': [3, 1]})
 ```
 
-Importing Packages and Modules
+## Importing Packages and Modules
+
 If you get ImportError, then most likely the python interpreter doesn't know the path to your package
 1. Do echo $PYTHONPATH to see which paths the python interpreter knows about
 2. Do export PYTHONPATH=$PYTHONPATH:<path/to/package>    # permanently append <path/to/package> to $PYTHONPATH
@@ -471,7 +489,6 @@ class Hadder(object):
         outTextFile = open(dir_path+"/hadd.sh","w")                                     
         outTextFile.write(haddText)                                                     
 
-
 np.log10(x)
 dir(numpy)
 - gives big list of all available functions in numpy
@@ -489,7 +506,6 @@ np.linspace(start,stop,number_of_values)
 np.arctan2(y,x)
 Element-wise arc tangent of x1/x2 choosing the quadrant correctly.
 
-
 Meanings of underscores in variable names:
 By the way, a double underscore is often called a 'dunder'!
 _var		# when you import using, say: 'from ROOT import *', then '_var' will not be imported
@@ -499,25 +515,28 @@ __var		# interpreter will intentionally name-mangle this var so that it doesn't 
 __var__	# only used for special vars native to the Python language; don't define these yourself!
 _		# used as a placeholder var in a function or something; a 'throw-away' variable
 
+## Naming Conventions in Python
 
-Naming Conventions in Python:
 * modules (filenames) should have short, all-lowercase names, and they can contain underscores;
 * packages (directories) should have short, all-lowercase names, preferably without underscores;
 * classes should use the CapWords convention.
-Type	Public	Internal
-Packages	lower_with_under	
-Modules 	lower (Jake's version)	_lower
-Classes	CapWords	_CapWords
-Exceptions	CapWords	
-Functions	lower_with_under()	_lower_with_under()
-Global/Class Constants	CAPS_WITH_UNDER	_CAPS_WITH_UNDER
-Global/Class Variables	lower_with_under	_lower_with_under
-Instance Variables	lower_with_under	_lower_with_under
-Method Names	lower_with_under()	_lower_with_under()
-Function/Method Parameters	lower_with_under	
-Local Variables	lower_with_under	
 
+| Type | Public |
+| ---- | ------ |
+| Packages | `lower_with_under` |
+| Modules | `lower` |
+| Classes | `CapWords` |
+| Exceptions | `CapWords` |
+| Functions | `lower_with_under()` |
+| Global/Class Constants | `CAPS_WITH_UNDER` |
+| Global/Class Variables | `lower_with_under` |
+| Instance Variables | `lower_with_under` |
+| Method Names | `lower_with_under()` |
+| Function/Method Parameters | `lower_with_under` |
+| Local Variables | `lower_with_under` |
 
+| Global/Class Constants | CAPS_WITH_UNDER |
+- If you want to make an **Internal names** then just *precede* the name with a '_': `_`
 
 Reading from and writing to files:
 Read lines from a file:
@@ -609,106 +628,15 @@ Read a DF from a csv file:
 df = pd.read_csv("path/to/file.csv")
 Write DF to csv:
 
-
-Jupyter Notebooks
-
-Good for exploratory coding. 
-NOT good for big team coding.
-Consider using PyCharm for a similar experience AND a variable explorer(?).
-
-Why do I use Jupyter Notebooks?
-- They are modular: run cells in any order, rerun them, 
-- Easy to copy/paste
-- Multiple cursor features
-- Plots show up in the notebook
-- Can still run bash commands
-- Tab completion
-
-Tips and Tricks:
-!echo "run bash commands"    # A bang `!` lets you execute bash commands.
-print("Don't show output");  # A semicolon at the end supresses output.
-
-Useful shortcuts:
-Enter    # Enter edit mode.
-Esc      # Enter command mode.
-
-In command mode:
-H    # Help and hotkey menu. 
-P    # Open command palette.
-K    # Go to cell above (like Vim).
-J    # Go to cell below (like Vim).
-A    # Add cell above.
-B    # Add cell below.
-F    # Enter find-replace mode.
-X    # Delete current cell.
-C    # Copy selected cells.
-V    # Paste selected cells.
-O    # Condense/Expand cell output.
-M    # Change cell to Markdown text.
-Y    # Change cell to code.
-
-Shift + J    # Highlight current cell and one below.
-Shift + K    # Highlight current cell and one above. (Thanks, Vim!)
-Shift + M    # Merge multiple cells into one.
-
-In edit mode:
-Shift + Tab         # Look up Docstring of function/class. VERY POWERFUL. Cursor must be on function.
-- You can also cycle by doing `Shift + Tab` over and over.
-Ctrl + Shift + -    # Split current cell in two.
-Cmd + /             # (Un)Comment all highlighted code.
-Cmd + D             # Delete line.
-Cmd + ]             # Indent right.
-Cmd + [             # Indent left.
-
-Hold Opt (or Alt) and drag cursor    # Rectangular selection.
-Cmd + click    # Use multiple cursors on different lines.
-
-Jupyter Markdown:
-Use LaTeX font simply by typing normal LaTeX text:
-$ \frac{\sigma}{x} $
-
-
-Favorite magics:
-%config InlineBackend.figure_format = 'retina'    # Show incredibly high-resolution images:
-
-%matplotlib inline      # Show plots in Jupyter Notebook.
-%matplotlib notebook    # Make INTERACTIVE plots!
-
-
-from IPython.core.interactiveshell import InteractiveShell
-InteractiveShell.ast_node_interactivity = "all"    # Show output of all lines
-# InteractiveShell.ast_node_interactivity = "last_expr"    # Show output of just last line (default).
-
-
-Neat extensions:
-Themes:
-pip install jupyterthemes
-Dark theme:
-In your terminal: jt -t chesterish
-restore the main theme:
-jt -r 
-
-
-You can use jupyter notebooks to do remote work!
-1. On remote machine: jupyter notebook --no-browser --port=8881
-2. On local machine: ssh -NL 8888:localhost:8881 <UN@host.server.com>
-3. In browser, go to: localhost:8888
-
-## Things to look into
-
-- Python3: `inspect`
-- root_pandas
-- uproot
-- `conda install root-c conda-forge`
-- Topics to research:
-- import multiprocessing
-- datetime.datetime.now()
-
 ## The logging Module
 
-5 levels:
+The ultimate Python debugger. There are 5 levels of debuggification:
  
-Debug, Info, Warning, Error, Critical
+1. Debug
+2. Info
+3. Warning
+4. Error
+5. Critical
 
 ```python
 import logging
@@ -741,3 +669,105 @@ logger.warning("Watch it, buddy.")
 logger.error("Pi is not exactly 3.")
 logger.critical("The Ancient One is awakening.")
 ```
+
+---
+
+## Jupyter Notebooks
+
+Good for exploratory coding. 
+NOT good for big team coding.
+Consider using PyCharm for a similar experience AND a variable explorer(?).
+
+Why do I use Jupyter Notebooks?
+- They are modular: run cells in any order, rerun them, 
+- Easy to copy/paste
+- Multiple cursor features
+- Plots show up in the notebook
+- Can still run bash commands
+- Tab completion
+
+Tips and Tricks:
+
+```python
+!echo "run bash commands"    # A bang `!` lets you execute bash commands.
+print("Don't show output");  # A semicolon at the end supresses output.
+
+# Useful shortcuts:
+Enter    # Enter edit mode.
+Esc      # Enter command mode.
+
+# In command mode:
+H    # Help and hotkey menu. 
+P    # Open command palette.
+K    # Go to cell above (like Vim).
+J    # Go to cell below (like Vim).
+A    # Add cell above.
+B    # Add cell below.
+F    # Enter find-replace mode.
+X    # Delete current cell.
+C    # Copy selected cells.
+V    # Paste selected cells.
+O    # Condense/Expand cell output.
+M    # Change cell to Markdown text.
+Y    # Change cell to code.
+
+Shift + J    # Highlight current cell and one below.
+Shift + K    # Highlight current cell and one above. (Thanks, Vim!)
+Shift + M    # Merge multiple cells into one.
+
+In edit mode:
+Shift + Tab         # Look up Docstring of function/class. VERY POWERFUL. Cursor must be on function.
+- You can also cycle by doing `Shift + Tab` over and over.
+Ctrl + Shift + -    # Split current cell in two.
+Cmd + /             # (Un)Comment all highlighted code.
+Cmd + D             # Delete line.
+Cmd + ]             # Indent right.
+Cmd + [             # Indent left.
+
+Hold Opt (or Alt) and drag cursor    # Rectangular selection.
+Cmd + click    # Use multiple cursors on different lines.
+```
+
+### Jupyter Markdown
+
+Use LaTeX font simply by typing normal LaTeX text:
+
+- `$ \frac{\sigma}{x} $`
+
+Favorite magics:
+
+```python
+%config InlineBackend.figure_format = 'retina'    # Show incredibly high-resolution images:
+%matplotlib inline      # Show plots in Jupyter Notebook.
+%matplotlib notebook    # Make INTERACTIVE plots!
+
+from IPython.core.interactiveshell import InteractiveShell
+InteractiveShell.ast_node_interactivity = "all"    # Show output of all lines
+# InteractiveShell.ast_node_interactivity = "last_expr"    # Show output of just last line (default).
+```
+
+Neat extensions:
+Themes:
+pip install jupyterthemes
+Dark theme:
+In your terminal: jt -t chesterish
+restore the main theme:
+jt -r 
+
+You can use jupyter notebooks on remote machines!
+
+1. On remote machine: jupyter notebook --no-browser --port=8881
+2. On local machine: ssh -NL 8888:localhost:8881 <UN@host.server.com>
+3. In browser, go to: localhost:8888
+
+---
+
+## Things to look into
+
+- Python3: `inspect`
+- root_pandas
+- uproot
+- `conda install root-c conda-forge`
+- Topics to research:
+- import multiprocessing
+- datetime.datetime.now()

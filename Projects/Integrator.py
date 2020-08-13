@@ -1,6 +1,12 @@
 """
-This code returns the value of integration when the User 
-specifies a function and the integration bounds. 
+PURPOSE:
+  This code returns the value of integration when the User 
+  specifies a function and the integration bounds. 
+SYNTAX: python this_script.py
+NOTES:  None.
+AUTHOR: Jake Rosenzweig
+CREATED:  2020-08-13
+MODIFIED: 2020-08-13
 
 Example:
     user_defined_function = 2 * sin(x)
@@ -8,20 +14,41 @@ Example:
     # returns: 4.0
 """
 import numpy as np
+import argparse
 
 #--- User-defined/Global variables. 
-x_min = 0.0
-x_max = np.pi
+# x_min = 0.0
+# x_max = np.pi
 # def fn(x):
 #     return 2 * np.sin(x)
 fn = lambda x : 2 * np.sin(x)
-n_rect = 5  # More rectangles, more accuracy. 
 # Use "left" corner, "right" corner, or "center" of top of rectangle for area calculation.
-mode = "left"  # right, center
 
 #--- Script functions.
+def parse_options():
+    """Your typical flag parser."""
+    parser = argparse.ArgumentParser(description='Integration bounds')
+    parser.add_argument('--x_min', dest='x_min', default=None, type=float, help='lower intgration bound')
+    parser.add_argument('--x_max', dest='x_max', default=None, type=float, help='upper intgration bound')
+    parser.add_argument('--n_rect', dest='n_rect', default=10000, type=int, help='number of rectangles')
+    help_str = """'left', 'right', 'center' (part of rectangle that touches curve)"""
+    parser.add_argument('--mode', dest='mode', default="center", type=str, help=help_str)
+    args = parser.parse_args()
+    return args
+
+def unpack_flags():
+    """Return a tuple of the User-specified flags."""
+    args = parse_options()
+    x_min = args.x_min
+    x_max = args.x_max
+    if x_min is None or x_max is None: 
+        raise ValueError
+    n_rect = args.n_rect
+    mode = args.mode
+    return (x_min, x_max, n_rect, mode)
+
 def calc_area(width_arr, height_arr):
-    """Sum the area of rectangles by doing width*height for each rectangle. """
+    """Sum the area of rectangles by doing width*height for each rectangle."""
     assert len(width_arr) == len(height_arr)
     return np.dot(width_arr, height_arr)
 
@@ -90,6 +117,7 @@ def integrate(fn, x_min, x_max, n_rect=10000, mode="center"):
 #--- When you do: python this_script.py, then this code will be run over:
 if __name__ == "__main__":
     # This is the logical, sequential call to the main functions. 
+    x_min, x_max, n_rect, mode = unpack_flags()
     area = integrate(fn, x_min, x_max, n_rect=n_rect)
     print(f"[INFO] Integral of function from x_min={x_min:.6f} to x_max={x_max:.6f} is: {area:.6f}")
     print(f"[INFO]   (Method chosen:   '{mode}')")
