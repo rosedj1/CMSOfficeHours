@@ -9,7 +9,7 @@
 | ALCA  | ALignment and CAlibration| |
 | ALCT  | Anode Local Charged Track | A trigger board that sits on top of the CSC chamber. |
 | ALICE | A Large Ion Collider Experiment| |
-| AOD   | Analysis Object Data| |
+| AOD   | Analysis Object Data | Subset of RECO data. |
 | API   | Application Programming Interface| |
 | APS   | American Physical Society| |
 | APV   | Analogue Pipeline Voltage| |
@@ -60,6 +60,7 @@
 | EWSB | ElectroWeak Symmetry Breaking| |
 | FAST | Final ASsembly and Test| |
 | FC | Flavor, Charge| |
+| FEVT | Full EVenT | Raw and RECO data. |
 | FGSO | Flammable Gas Safety Officer| |
 | FOUT | Fraction Out (outside fiducial cuts, for example)| |
 | FSR | Final-State Radiation| |

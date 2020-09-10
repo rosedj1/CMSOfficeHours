@@ -248,9 +248,29 @@ The most important ROOT objects:
 
 ### Format text
 
-Use the `Form()` function:
+How to use a `TString`:
 
 ```c++
+TString greeting = "hello there";
+TString new_greeting = greeting + "yo whaddup!";
+cout << new_greeting << endl;  // hello thereyo whaddup!
+```
+
+How to **combine** a `TString` with other types:
+
+```c++
+Int_t k = 3;
+Double_t pT[5] = {5, 10, 20};
+TString parabolic_name = TString::Format("parabolic_graphs_pT%f_%d", pT[1], k)
+// parabolic name looks like: "parabolic_graphs_pT10.000000_3"
+// To get rid of the trailing zeroes, do: TString::Format("parabolic_graphs_pT%.0f_%d",...)
+```
+
+Can also use the `Form()` function:
+
+```c++
+TString nome_canvas = Form("Integral = %.0f", 136.5);
+
 nome_canvas += Form("%d", h+1);
 histo_name = lepton_type.at(j) + Form("Pt_Lep%d", i);
 histo_name = Form("UnbinnedPt_%s_%.0f_%.0f_%s_%s", lepton_type[j].Data(), pT_bins.at(y-1), pT_bins.at(y), eta_bins_name[x-1].Data(), eta_bins_name[x].Data());

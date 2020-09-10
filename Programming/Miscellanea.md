@@ -74,13 +74,12 @@ Generate a QR (quick response) code for any website:
 
 ## Visual Studio Code Keyboard Shortcuts
 
-Box selection on a Mac:
+**Find matching parenthesis, brace, etc.:** `Cmd + Shift + \`
 
-```
-Shift + Option + Cmd + 'arrow key'
-or
-Shift + Option + highlight
-```
+**Box selection on a Mac:**
+
+- `Shift + Option + Cmd + 'arrow key'`
+- `Shift + Option + highlight`
 
 **Multiple cursors:**
 
@@ -423,9 +422,18 @@ mutate(pop = pop / 1000)
 mutate(gpd = gdpPercap * pop)
 - does not permanently change the old tibble; creates a new one
 
-## MacOS Keyboard Shortcuts
+## MacOS Tips and Tricks
 
-Ctrl+Cmd+Q			# Lock screen.
+### Tips for PDFs
+
+While using **Preview**, press `Cmd + Option + 2` to view all pages of your PDF.
+
+- You can **drag and drop** these pages into *other* PDFs or into **other programs**, like Keynote for your presentations!
+- You can also **rearrange** the pages or delete them from the PDF.
+
+### Keyboard shortcuts
+
+Lock your screen with: `Ctrl + Cmd + Q`
 
 In terminal:
 
@@ -440,7 +448,7 @@ Cmd+/
 
 Equivalent to Alt: fn+Opt
 
-## Keynote Tricks:
+### Keynote Tricks:
 
 Insert image: 			Cmd+Shift+V
 Insert special char:	Cmd+Ctrl+Space

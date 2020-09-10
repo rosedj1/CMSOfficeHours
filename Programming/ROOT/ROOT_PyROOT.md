@@ -2,6 +2,16 @@
 
 Mention `conda activate my_root_env`.
 
+## Tutorials
+
+- [PyROOT Manual](https://root.cern/manual/python/) from ROOT website.
+- [Example PyROOT scripts](https://root.cern.ch/doc/v612/group__tutorial__pyroot.html) from the ROOT website.
+- [More example scripts.](https://root.cern/doc/master/group__tutorial__pyroot.html)
+
+## More Resources
+
+- [Pyroot_Zen](https://pyroot-zen.readthedocs.io/en/latest/#): Make ROOT even more Pythonic.
+
 ## How to make a TTree and store values using PyROOT
 
 ### Example
@@ -31,7 +41,7 @@ tree.Fill()
 - Also check out [this nice explanation](https://wiki.physik.uzh.ch/cms/root:pyroot_ttree).
 - [More elaborate way](https://root.cern.ch/gitweb/?p=root.git;a=blob;f=tutorials/pyroot/staff.py;h=d955e2ca7481a9a507cb40dbb71c2f85ac12bbbc;hb=HEAD), using C++ structs.
 
-When you close a file (`f.Close()`), then your histograms may be closed with them. 
+When you close a file (`f.Close()`), then your histograms may be closed with them.
 To keep your hist open, do:
 ```python
 hist.SetDirectory(0)  # Must be called before you close the file.
@@ -52,7 +62,7 @@ upper_bound = 1600 # 300 for mH, 800 for mY, 1600 for mX
 
 print("[INFO] Building canvas...")
 c1 = TCanvas("c1", "Mass Distribution") # Canvas object
-c1.Divide(4,2) # Divide canvas into 8 pads (4 columns, 2 rows)
+c1.Divide(1,2) # Divide canvas into 2 pads (1 columns, 2 rows)
 
 c1.cd(1)
 gPad.SetLogy() # Set y-axis to log scale
@@ -69,54 +79,6 @@ t2 = f2.Get("bbbbTree")
 h2 = TH1F("h2","DeltaR = 0.10", num_bins, lower_bound, upper_bound)
 t2.Draw("HH_m >> h2","gen_H1_b1_matchedflag >= 0 && gen_H1_b2_matchedflag >= 0 && gen_H2_b1_matchedflag >= 0 && gen_H2_b2_matchedflag >= 0","goff")
 h2.Draw("hist e1")
-
-c1.cd(3)
-gPad.SetLogy()
-f3 = TFile("test_NMSSM_XYH_bbbb_MC_015.root")
-t3 = f3.Get("bbbbTree")
-h3 = TH1F("h3","DeltaR = 0.15", num_bins, lower_bound, upper_bound)
-t3.Draw("HH_m >> h3","gen_H1_b1_matchedflag >= 0 && gen_H1_b2_matchedflag >= 0 && gen_H2_b1_matchedflag >= 0 && gen_H2_b2_matchedflag >= 0","goff")
-h3.Draw("hist e1")
-
-c1.cd(4)
-gPad.SetLogy()
-f4 = TFile("test_NMSSM_XYH_bbbb_MC_020.root")
-t4 = f4.Get("bbbbTree")
-h4 = TH1F("h4","DeltaR = 0.20", num_bins, lower_bound, upper_bound)
-t4.Draw("HH_m >> h4","gen_H1_b1_matchedflag >= 0 && gen_H1_b2_matchedflag >= 0 && gen_H2_b1_matchedflag >= 0 && gen_H2_b2_matchedflag >= 0","goff")
-h4.Draw("hist e1")
-
-c1.cd(5)
-gPad.SetLogy()
-f5 = TFile("test_NMSSM_XYH_bbbb_MC_025.root")
-t5 = f5.Get("bbbbTree")
-h5 = TH1F("h5","DeltaR = 0.25", num_bins, lower_bound, upper_bound)
-t5.Draw("HH_m >> h5","gen_H1_b1_matchedflag >= 0 && gen_H1_b2_matchedflag >= 0 && gen_H2_b1_matchedflag >= 0 && gen_H2_b2_matchedflag >= 0","goff")
-h5.Draw("hist e1")
-
-c1.cd(6)
-gPad.SetLogy()
-f6 = TFile("test_NMSSM_XYH_bbbb_MC_030.root")
-t6 = f6.Get("bbbbTree")
-h6 = TH1F("h6","DeltaR = 0.30", 30, lower_bound, upper_bound)
-t6.Draw("HH_m >> h6","gen_H1_b1_matchedflag >= 0 && gen_H1_b2_matchedflag >= 0 && gen_H2_b1_matchedflag >= 0 && gen_H2_b2_matchedflag >= 0","goff")
-h6.Draw("hist e1")
-
-c1.cd(7)
-gPad.SetLogy()
-f7 = TFile("test_NMSSM_XYH_bbbb_MC_035.root")
-t7 = f7.Get("bbbbTree")
-h7 = TH1F("h7","DeltaR = 0.35", 30, lower_bound, upper_bound)
-t7.Draw("HH_m >> h7","gen_H1_b1_matchedflag >= 0 && gen_H1_b2_matchedflag >= 0 && gen_H2_b1_matchedflag >= 0 && gen_H2_b2_matchedflag >= 0","goff")
-h7.Draw("hist e1")
-
-c1.cd(8)
-gPad.SetLogy()
-f8 = TFile("test_NMSSM_XYH_bbbb_MC_040.root")
-t8 = f8.Get("bbbbTree")
-h8 = TH1F("h8","DeltaR = 0.40", 30, lower_bound, upper_bound)
-t8.Draw("HH_m >> h8","gen_H1_b1_matchedflag >= 0 && gen_H1_b2_matchedflag >= 0 && gen_H2_b1_matchedflag >= 0 && gen_H2_b2_matchedflag >= 0","goff")
-h8.Draw("hist e1")
 
 c1.Draw() # Draw canvas
 c1.SaveAs("distribution_mX.pdf") # Save canvas
@@ -164,18 +126,85 @@ plt.clf()
 ### TPad
 
 ```python
-pad = ROOT.Tpad("pad", "A pad with a hist", 0.03, 0.02, 0.97, 0.57)
+pad = ROOT.TPad("pad", "A pad with a hist", 0.03, 0.02, 0.97, 0.57)
 ```
 
-## Tutorials
+### TGraph
 
-- [PyROOT Manual](https://root.cern/manual/python/) from ROOT website.
-- [PyROOT Tutorials](https://root.cern.ch/doc/v612/group__tutorial__pyroot.html) from the ROOT website.
+```python
+n_pts = 5
+# I prefer to use numpy arrays to perform computations.
+x_vals = np.array([2,4,6,8,10])
+y_vals = x_vals**2
+# Then convert them to array.arrays afterward.
+x_arr = array('f', x_vals)
+y_arr = array('f', y_vals)
+# Make the graph.
+gr = TGraph(n_pts, x_arr, y_arr)
+gr.SetLineColor(2)
+gr.SetLineWidth(2)
+gr.SetMarkerColor(4)
+gr.SetMarkerStyle(21)
+gr.SetMarkerSize(0.5)
+gr.SetTitle('Theoretical Muon Trajectory')
+gr.GetXaxis().SetTitle('Transverse Pixel/Strip Positions [cm]')
+gr.GetYaxis().SetTitle('Distance from x-axis [cm]')
+gr.GetXaxis().SetLimits(-0.05, 0.05)  # SetRangeUser() doesn't work for x-axis! SetLimits() instead.
+gr.GetYaxis().SetRangeUser(-0.2, 0.2)
+gr.Draw("APC")  # Draw the Axes, Points, and a smooth Curve.
 
-## More Resources
+# Drawing Options Description
+"A"	Axis are drawn around the graph
+"I"	Combine with option 'A' it draws invisible axis
+"L"	A simple polyline is drawn
+"F"	A fill area is drawn ('CF' draw a smoothed fill area)
+"C"	A smooth Curve is drawn
+"*"	A Star is plotted at each point
+"P"	The current marker is plotted at each point
+"B"	A Bar chart is drawn
+"1"	When a graph is drawn as a bar chart, this option makes the bars start from the bottom of the pad. By default they start at 0.
+"X+"    # The X-axis is drawn on the top side of the plot.
+"Y+"    # The Y-axis is drawn on the right side of the plot.
+"PFC"   # Palette Fill Color: graph's fill color is taken in the current palette.
+"PLC"   # Palette Line Color: graph's line color is taken in the current palette.
+"PMC"   # Palette Marker Color: graph's marker color is taken in the current palette.
+"RX"    # Reverse the X axis.
+"RY"    # Reverse the Y axis.
+```
 
-- [Pyroot_Zen](https://pyroot-zen.readthedocs.io/en/latest/#): Make ROOT even more Pythonic.
+If you want to put many TGraphs on the same plot, then use a **TMultiGraph**:
 
-### Jake: to do
+```python
+gr = TGraph(3, array('f', [1,2,3]), array('f', [4,5,6]))
+grerr = TGraphErrors(n,x,y,ex,ey)
+mg = TMultiGraph()
+mg.Add(gr,"lp")
+mg.Add(grerr,"cp")
+mg.Draw("a")
+```
 
-- [ ] [PyROOT Hats](https://indico.cern.ch/event/917673/)
+### Fit Functions
+
+```python
+from ROOT import TF1, gStyle
+fit_func = TF1("f1", "gaus", 70, 110)
+fit_func.SetLineColor(1)
+fit_func.SetLineWidth(2)
+fit_func.SetLineStyle(2)
+# Fit it onto a histogram `h1`:
+h1.Fit(fit_func,'S')
+# The option 'S' saves the fit results into a pointer.
+# Check out more options here: 
+# https://root.cern.ch/doc/master/TGraph_8cxx_source.html#l01080
+gStyle.SetOptFit(111)  # Chi^2, param values, and 
+fit_func.Draw("same")
+
+# Retrieve the fit values:
+par_and_err0 = fit_func.GetParameter(0), fit_func.GetParError(0)
+par_and_err1 = fit_func.GetParameter(1), fit_func.GetParError(1)
+par_and_err2 = fit_func.GetParameter(2), fit_func.GetParError(2)
+```
+
+### Jake, look into
+
+- [PyROOT Hats](https://indico.cern.ch/event/917673/)

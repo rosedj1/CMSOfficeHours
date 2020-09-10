@@ -21,10 +21,13 @@ x.frame(r.RooFit.Title("A title for the frame"))
 ```
 
 How some of these work:
+
+```python
 massZ = RooRealVar("name", "title", value, min, max)
 RooArgSet(w.var.("massZErr"))
 RooArgList(lambda_,  massZErr)
 RooFormulaVar("sigma","@1*@0", RooArgList(lambda_,  massZErr))
+```
 
 Build a **workspace** to organize your objects:
 
@@ -42,6 +45,7 @@ w.factory('SUM::model(s[50,0,100]*g, b[100,0,1000]*e)')
 
 - This factory is going to add the two pdfs together per event.
 - We expect the signal (s) to have around 50 events, but it can span 0 to 100. It will have a Gaussian (g) shape.
+- More info about [`factory()`](https://root.cern.ch/doc/master/classRooWorkspace.html#a0ddded1d65f5c6c4732a7a3daa8d16b0)
 
 Useful workspace methods:
 
@@ -110,7 +114,7 @@ rds.reduce(RooFit.Cut(cuts_str))  # Applies cuts to dataset?
 
 Convolute PDFs into a RooAbsPdf object (sig+bkg model):
 ```python
-CBxBW     = RooFFTConvPdf("CBxBW","CBxBW", massZ, BW, CB)
+CBxBW  = RooFFTConvPdf("CBxBW","CBxBW", massZ, BW, CB)
 bkg = RooExponential("bkg","bkg", massZ, tau)
 fsig = RooRealVar("fsig","signal fraction", self.shapePara["fsig"])
 model = RooAddPdf("model","model", CBxBW, bkg, fsig)
@@ -127,6 +131,7 @@ w.factory(‘x[6.8,0,15]’)
 Example below shows an unbinned **Gaussian** fit:
 
 ```python
+import ROOT as r
 data = np.array(my_fancy_data_to_be_fit)
 
 min_ = data.min()
@@ -134,10 +139,10 @@ max_ = data.max()
 avg_ = data.mean()
 std_ = data.std()
 
-x = ROOT.RooRealVar("x","x", min_, max_)
-mean = ROOT.RooRealVar("mean","Mean of Gaussian", avg_, min_, max_)
-sigma = ROOT.RooRealVar("sigma","Width of Gaussian", std_, 0, 1000)
-gauss = ROOT.RooGaussian("gauss","gauss(x,mean,sigma)", x, mean, sigma)
+x = r.RooRealVar("x","x", min_, max_)
+mean = r.RooRealVar("mean","Mean of Gaussian", avg_, min_, max_)
+sigma = r.RooRealVar("sigma","Width of Gaussian", std_, 0, 1000)
+gauss = r.RooGaussian("gauss","gauss(x,mean,sigma)", x, mean, sigma)
 
 # Make RooDataSet.
 ptr = array('f', [0.])

@@ -1,5 +1,9 @@
 # Python Basics
 
+## Resources and Tutorials
+
+- For all your Python needs: [Real Python](https://realpython.com/python-first-steps/).
+
 Use **Python3**, since Python2 is no longer supported.
 
 Boot up the Python interpreter by typing `python` into your shell. You'll see something like this:
@@ -28,6 +32,12 @@ It is often useful to debug a python script by doing:
 python -i <script.py>
 - this executes the script and then puts you in the python interpreter
 - This is beneficial because now all variables have been initialized and you can play around!
+
+## How to structure your project
+
+Never use `from somepackage import *`
+
+- **Cool trick:** Use the Linux command `tree` to see your directory structure.
 
 ## Printing and Formatting
 
@@ -517,9 +527,9 @@ _		# used as a placeholder var in a function or something; a 'throw-away' variab
 
 ## Naming Conventions in Python
 
-* modules (filenames) should have short, all-lowercase names, and they can contain underscores;
-* packages (directories) should have short, all-lowercase names, preferably without underscores;
-* classes should use the CapWords convention.
+- **modules** (filenames like `my_script.py`) should have short, all-lowercase names, with underscores
+- **packages** (directories) should have short, all-lowercase names, preferably without underscores
+- **classes** should use the CapWords convention.
 
 | Type | Public |
 | ---- | ------ |

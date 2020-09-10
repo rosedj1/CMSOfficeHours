@@ -5,24 +5,24 @@ The philosophy: **small, sharp tools**
 Bash is the "**B**ourne-**a**gain **sh**ell". 
 It is the standard interpreter on most Linux distributions .
 
+## Resources
+
+- Here's the [friendly Linux Tutorial](https://ryanstutorials.net/linuxtutorial/commandline.php)
+that I used to learn Linux.
+- Tutorials from [Linux.com](https://www.linux.com/training-tutorials/).
+
 ## Must know Bash commands
 
 ```bash
-ls     # List files. Useful flags: ls -lhtra
-pwd    # Print Working Directory. Shows you where you are.
+ls                  # List files. Useful flags: ls -lhtra
+pwd                 # Print Working Directory. Shows you where you are.
 cd <path/to/files>  # Change Directory. This is how you move around.
-cd ..  # Go up a dir.
-cd -   # Go back to previous dir.
-mv <source> <dest>  # Move or rename a file.
+cd ..               # Go up a dir.
+cd -                # Go back to previous dir.
+mv <source> <dest>  # Move or rename a file (THIS WILL OVERWRITE <dest>).
 cp <source> <dest>  # Copy source to destination.
 mkdir <newdir>  # Make newdir.
 ```
-
-## Resources
-
-- [Here's a friendly Linux Tutorial](https://ryanstutorials.net/linuxtutorial/commandline.php)
-that I used to learn Linux.
-- Tutorials from [Linux.com](https://www.linux.com/training-tutorials/).
 
 ## Some Bash magic
 
@@ -100,8 +100,8 @@ If a file path begins with /
 server uses a "load balancer"
 - puts each user on a variety of nodes to balance the load of resource usage
 
-man -k <word>
-- shows you the 
+man -k <cmd>
+- shows you the manual for the command
 
 > is the redirection operator
 | is the pipe operator
@@ -140,8 +140,9 @@ ln -s <file> <link_name>	# creates a symbolic link (a reference) between <file> 
 file <>
 printf			# appears to just be a fancier and more reliable echo
 
+### Less common commands:
 
-Less common, but possibly helpful commands:
+```bash
 uname -a			# look at your Linux kernel architecture, server, etc.
 uname -n			# find out what node you're on
 ldd --version		# Check the glibc version.
@@ -152,33 +153,42 @@ basename <filepath> 	# strips <filepath> of directory part of name and suffix
 - basename include/stdio.h .h	# returns: stdio
 date					# prints the date
 whoami      # Prints your username.
-
 cat /etc/*-release    # Find out what distribution of Linux you're running
 
 
-Timestamp things:
+# Timestamp things:
 date +%F-%T	# gives 2019-07-17-20:10:16
 
-Less important but still really cool commands!
+# Less important but still really cool commands!
 say [-v] [name] "<phrase>"		# 
 write	 <user>					# start a chat with <user> on your server
     - You are immediately put into "write mode". Now you can send messages back and forth.
     - Press 'Ctrl+C' or 'Esc' to exit write mode.
 mesg [y|n]					# allow [y] people to send you messages using 'write' or not [n]
+```
+
 Command line language translator:
 https://www.ostechnix.com/use-google-translate-commandline-linux/
 
-Defining Functions:
+
+## Getting fancy with Bash
+
+Make functions:
+
+```bash
 function <func_name> {
-	<cmd1>;
-	<cmd2>; ...
+    <cmd1>;
+    <cmd2>;
+    ...
 }
 
-Can be one liners:
+# Functions can be one liners:
 function cdl { cd $1; ls; }
-	cdl mydir		# cd into mydir and then ls
-____________________
-grep (global regular expression print)
+    cdl mydir  # cd into mydir and then ls
+```
+
+`grep` (global regular expression print)
+
 grep   <string>   <files_to_be_searched>
 
 grep -E -r "*<word>*" ./* 	# search the contents of every file for *<word>*, recursively starting from ./*
@@ -189,11 +199,13 @@ rsync <file> <destination>
 
 ps aux | grep <task>		# see active processes
 
-____________________
-GNU screen! (a terminal multiplexer)
+**GNU screen! (a terminal multiplexer)**
+
 - Start a persistent remote terminal
 - That way, you won't lose your work if you get disconnected
 - After making a new screen, you should do: `source ~/.bash_profile` to get your normal settings
+
+```bash
 screen -S <screen_name>	# start a bash environment session ("screen")
 ctrl+a, then Esc			# enters "copy/scrollback mode", which lets you scroll! 
 - navigate copy mode using Vim commands!
@@ -209,6 +221,7 @@ ctrl+a then v				# split screens vertically
 ctrl+a then Tab			# switch between split screen regions
 ctrl+a then c				# begins a virtual window in a blank screen session
 ctrl+a then "				# see list of all active windows inside session
+```
 
 tmux (terminal multiplexer)
 Nice for splitting the terminal into multiple screens.
@@ -236,8 +249,6 @@ Ctrl+b, }			# Move current pane right.
 Ctrl+b, x			# Close current pane.
 exit				# Permanently close the session.
 
-____________________
-
 wget <url>	# download whatever url from the web
 wget -r --no-parent -A.pdf http://tier2.ihepa.ufl.edu/~rosedj1/DarkZ/MG5vsJHUGen_bestkinematics_GENlevel_WITHfidcuts/
 - Downloads recursively, without looking at parent directories, and globbing all .pdf
@@ -247,12 +258,17 @@ tar -xf <tarball>					# unzip all of <tarball>
 tar -xvf <tarball> <file1> <file2>		# untar specific files from tarball
 - x=extract, v=verbose, f=file, 
 
-Memory usage
+### Memory usage
+
+```bash
 du 				# "disk usage"; good for find which files or dirs are taking up the most space
 du -h <dir>		# print size of <dir> in human-readable format 
 du -sh ./			# sums up the total of current workspace and all subdirs
 
 df -h				# "disk filesystem", shows usage of memory on entire filesystem 
+```
+
+### Finding files
 
 ```bash
 find
@@ -276,14 +292,19 @@ sshfs <UN@remote_host> <local/dir>
 Unmount when finished:
 umount <local/dir>
 
-***Learn more about these commands:
+## Read up on these commands
+
+```bash
 rcp
 set
 set -e 			# exit on first error?
 set -u 			# catch unset variables?
+```
 
 Use a specific interpreter to execute a file:
 #!/usr/bin/env python
+
+- Find out where your command lives: `type -a <cmd>`
 
 Environment variables can be modified using 'export':
 export VARIABLE=value
@@ -406,8 +427,14 @@ Execute shell script in current shell, instead of forking into a subshell:
 watch -n 10 '<cmd>'	# repeats <cmd> every 10 seconds
 - default is 2 seconds
 
-##########################
-sed 	# stream editor
+### sed (stream editor)
+
+```bash
+zdmass=20
+sed -i "s/MASS/${zdmass}/g" yourfile.txt
+# replace every instance of "MASS" in yourfile.txt with `20`.
+```
+
 echo "1e-2" | sed "s#^+*[^e]#&.000000#;s#.*e-#&0#"		# makes 1e-2 become 1.000000e-02
 			sed "s#^[0-9]*[^e]#&.000000#;s#.*e-#&0#"		# equivalently
 
@@ -464,7 +491,21 @@ What does this do?
 model=HAHM_variablesw_v3_UFO.tar.gz
 if [[ $model = *[!\ ]* ]]; then...
 
-Bash Scripting
-$# 		# number of arguments passed to script
-$@		# the arguments themselves which were passed to script
-$?		# return statement of last command: 0 is successful
+## Bash Scripting
+
+### For loops
+
+```bash
+for num in {15..60..5};  # Start from 15, end at 60, increment by 5.
+    do echo $num;
+done
+```
+
+```bash
+$#  # number of arguments passed to script
+$@  # the arguments themselves which were passed to script
+$?  # return statement of last command: 0 is successful
+```
+
+- [AFS Permissions](https://computing.cs.cmu.edu/help-support/afs-acls)
+- 

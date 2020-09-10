@@ -1,12 +1,67 @@
 # HEP Computing
 
+## CMSSW
+
+The CMS Collaboration uses CMS SoftWare (CMSSW) to analyze real and simulated data.
+The main executable to process things is cleverly called `cmsRun`:
+
+```bash
+cmsRun your_config_file.py
+```
+
+You will need to do `cmsRun` on a **configuration file**, which usually ends in `_cfg.py`.
+Here's an example of a config file:
+
+```python
+# Import CMS python class definitions such as Process, Source, and EDProducer
+import FWCore.ParameterSet.Config as cms
+
+# Import contents of a file
+import Foo.Bar.somefile_cff
+
+# Set up a process, named RECO in this case
+process = cms.Process("RECO")
+
+# Configure the object that reads the input file
+process.source = cms.Source("PoolSource", 
+    fileNames = cms.untracked.vstring("test.root")
+)
+
+# Configure an object that produces a new data object
+process.tracker = cms.EDProducer("TrackFinderProducer")
+
+# Configure the object that writes an output file
+process.out = cms.OutputModule("PoolOutputModule",
+    fileName = cms.untracked.string("test2.root")
+)
+
+# Add the contents of Foo.Bar.somefile_cff to the process
+# Note that more commonly in CMS, we call process.load(Foo.Bar.somefile_cff)
+# which both performs the import and calls extend.
+process.extend(Foo.Bar.somefile_cff)
+
+# Configure a path and endpath to run the producer and output modules
+process.p = cms.Path(process.tracker)
+process.ep = cms.EndPath(process.out)
+```
+
+- [Guts of a config file.](https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideAboutPythonConfigFile)
+- [How to interactively inspect your cfg file.](https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookConfigFileIntro)
+
+---
+
+## Build Files
+
+Learn about build files [here](https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookBuildFilesIntro).
+
 ## Redirectors
 
 `root://cmsxrootd.fnal.gov//store/data/Run2016C/SingleMuon/...`
 
 ## EDM Utilities
 
-Event Data Model (EDM) commands make it easy to look at the guts of MiniAOD files.
+[Event Data Model (EDM)](https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookCMSSWFramework#EdM)
+commands make it easy to look at the guts of MiniAOD files.
 
 Say you want to analyze samples that come from this dataset:
 
@@ -20,7 +75,24 @@ You can find the associated root files on **DAS** or from the command line:
 dasgoclient --query="file dataset=/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v1/MINIAODSIM" --format=plain
 ```
 
-Try printing out the **collections** in your MiniAOD file:
+See what data are in the Event by doing `edmDumpEventContent your_file.root`.
+The output should look like this:
+
+```bash
+Type                      Module                Label                         Process
+--------------------------------------------------------------------------------------
+LHEEventProduct           "source"              ""                            "LHE"
+GenEventInfoProduct       "generator"           ""                            "SIM"
+edm::ValueMap<bool>       "muons"               "muidGlobalMuonPromptTight"   "RECO"
+...
+```
+
+- **Type:** The C++ class type of the data.
+- **module label:** The label assigned to the module that created the data.
+- **product instance label:** The label assigned to the object from within the module.
+- **process name:** The  process name as set in the job that created the data.
+
+Try printing out the [collections](https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideRecoDataTable) in your MiniAOD file:
 
 ```bash
 edmEventSize -v your_file.root
