@@ -8,7 +8,7 @@ Use **Python3**, since Python2 is no longer supported.
 
 Boot up the Python interpreter by typing `python` into your shell. You'll see something like this:
 
-```
+```bash
 Python 3.7.4 (default, Aug 13 2019, 15:17:50) 
 [Clang 4.0.1 (tags/RELEASE_401/final)] :: Anaconda, Inc. on darwin
 Type "help", "copyright", "credits" or "license" for more information.
@@ -26,7 +26,7 @@ conda install scipy=2.3.4 -n my_env  # Can install specific versions into specif
 ```
 
 help(<object>)			# brings up a help menu (docstring?) for <object>
-e.g.	help(os.makedirs)	
+e.g. help(os.makedirs)
 
 It is often useful to debug a python script by doing:
 python -i <script.py>
@@ -238,32 +238,51 @@ Module vs. Script:
 
 ### Classes
 
-A class is a *blueprint* that you use to make objects (like cars, ninjas, galaxies, etc.).
-
+A class is a *blueprint* that you use to make objects (think _nouns_, like cars, ninjas, galaxies, etc.):
 
 ```python
-class Vectors:
-    def __init__(self,x,y,z):
+class Vector:
+    def __init__(self, x, y, z):
         self.x = x
         self.y = y
         self.z = z
 
     def length(self):
-        return np.sqrt(x**2 + y**2 + z**2)
+        return np.sqrt(self.x**2 + self.y**2 + self.z**2)
 
 # Now you can create objects:
-myobj = Vector(9,4,2)  # Create the object.
-myobj.x                # Get x coord.
-myobj.length()         # Get length of myobj.
+my_vec = Vector(2,3,4)  # Create the object.
+my_vec.x                # Get x coord. Returns 2
+my_vec.length()         # Get length of myobj. Returns 5.39
 ```
 
-Built-in methods:__doc__
+Use the `namedtuple` data structure to create "quick classes":
+
+```python
+from collections import namedtuple
+Student1 = namedtuple("Student1", ["name", "gender", "student_id"])
+s1 = Student1('Jennifer', 'F', 2020002)
+f"Name: {s1.name}; Gender: {s1.gender}; ID #: {s1.student_id}"
+# Returns: 'Name: Jennifer; Gender: F; ID #: 2020002'
+# We never had to do any `def __init__() stuff!`
+```
+
+Built-in methods:
+
+```python
+myobj.__dict__  # SUPER USEFUL: returns a dictionary of {attributes:values}
+dir(myobj)  # show all the attributes of myobj
+__doc__
 __init__
 __module__
-__dict__
-dir(myobj)		# show all the attributes of myobj
-myobj.__dict__		# returns a dictionary of {attributes:values}
+```
 
+Nice way to print out info of your object:
+
+```python
+from pprint import pprint
+pprint(vars(your_object))
+```
 
 Useful statements:
 `assert <condition>`    # Quickly check that condition is True. Raise error if not.
@@ -274,7 +293,11 @@ assert <condition>, "Error message here"
 
 ## Packages
 
-numpy
+### numpy
+
+**Num**erical **Py**thon. Essential and optimized for performing calculations and built-in functions, like sin(), exp(), and much more.
+
+```python
 import numpy as np
 Modify certain values in an array:
 np.where(<condition>, if_true, if_false)
@@ -293,46 +316,56 @@ myarr = np.arange(100000)
 %timeit np.shape(arr)[0]  # 548 ns ± 25.6 ns per loop (mean ± std. dev. of 7 runs, 1000000 loops each)
 %timeit len(arr)  # 57.9 ns ± 1.41 ns per loop (mean ± std. dev. of 7 runs, 10000000 loops each)
 - Use len(arr) over np.shape(arr)[0]
-
-
+```
 
 ### glob
 
+Pattern matching for things like path names and file names.
+
 ```python
 import glob
-file_list = glob.glob("/rosedj1/Higgs/*/Data*.root")  # stores matched files in a list object!
-glob.glob("/home/file?.txt")  # `?' will match a single character: fileA.txt, file7.txt
+file_list = glob.glob("/rosedj1/Higgs/*/Data*.root")  # Stores matched files in a list object.
+glob.glob("/home/file?.txt")   # `?' will match a single character: fileA.txt, file7.txt
 ```
 
 Remember, that it's not regex! It's standard UNIX path expansion.
+
 How to use wildcards:
 
 | `*` | matches 0 or more characters |
 | `?` | matches 1 character in that position |
 | `[0-9]` | matches any single digit |
 
-pickle
-Save your objects for later use by "pickling" them:
+### pickle
+
+Save your objects for later by "pickling" them:
+
 ```python
 import pickle    # Or: import _pickle as pickle
 my_obj = CoolClass()
-with open(<file_to_write_to>.pkl,'wb') as outpkl:
-    pickle.dump(my_obj, outpkl, pickle.HIGHEST_PROTOCOL)
+with open("outpath/for/pickle.pkl" ,"wb") as outpkl:
+    pickle.dump(my_obj, outpkl, pickle.HIGHEST_PROTOCOL)  # Use protocol=2 if using Python2.7 at any point.
 
 del my_obj    # To make sure it's gone.
 Easily restore the pickled object:
-with open(<file_written_to>.pkl,'rb') as infile:
-    my_obj_again = pickle.load(infile)
-  ```
+with open("outpath/for/pickle.pkl","rb") as inpkl:
+    my_obj_again = pickle.load(inpkl)
+```
 
+### sys
 
-sys
+Access your system's variables, like environmental variables:
+
+```python
 import sys
-print sys.version			# find out what version of python is running the script
-sys.exit()					# Immediately ends program. Useful for debugging. 
-sys.getsizeof(obj)    		# Find out size of any object (in bytes)
+print(sys.version)  # Find out what version of python is running the script
+sys.exit()          # Immediately ends program. Useful for debugging.
+sys.getsizeof(obj)  # Find out size of any object (in bytes)
+```
 
-os
+### os
+
+```python
 import os
 os.getcwd()					# returns string of current working dir (equivalent to `pwd`)
 os.system()					# not recommended, since the output is not stored in a variable; 							only 0 (success) or 1 (failure) will get stored; use module: subprocess instead
@@ -341,23 +374,23 @@ os.path.split(<path/to>/<file>)	# returns a 2-tuple with (<path/to>, <file>) (go
 os.path.exists()				# 
 os.makedirs(<dirpath>)			# make directory <dirpath>, recursive
 os.environ['USER']				# returns string of current user (same as doing `echo $USER` in bash)
+```
 
+### subprocess
 
-pathlib (Python >= 3.5)
-import pathlib
-pathlib.Path("/path/to/dir").mkdir(parents=True, exist_ok=True)
+Run shell commands within Python:
 
-
-subprocess
-Python can run shell commands
+```python
 import subprocess
-subprocess.call( ['<cmd1>', '<cmd2>', ...] )		# passes commands to shell
-var = subprocess.check_output(<cmd>)		# allows you to store output of <cmd> in var
-var = subprocess.check_output(['ls', '-a'])
+cmd = ['ls', '-tr']
+subprocess.call(cmd)        # Passes the shell command `ls -tr` to the shell.
+var = subprocess.check_output(cmd)
+var = subprocess.check_output(['ls', '-a'])  # allows you to store output of <cmd> in var
 
 ret_output = subprocess.check_output('date')
-print ret_output.decode("utf-8")
-- Thu Oct  5 16:31:41 IST 2017
+print(ret_output.decode("utf-8"))
+# Thu Oct  5 16:31:41 IST 2017
+```
 
 Clean way:
 import shlex, subprocess
@@ -366,7 +399,7 @@ args = shlex.split(command_line)
 p = subprocess.Popen(args)
 
 Example:
-import subprocess, shlex                                                       
+import subprocess, shlex
 
 # This is useful:
 def shellcmd(command_line):                                                                                            
@@ -380,20 +413,20 @@ def run_cmd(cmd_str):
     result = sp.call(cmd_list)
 
 # I'm not sure what the function below is good for:
-def processCmd(cmd):                                                                                            
+def processCmd(cmd):
     args = shlex.split(cmd)                                                    
     sp = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out, err = sp.communicate()                                                                           
     return out, err                                                            
 
-
 ### time
 
+Measure specific time points in your code:
 
 ```python
 import time
 time.perf_counter()  # Stands for "performance counter"
-# - This gives you a number of seconds elapsed since the program began. 
+# - This gives you a number of seconds elapsed since the program began.
 # - Handy for taking differences in times:
 start = time.perf_counter()
 # <lots of tasty code>
@@ -440,7 +473,12 @@ parser.add_argument('--nargs', nargs='+')
 parser.add_argument('--nargs-int-type', nargs='+', type=int)
 ```
 
-# Execute other python scripts from a python script:
+pathlib (Python >= 3.5)
+import pathlib
+pathlib.Path("/path/to/dir").mkdir(parents=True, exist_ok=True)
+
+## Execute other python scripts from a python script
+
 Python3: exec(open("script_to_run.py").read())
 Python2: execfile("script_to_run.py")
 
@@ -587,7 +625,9 @@ print(jupyter_data_dir())
 
 ## IPython
 
-IPython is like a quick jupyter notebook for your terminal.
+IPython stands for **I**nteractive **Python**.
+*Use it frequently!*
+Use iPython to test snippets of codelike a quick jupyter notebook for your terminal.
 Extremely useful for its "magic" commands, tab completion, 
 and ability to go back and edit blocks of code.
 
@@ -612,6 +652,10 @@ If you need to pass in arguments into a script using ipython:
 ```python
 ipython <script.py> -- --arg1 --arg2	# note the '--' between <script.py> and arg1
 ```
+
+### Useful hotkeys
+
+- `Ctrl + O`: force a new line
 
 ## uproot
 

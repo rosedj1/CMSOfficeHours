@@ -78,7 +78,6 @@ cmd 2>&1 log.txt
 Redirect the output and errors to both log.txt and the screen simultaneously:
 cmd 2>&1 | tee log.txt
 
-
 bash batch expansion
 cp /etc/rc.conf{,-old}	# will make copy of 'rc.conf' called 'rc.conf-old'
 mkdir newdir{1,2,3}		# will make newdir1, newdir2, newdir3

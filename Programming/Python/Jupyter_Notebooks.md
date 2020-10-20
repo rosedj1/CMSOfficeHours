@@ -1,6 +1,6 @@
-# Jupyter Notebook
+# IPython and Jupyter Notebooks
 
-An interactive playground to test Python code. 
+An interactive playground to test Python code.
 
 ## Useful Hotkeys (for a Mac)
 
@@ -20,14 +20,28 @@ Click the left part of the output of a cell to contract and scroll through the o
 
 You can incorporate HTML into markdown cells:
 
-```markdown
+```html
 <img src="https://drive.google.com/uc?export=view&id=1ouoxR1b2bgBv7hKrO8jhpoWg5vfgYhT6" alt="drawing" width="400" align='left' style='float:right'/>
 <br><br>
 # *Signal Exploration<br>X &#8594; YH &#8594; 4b*
 Author: Suzanne Rosenzweig
 ```
 
-### Also look into
+## Magic
+
+Jupyter has special **magic commands**. They come in two flavors:
+
+1. **line magics** start with one `%` symbol: `%timeit normal_code_here`
+2. **cell magics** start with `%%` and must be at the top of the cell:
+
+### Useful magics
+
+```python
+%%capture
+
+```
+
+## Also look into
 
 - Jupyter lab
 - jhub (Jupyter Hub)

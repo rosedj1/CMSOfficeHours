@@ -6,8 +6,8 @@ Make an independent variable `x`:
 import ROOT as r
 x = r.RooRealVar("x", "The Independent Variable", 0, 500, "GeV")  # (name, title, min, max, units)
 x.setBins(50)
-x.setRange('fit_region', 105, 140)
 x.getBins()  # Returns the number of bins.
+x.setRange('fit_region', 105, 140)
 x.getTitle()  # Returns the title of the variable.
 x.getUnit()  # Returns the unit.
 x.getMax()  # Returns the max possible? or max populated within x?
@@ -70,7 +70,7 @@ frame.Draw()
 ```python
 mean = r.RooRealVar("mean","Mean of Gaussian",-10,10)
 sigma = r.RooRealVar("sigma","Width of Gaussian",3,-10,10, "GeV")  # Can assign units to var.
-gauss = r.RooGaussian("gauss","gauss(x,mean,sigma)",x,mean,sigma)
+gauss = r.RooGaussian("gauss","The Gaussian PDF",x,mean,sigma)
 
 # View fit values:
 fit_result = my_pdf.fitTo(roodataset)

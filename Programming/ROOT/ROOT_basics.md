@@ -1,6 +1,10 @@
 # The ROOT of all ~Evil~ High-Energy Physics Data Analysis
 
-Here is a [comprehensive and XKCD-comic-filled tutorial](ROOT_Tutorial_with_XKCD_Pitstops.pdf) on how to use ROOT. If you want the boiled down version, keep reading below.
+## Some tutorials for your pleasure
+
+- A [2-day ROOT course on GitHub](https://github.com/root-project/training/tree/master/BasicCourse).
+- Here is a [comprehensive and XKCD-comic-filled tutorial](ROOT_Tutorial_with_XKCD_Pitstops.pdf) on how to use ROOT.
+If you want the boiled down version, keep reading below.
 
 ## Find your ROOTs
 

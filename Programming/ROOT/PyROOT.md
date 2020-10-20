@@ -123,10 +123,72 @@ plt.clf()
 
 ## Common ROOT Objects
 
-### TPad
+### Text Boxes
+
+You have a few options:
+
+#### Option ?: TPaveText
 
 ```python
-pad = ROOT.TPad("pad", "A pad with a hist", 0.03, 0.02, 0.97, 0.57)
+# (xmin, ymin, xmax, ymax, "BRNDC")
+# BR = shadow appears in Bottom-Right corner.
+pave = ROOT.TPaveText(0.08, 0.5, 0.45, 0.7, "NDC")
+pave.SetFillColor(0)
+pave.SetBorderSize(1) # Use 0 for no border.
+pave.SetTextAlign(11) # 11 is against left side, 22 is centered vert and horiz.
+pave.SetTextSize(0.06)
+pave.AddText("E = #sqrt{#vec{p}^{2} + m^{2}}")  # Accommodates LaTeX!
+pave.SetFillStyle(1001)  # Solid fill.
+pave.Draw("same")
+```
+
+#### Option ?: TText
+
+```python
+txt = r.TText()
+# txt = r.TText(0.85, 0.90, "Hi there")    # Can initialize text object with chars.
+# txtnew.SetNDC()
+txt.SetTextSize(0.04)
+txt.SetTextFont(43)
+txt.SetTextColor(r.kBlue)
+txt.DrawTextNDC(0.3, 0.4, "Hello world!")  # x,y as a fraction of the canvas width
+# txt.DrawText(100, 250, "Hello world!")   # x,y in axis coordinates.
+```
+
+#### Option ?: TPaveText
+
+```python
+
+```
+
+#### Option 2: TLaTeX
+
+```python
+latex = r.TLatex()
+latex.SetNDC()
+latex.SetTextSize(0.013)
+latex.SetTextColor(r.kRed)
+bestfit_mean = 0.006718
+latex.DrawLatex(0.185, 0.90, f"#mu = {bestfit_mean:%.3E}")
+```
+
+#### Option 3: TPad
+
+```python
+pad = r.TPad("pad", "A pad with a hist", 0.03, 0.02, 0.97, 0.57)
+legend =  rt.TPad("legend_0","legend_0",x0_l,y0_l,x1_l, y1_l )
+#legend.SetFillColor( rt.kGray )
+legend.Draw()
+legend.cd()
+
+# Should be able to draw text on a RooPlot (frame) with:
+# NEEDS TESTING
+    # // create the box and set its options
+
+#     pavelabel_x_start = ( float(x_max) + float(x_min) ) * 0.65
+#     title = r.TPaveLabel( pavelabel_x_start, 300, x_max, 350, 'Come on dude!' )
+#     title.SetTextFont( 50 )
+#     title.Draw("same")
 ```
 
 ### TGraph
@@ -141,6 +203,7 @@ x_arr = array('f', x_vals)
 y_arr = array('f', y_vals)
 # Make the graph.
 gr = TGraph(n_pts, x_arr, y_arr)
+# Pretty it up.
 gr.SetLineColor(2)
 gr.SetLineWidth(2)
 gr.SetMarkerColor(4)
@@ -170,6 +233,19 @@ gr.Draw("APC")  # Draw the Axes, Points, and a smooth Curve.
 "PMC"   # Palette Marker Color: graph's marker color is taken in the current palette.
 "RX"    # Reverse the X axis.
 "RY"    # Reverse the Y axis.
+
+# Other useful methods.
+gr.GetN()        # Return the number of points in the graph.
+gr.GetPointX(4)  # Return the x-coordinate of point 4.
+gr.GetPointY(4)  # Return the y-coordinate of point 4.
+```
+
+### TGraphErrors
+
+A TGraph but with x and y errorbars.
+
+```python
+
 ```
 
 If you want to put many TGraphs on the same plot, then use a **TMultiGraph**:
@@ -205,6 +281,12 @@ par_and_err1 = fit_func.GetParameter(1), fit_func.GetParError(1)
 par_and_err2 = fit_func.GetParameter(2), fit_func.GetParError(2)
 ```
 
-### Jake, look into
+## More ROOT Quirks
+
+Print **global environment variables** to access things like fonts: `ROOT.gEnv.Print()`
+
+- Using a minus sign in a superscript: replace `^-` with `^{#font[122]{\55}}`
+
+### Items to research
 
 - [PyROOT Hats](https://indico.cern.ch/event/917673/)

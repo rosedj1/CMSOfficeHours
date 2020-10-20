@@ -22,7 +22,9 @@ as new entries!
 - There's also an underflow bin
 Therefore, entries in overflow bins DO count towards total entries, but not towards statistics, like Integral()
 
-### Make histogram with variable bin width
+### Make a hist with variable bin width
+
+Make bin edges at: `x = [5, 10, 20, 30, 50, 100]`
 
 ```python
 import numpy as np
@@ -30,7 +32,7 @@ import ROOT as r
 h1 = r.TH1F("h1", "Variable Bin Width", 5, np.array([5, 10, 20, 30, 50, 100], dtype=float))
 ```
 
-- Will have bin edges at: `[5, 10, 20, 30, 50, 100]`
+---
 
 Rebinning should be rather easy! 
 - there is a Rebin method
@@ -45,15 +47,16 @@ h.GetEntries()            # Return the number of total entries in all bins.
 h.GetName()               # Returns the internal name of hist.
 h.GetTitle()              # Returns the title of hist.
 h.GetNbinsX()             # Return the number of bins along the x-axis.
-h.Fill(7)                 # Put one entry into the bin where x = 7.
+h.Fill(7)                 # Put one entry into the bin where x = 7 (so not the 7th bin!).
 h.Fill(7, 100)            # Put 100 entries into the bin where x = 7.
 h.GetBinContent(3)        # Return the number of entries in bin 3.
                           # (bin 0 is underflow and bin max+1 is overflow)
-h.GetBinCenter(2)     # Get the x-axis value corresponding to the center of bin 2.
-h.GetBinLowEdge(k)    # Get the left edge of the bin k. k=0 is overflow, k=1 is first bin. 
+h.GetBinCenter(2)         # Get the x-axis value corresponding to the center of bin 2.
+h.GetBinLowEdge(k)        # Get the left edge of the bin k. k=0 is overflow, k=1 is first bin.
 h.GetBinWidth(2)          # Get the bin width of bin 2.
 h.FillRandom("gaus", 10)  # Fill the hist with 10 random entries from a gaus distribution.
 h.Sumw2()                 # IMPORTANT! Tells the hist to handle errors using sum(weights^2).
+h.StatOverflows(True)     # IMPORTANT! Count under/overflow bins in stats. Default is False.
 h.Write()                 # Save your hist to the open root file.
 ```
 
@@ -64,6 +67,12 @@ h.GetMean()         # Return: 1/N * sum(entries_bin_k * center_bin_k)
 h.GetMeanError()    # Return the error on the mean.
 h.GetStdDev()       # Return the root-mean-square (RMS).
 h.GetStdDevError()  # Return the error on the RMS.
+```
+
+### Decorate your hist
+
+```python
+h.GetXaxis().SetTitleOffset(1.3)
 ```
 
 After drawing a histogram, you can **modify the statistics box** (see below).
@@ -171,22 +180,22 @@ h->IntegralAndError(<bin1>,<bin2>,<err>)					# calculates the integral
     - err will store the error that gets calculated
     - so before you execute the IntegralAndError, first do err = Double(2) to create the err variable 
 
-TH2F
-h2->Integral()									# calculate integral over ALL bins
-h2->IntegralAndError(xbin1, xbin2, ybin1, ybin2, err)	# calculates the integral over square region, specified by bins
+// TH2F
+h2->Integral()  // calculate integral over ALL bins
+h2->IntegralAndError(xbin1, xbin2, ybin1, ybin2, err) // calculates the integral over square region, specified by bins
 - err will store the error that gets calculated
 - so before you execute the IntegralAndError, first do err = Double(2) to create the err variable 
-h2->Draw("COLZ1")	# "COL" means color, "Z" means draw the color bar, "1" makes all cells<=0 white!
-
-Bin convention:
-bin = 0; underflow bin
-bin = 1; first bin with low-edge xlow INCLUDED
-bin = nbins; last bin with upper-edge xup EXCLUDED
-bin = nbins+1; overflow bin
+h2->Draw("COLZ1") // "COL" means color, "Z" means draw the color bar, "1" makes all cells<=0 white!
 
 h->Draw()
-h->Draw("HIST")	# Make sure to draw a histogram
-h->Draw("HIST e")	# Draw histogram with error bars ( where err = sqrt(num_entries_in_bin) )
+h->Draw("hist")    // Make sure to draw a histogram
+h->Draw("hist e")  // Draw histogram with error bars ( where err = sqrt(num_entries_in_bin) )
+
+// Bin convention:
+// bin = 0; underflow bin
+// bin = 1; first bin with low-edge xlow INCLUDED
+// bin = nbins; last bin with upper-edge xup EXCLUDED
+// bin = nbins+1; overflow bin
 ```
 
 Boot up the ROOT interpreter:
@@ -263,7 +272,6 @@ else{
 ```python
 import ROOT as r
 import numpy as np
-# Variable bin widths.
 h_2d = r.TH2F("h_2d", "Fill with text", 
               7, np.array([5,7,10,14,20,27,38,50], dtype=float),
               5, np.array([0.0, 0.2, 0.4, 0.6, 0.8, 1.0]))
@@ -283,13 +291,21 @@ c1.Draw()
 You can play with the color bar (called a color palette in ROOT):
 
 ```python
-h_2d.Draw("colz text")  # Writes the value stored in each 2D bin on the bin. 
+h_2d.Draw("colz text")                # Writes the value stored in each 2D bin on the bin.
 h_2d.GetZaxis().SetRangeUser(10, 20)  # Restrict color bar to have limits: [10, 20].
-r.gStyle.SetPalette(55)  # Change the color map. Default is kBird.
+r.gStyle.SetPalette(55)               # Change the color map. Default is kBird.
 # More color maps: https://root.cern.ch/doc/master/classTColor.html#C06
-h_2d.SetContour(80)  # Split the color bar into 80 colors (creates a nice gradient).
+h_2d.SetContour(100)                   # Split the color bar into 100 colors (creates a nice gradient).
+r.gStyle.SetPaintTextFormat("6.1f")   # Format of the text to be displayed on cells.
+r.gStyle.SetOptStat(0)                # Don't display hist stats.
 c1.Draw()
 ```
+
+## Histogram quirks
+
+Instead of doing `canv.RedrawAxis()` do: `hist.Draw("sameaxis")`
+
+- _What does `h.Draw("samex0")` do?_
 
 ## Tutorials on ROOT Histograms
 

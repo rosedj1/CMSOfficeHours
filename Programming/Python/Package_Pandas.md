@@ -11,9 +11,11 @@ Examples:
 
 ```python
 import pandas as pd
-ser = pd.Series(np.arange(10))  # Make a quick Series (column of data).
+# Make a quick Series (column of data).
+ser = pd.Series(np.arange(10))
 
-df = pd.DataFrame(np.random.randn(15,6), columns='A B C D E F'.split())  # Make a quick DataFrame (table of data - like a spreadsheet!)
+# Make a quick DataFrame (table of data - like a spreadsheet!)
+df = pd.DataFrame(np.random.randn(15,6), columns='A B C D E F'.split())  
 ```
 
 Select the row labeled "3": `df.loc[3]`
@@ -83,3 +85,7 @@ df.reset_index
 df.sample()    # Returns a random row of the DF. 
 df.pipe(<fn>)  # Apply a custom function to the DF (in-place!).
 ```
+
+## Look into
+
+from pandas.plotting import scatter_matrix

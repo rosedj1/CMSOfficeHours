@@ -72,18 +72,17 @@ Generate a QR (quick response) code for any website:
 
 ---
 
-## Visual Studio Code Keyboard Shortcuts
+## Visual Studio Code
 
-**Find matching parenthesis, brace, etc.:** `Cmd + Shift + \`
+- Find matching parenthesis, brace, etc.: `Cmd + Shift + \`
+- Box selection on a Mac:
+  - `Shift + Option + Cmd + 'arrow key'`
+  - `Shift + Option + highlight`
+- Multiple cursors:
+  - Hold `Option` and click using the cursor.
+- View a function docstring: `Cmd + K, Cmd + I ("eye")`
 
-**Box selection on a Mac:**
-
-- `Shift + Option + Cmd + 'arrow key'`
-- `Shift + Option + highlight`
-
-**Multiple cursors:**
-
-- Hold `Option` and click using the cursor.
+---
 
 ## Octave
 
