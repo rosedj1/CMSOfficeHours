@@ -5,8 +5,8 @@ The University of Florida has a supercomputer (a cluster of computers) called [H
 You have a couple main directories:
 
 ```bash
-/home/<your_gatorlink_UN>/         # CANNOT handle big files (only has 20 GB of storage)
-/blue/<group>/<your_gatorlink_UN>  # can handle 51000 cores!
+/home/<your_gatorlink_UN>/          # CANNOT handle big files (only has 20 GB of storage)
+/blue/<group>/<your_gatorlink_UN>/  # can handle 51000 cores!
 ```
 
 If you want access to certain software, you typically have to do `module load <package>`. Some examples:
