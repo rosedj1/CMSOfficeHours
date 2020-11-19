@@ -20,26 +20,26 @@
 | BEST  | Boosted Event Shape Tagger| |
 | BPH   | B-physics and general quarkonia| |
 | BR    | Background Region| |
-| BRIL | Beam Radiation Instrumentation and Luminosity| |
-| B2G | Beyond 2 Generations| |
-| CADI | CMS Analysis Database Interface| |
-| CAF | CERN Analysis Facility| |
-| CAF | Central Analysis Facility| |
-| CB | Crystal Ball function| |
-| CDS | CERN Document Server| |
-| CFEB | Cathode Front-End Board | An electronic board found on a CSC that stores analog signals from strips in SCA for digitization.|
+| BRIL  | Beam Radiation Instrumentation and Luminosity| |
+| B2G   | Beyond 2 Generations| |
+| CADI  | CMS Analysis Database Interface| |
+| CAF   | CERN Analysis Facility| |
+| CAF   | Central Analysis Facility| |
+| CB    | Crystal Ball function| |
+| CDS   | CERN Document Server| |
+| CFEB  | Cathode Front-End Board | An electronic board found on a CSC that stores analog signals from strips in SCA for digitization.|
 | CINCO | CMS Information on Conferences| |
-| CINT | C INTerpreter | A C/C++ interpreter, like the terminal is for Linux commands. | 
+| CINT  | C INTerpreter | A C/C++ interpreter, like the terminal is for Linux commands. |
 | CJLST | CMS Joint 4Lepton Study Team| |
-| CLCT | Cathode Local Charged Track | A trigger board |
+| CLCT  | Cathode Local Charged Track | A trigger board |
 | CMSSDT | CMS Software Development Tools | |
 | CMSSW  | CMS SoftWare| |
-| CR | Control Region| |
-| CRAB | CMS Remote Analysis Builder| |
-| CSV | Combined Secondary Vertex| |
-| CVMFS | Cern Virtual Machine File System| |
-| CWR | Collaboration-Wide Review| |
-| DAS | Data Aggregation Service (used to be DBS, Data Bookkeeping Service)| |
+| CR     | Control Region| |
+| CRAB   | CMS Remote Analysis Builder| |
+| CSV    | Combined Secondary Vertex| |
+| CVMFS  | Cern Virtual Machine File System| |
+| CWR    | Collaboration-Wide Review| |
+| DAS    | Data Aggregation Service (used to be DBS, Data Bookkeeping Service)| |
 | DB | Data Base| |
 | DMB | DAQ MotherBoard| |
 | DOC | Detector On-Call| |
@@ -85,6 +85,7 @@
 | JSON | JavaScript Object Notation| |
 | KF | Kalman Filter| |
 | LCG  | LHC Computing Grid| |
+| LE | Language Editor | |
 | LFN  | Logical File Name| |
 | LFV | Lepton Flavor Violation| |
 | LHE | Les Houches Events| |
@@ -92,20 +93,20 @@
 | LPC | LHC Physics Center| |
 | LSF | Load Sharing Facility| |
 | LTT | Long-Term Testing | refers to CMS electronics that require more testing |
-| LVDB | Low Voltage Distribution Board | | 
+| LVDB | Low Voltage Distribution Board | |
 | LXPLUS | Linux Public Login User Service| |
-| MAD	 | Material Access Device| |
-| MCFM	 | Monte Carlo for FeMtobarn processes| |
-| MCM	 | Monte Carlo Manager| |
-| ME	 | MadEvent| |
-| MELA 	 | Matrix Element Likelihood Approach (or Analysis)| |
-| MG	 | MadGraph| |
-| MGM	 | | |
-| MLM	 | (something to do with jet multiplicity)| |
-| MIP	 | Minimum Ionizing Particle| |
+| MAD  | Material Access Device| |
+| MCFM  | Monte Carlo for FeMtobarn processes| |
+| MCM  | Monte Carlo Manager| |
+| ME  | MadEvent| |
+| MELA   | Matrix Element Likelihood Approach (or Analysis)| |
+| MG  | MadGraph| |
+| MGM  | | |
+| MLM  | (something to do with jet multiplicity)| |
+| MIP  | Minimum Ionizing Particle| |
 | MPI    | Message Passing Interface | Almost synonymous with parallel-processing. |
-| MPO	 | Multi-Fiber Push On | a type of fiber used in indoor conditions| 
-| MSSM 	 | Minimal Supersymmetric Standard Model| |
+| MPO  | Multi-Fiber Push On | a type of fiber used in indoor conditions| 
+| MSSM   | Minimal Supersymmetric Standard Model| |
 | MTCC | Magnet Test and Cosmic Challenge| |
 | MTD | MIP Timing Detector| |
 | MTP | Multi-fiber Termination Push-on | a type of fiber|
@@ -124,59 +125,59 @@
 | PDF | Particle Data Group| |
 | PD | Primary Dataset| |
 | PERL | Practical Extraction and Report Language | It powers TWikis and much more. |
-| PF	 | Particle Flow| |
-| PFN 	 | Physical File Name| |
-| PhEDEx | Physics Experiment Data Export service| |
-| POG 	 | Physics Objects Groups| |
-| PPD	 | Physics Performance Dataset| |
-| PPE	 | Personal Protective Equipment| |
-| PPS	 | Precision Proton Spectrometer| |
-| PROOF	 | Parallel ROOt Facility| |
-| PS	 | Parton Shower| |
-| PU	 | Pile Up| |
-| PUPPI	 | Pileup Per Particle Identification| |
-| PV	 | Primary Vertex| |
-| PWG	 | Physics Working Group| |
-| RAID	 | Redundant Array of Independent Disks| |
-| RAISIN | Radiological Risk Areas Inventory | |
-| RECO	 | Reconstructed| |
-| RelVal | Release Validation|  |
-| ROC	 | ReadOut Chip| |
-| ROC	 | Receiver Operating Characteristic | |
-| RP	 | Radiation Protection| |
-| RPO	 | Radiation Protection Officer| |
-| RPV	 | R-Parity Violation| |
-| RSO	 | Radiation Safety Officer| |
-| RSS 	 | Resident Set Size| |
-| SB	 | Signal, Background| |
-| SCA	 | Switched Capacitor Array | |
-| SCRAM	 | Software Computing, Release and Management| |
-| SCRAM  | Source Configuration, Release and Management| |
-| SF	 | Scale Factor| |
-| SIP	 | Significance of the 3D Impact Parameter (e.g. < 4)| |
-| SLC 	 | Scientific Linux CERN| |
-| SLURM  | Simple Linux Utility for Resource Management | A computer cluster which allocates resources and schedules jobs. |
-| SR	 | Signal Region| |
+| PF | Particle Flow| |
+| PFN  | Physical File Name| |
+| PhEDEx| Physics Experiment Data Export service| |
+| POG  | Physics Objects Groups| |
+| PPD | Physics Performance Dataset| |
+| PPE | Personal Protective Equipment| |
+| PPS | Precision Proton Spectrometer| |
+| PROOF | Parallel ROOt Facility| |
+| PS | Parton Shower| |
+| PU | Pile Up| |
+| PUPPI | Pileup Per Particle Identification| |
+| PV | Primary Vertex| |
+| PWG | Physics Working Group| |
+| RAID | Redundant Array of Independent Disks| |
+| RAISIN| Radiological Risk Areas Inventory | |
+| RECO | Reconstructed| |
+| RelVal| Release Validation|  |
+| ROC | ReadOut Chip| |
+| ROC | Receiver Operating Characteristic | |
+| RP | Radiation Protection| |
+| RPO | Radiation Protection Officer| |
+| RPV | R-Parity Violation| |
+| RSO | Radiation Safety Officer| |
+| RSS | Resident Set Size| |
+| SB | Signal, Background| |
+| SCA | Switched Capacitor Array | |
+| SCRAM | Software Computing, Release and Management| |
+| SCRAM | Source Configuration, Release and Management| |
+| SF | Scale Factor| |
+| SIP | Significance of the 3D Impact Parameter (e.g. < 4)| |
+| SLC  | Scientific Linux CERN| |
+| SLURM | Simple Linux Utility for Resource Management | A computer cluster which allocates resources and schedules jobs. |
+| SR | Signal Region| |
 | SSL    | Secure Sockets Layer | |
-| STEP	 | Simultaneous Track and Error Propagation | | 
-| STEP	 | System Test of Endcap Peripheral (electronics) | Validation tests done on the ME chambers to analyze their performance|
-| SUSY	 | SuperSymmetry| |
-| SV	 | Secondary Vertex| |
-| SWAN	 | Service for Web-based ANalysis| |
-| TMB 	 | Trigger MotherBoard| |
-| TOTEM	 | TOtal, Elastic and diffractive cross-section Measurement| |
-| TTC    | Timing, Trigger, and Control system | Distributes the system clock, first level triggers and synchronization commands for the experiment| 
-| T2	 | Tier 2 server| |
-| UE	 | Underlying Event| |
-| UFO	 | Unidentified Falling Object --or-- Universal FeynRules Output| |
+| STEP | Simultaneous Track and Error Propagation | |
+| STEP | System Test of Endcap Peripheral (electronics) | Validation tests done on the ME chambers to analyze their performance|
+| SUSY | SuperSymmetry| |
+| SV | Secondary Vertex| |
+| SWAN | Service for Web-based ANalysis| |
+| TMB  | Trigger MotherBoard| |
+| TOTEM | TOtal, Elastic and diffractive cross-section Measurement| |
+| TTC    | Timing, Trigger, and Control system | Distributes the system clock, first level triggers and synchronization commands for the experiment|
+| T2 | Tier 2 server| |
+| UE | Underlying Event| |
+| UFO | Unidentified Falling Object --or-- Universal FeynRules Output| |
 | VFP    | Preamp Feedback Voltage Bias ? | |
-| VO 	 | Virtual Organization| |
-| VOMS 	 | Virtual Organization Membership Service| |
-| WLCG	 | | |
-| WN 	 | Worker Node| |
-| 2HDM	 | Two-Higgs-Doublet Model| |
-| 2P2F	 | 2 Pass 2 Fail (2 leptons pass tight selection, 2 fail)| |
-| 3P1F	 | 3 Pass 1 Fail (3 leptons pass tight selection, 1 fails)| |
+| VO  | Virtual Organization| |
+| VOMS  | Virtual Organization Membership Service| |
+| WLCG | | |
+| WN  | Worker Node| |
+| 2HDM | Two-Higgs-Doublet Model| |
+| 2P2F | 2 Pass 2 Fail (2 leptons pass tight selection, 2 fail)| |
+| 3P1F | 3 Pass 1 Fail (3 leptons pass tight selection, 1 fails)| |
 
 ### To do
 

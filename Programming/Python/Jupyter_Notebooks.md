@@ -41,6 +41,19 @@ Jupyter has special **magic commands**. They come in two flavors:
 
 ```
 
+
+In the Notebook, do:
+%env    # Can set environment variables.
+%run     # Run a python script. 
+%who    # See all defined variables. 
+Put a '!' in front of a bash command to run that bash command!
+- e.g. you can 
+- I think you can also put %%bash at the top of the cell to run entire blocks of bash commands.
+%timeit    # Runs 10K loops of your code, takes the 3 fastest 
+
+df = pd.DataFrame(data, columns=['a','b'])
+scatter_matrix(df, alpha=0.9, figsize=())
+
 ## Also look into
 
 - Jupyter lab

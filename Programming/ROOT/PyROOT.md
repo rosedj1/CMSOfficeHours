@@ -86,6 +86,7 @@ c1.SaveAs("distribution_mX.pdf") # Save canvas
 
 Suzanne's code to plot 2 histograms to the same axes and
 plot their ratio on a separate axes below.
+
 ```python
 from matplotlib import gridspec
 def PlotMe(data, kinematic, color, label, bins=None, ax=None):
@@ -127,19 +128,32 @@ plt.clf()
 
 You have a few options:
 
-#### Option ?: TPaveText
+#### TPaveText (my preferred object)
 
 ```python
 # (xmin, ymin, xmax, ymax, "BRNDC")
 # BR = shadow appears in Bottom-Right corner.
-pave = ROOT.TPaveText(0.08, 0.5, 0.45, 0.7, "NDC")
+pave = ROOT.TPaveText(0.08, 0.5, 0.45, 0.7, "NDC")  # NDC = normalized coord.
 pave.SetFillColor(0)
+pave.SetFillStyle(1001)  # Solid fill.
 pave.SetBorderSize(1) # Use 0 for no border.
 pave.SetTextAlign(11) # 11 is against left side, 22 is centered vert and horiz.
 pave.SetTextSize(0.06)
+pave.AddText(0.1, 0.5, "words go here")  # (x, y, "text")
 pave.AddText("E = #sqrt{#vec{p}^{2} + m^{2}}")  # Accommodates LaTeX!
-pave.SetFillStyle(1001)  # Solid fill.
 pave.Draw("same")
+
+# Retrieve a specific line:
+latex = pave.GetLineWith("go here")  # Returns a TLatex object.
+latex.SetTitle("These are new words.")  # Change this line.
+
+# See what's written on your pave.
+line_ls = list(pave.GetListOfLines())  # Each line is a TLatex object.
+first_line = line_ls[0]
+str(first_line)  # Return the first line in your pave as a string.
+# It will look like this: 'Name:  Title: Fit 3:'
+
+pave.Print() # See a bunch of info about your pave.
 ```
 
 #### Option ?: TText
@@ -157,9 +171,8 @@ txt.DrawTextNDC(0.3, 0.4, "Hello world!")  # x,y as a fraction of the canvas wid
 
 #### Option ?: TPaveText
 
-```python
+So far I've found this to be the best way to add text to the canvas.
 
-```
 
 #### Option 2: TLaTeX
 
@@ -170,6 +183,14 @@ latex.SetTextSize(0.013)
 latex.SetTextColor(r.kRed)
 bestfit_mean = 0.006718
 latex.DrawLatex(0.185, 0.90, f"#mu = {bestfit_mean:%.3E}")
+latex.DrawText(0.1, 0.8, "mean  = %.5E" % bestfit_mean_corr)
+
+# You can also associate a name and title to your latex obj:
+latex1 = r.TLatex()  # Default coord: (x=0,y=0)
+latex1.SetTitle("A new title")
+latex1.GetTitle()  # Returns str "A new title".
+latex1.SetText(0.4, 0.3, "new words here")  # WARNING: this changes the title!
+str(latex)  # Return the name and title associated with this obj.
 ```
 
 #### Option 3: TPad
@@ -283,7 +304,36 @@ par_and_err2 = fit_func.GetParameter(2), fit_func.GetParError(2)
 
 ## More ROOT Quirks
 
+Run your `.rootlogon.C` file using Python: `ROOT.gROOT.LoadMacro('.rootlogon.C')`
+
 Print **global environment variables** to access things like fonts: `ROOT.gEnv.Print()`
+
+Set a default layout for all your plots by making a **TStyle**:
+
+```python
+def make_pretty_plots():
+    """Return a TStyle object which sets consistent plots."""
+    tdrStyle = ROOT.TStyle("tdrStyle","Style for P-TDR")
+
+    tdrStyle.SetCanvasDefH(620) #600 Height of canvas (and the page).
+    tdrStyle.SetCanvasDefW(600) # Width of canvas (and the page).
+    tdrStyle.SetPadGridX(True)
+    tdrStyle.SetPadGridY(True)
+    tdrStyle.SetHistLineColor(1)
+    tdrStyle.SetNumberContours(100)
+    tdrStyle.SetOptStat("iouRMe")
+    tdrStyle.SetStatX(0.90)  # x-pos of top-right corner of stats box.
+    tdrStyle.SetStatY(0.90)  # y-pos of top-right corner of stats box.
+    tdrStyle.SetStatFormat("6.4g")  # width?.<num_sig_figs>
+    tdrStyle.SetTitleFont(42, "XYZ")  # Change the font title to 42 along x, y, and z axes.
+    # Changing the font of the title is very unintuitive.
+    tdrStyle.SetTitleFont(42, "somethingelse")  # Second argument must NOT be "X", "Y", or "Z".
+    tdrStyle.SetTitleFontSize(0.031)
+    tdrStyle.SetOptFit(1)
+
+    tdrStyle.cd()
+    return tdrStyle
+```
 
 - Using a minus sign in a superscript: replace `^-` with `^{#font[122]{\55}}`
 

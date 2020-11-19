@@ -47,6 +47,8 @@ git diff <head1>..<head2>    # Shows diff between commits ref'ed by <head1> and 
 git diff <head1>...<head2>    # Shows diff between <head2> and the common ancestor of <head1>,<head2>
 git log <head1>..<head2>    # Show change log between <head2> and common ancestor
 
+git config merge.renameLimit 999999
+
 #### Good workflow:
 
 Keep master branch in a stable, releaseable state.

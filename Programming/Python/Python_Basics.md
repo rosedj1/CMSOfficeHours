@@ -15,23 +15,18 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>>
 ```
 
-## Anaconda
+## Installing Python packages
 
-"[Package, dependency and environment management for any language](https://conda.io/en/latest/) — 
-Python, R, Ruby, Lua, Scala, Java, JavaScript, C / C++, FORTRAN, and more."
+I **_highly_** recommend using `conda` to manage your Python packages,
+but alternatively you can use `pip`:
 
-```python
-conda install package
-conda install scipy=2.3.4 -n my_env  # Can install specific versions into specific virtual envs.
+If you need to install more Python packages (like numpy, vaex, matplotlib, pandas, etc.) then do:
+
+```bash
+pip install --user numpy
+# Adding the --user flag allows you to install on remote machines,
+# when you might not otherwise have the administrator privileges.
 ```
-
-help(<object>)			# brings up a help menu (docstring?) for <object>
-e.g. help(os.makedirs)
-
-It is often useful to debug a python script by doing:
-python -i <script.py>
-- this executes the script and then puts you in the python interpreter
-- This is beneficial because now all variables have been initialized and you can play around!
 
 ## How to structure your project
 
@@ -347,7 +342,7 @@ with open("outpath/for/pickle.pkl" ,"wb") as outpkl:
     pickle.dump(my_obj, outpkl, pickle.HIGHEST_PROTOCOL)  # Use protocol=2 if using Python2.7 at any point.
 
 del my_obj    # To make sure it's gone.
-Easily restore the pickled object:
+Easily restore the pickled obj:
 with open("outpath/for/pickle.pkl","rb") as inpkl:
     my_obj_again = pickle.load(inpkl)
 ```
@@ -401,23 +396,25 @@ p = subprocess.Popen(args)
 Example:
 import subprocess, shlex
 
+```python
 # This is useful:
-def shellcmd(command_line):                                                                                            
-	args = shlex.split(command_line)
-	proc = subprocess.Popen(args) 
-	return
-                  
-My own similar version:
+def shellcmd(command_line):
+    args = shlex.split(command_line)
+    proc = subprocess.Popen(args)
+    return
+
+# My own similar version:
 def run_cmd(cmd_str):
     cmd_list = cmd_str.split()
     result = sp.call(cmd_list)
 
 # I'm not sure what the function below is good for:
 def processCmd(cmd):
-    args = shlex.split(cmd)                                                    
+    args = shlex.split(cmd)
     sp = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    out, err = sp.communicate()                                                                           
-    return out, err                                                            
+    out, err = sp.communicate()
+    return out, err
+```
 
 ### time
 
@@ -473,6 +470,76 @@ parser.add_argument('--nargs', nargs='+')
 parser.add_argument('--nargs-int-type', nargs='+', type=int)
 ```
 
+### threading
+
+**Terminology:**
+
+- A motherboard contains one or more **CPUs** (central processing units).
+- Each CPU physically sits in a **socket**.
+- A CPU is typically split into 1, 2, or 4 **cores**.
+- A core is what runs a **process** (a program).
+- A core can sometimes run multiple **threads** (tasks of a program).
+
+Example: The Intel Core i9-9900K is a single CPU which sits in 1 socket,
+has 8 cores and can run 16 threads.
+
+| **Term** | Definition |
+| --- | --- |
+| **processor** | CPU, GPU (Graphics PU), APU (Accelerated PU) |
+| **core** | A CPU's processor? |
+| **process** | A program to run. |
+| **thread** | A task. |
+| **socket** | The physical seat of a CPU. |
+
+Notes:
+
+- E.g. a motherboard could have 4 CPUs and 4 GPUs.
+- A process can be broken up into multiple threads. Think of them as "tasks".
+- Threads can only work serially.
+- Nowadays CPUs typically have 2 cores.
+- A dual-core CPU literally has 2 processing units on the chip.
+  - A quad-core CPU has 4 central processing units.
+
+Suppose you have a CPU comprised of 4 physical "cores".
+
+- Each core can only work **serially**, e.g. it can only add two numbers *then* subtract another number.
+- But if you work on multilple cores, you can work on processes **in parallel**.
+- hyper-threading == simultaneous multithreading
+
+#### Example threading code
+
+```python
+import threading
+import time
+
+class MyThread(threading.Thread):
+    def __init__(self, threadId, name, count):
+        threading.Thread.__init__(self)
+        self.threadId = threadId
+        self.name = name
+        self.count = count
+
+    def run(self):
+        print("Starting: " + self.name + "\n")
+        print_time(self.name, 1,self.count)
+        print("Exiting: " + self.name + "\n")
+
+def print_time(name, delay, count):
+    while count:
+        time.sleep(delay)
+        print ("%s: %s %s" % (name, time.ctime(time.time()), count) + "\n")
+        count -= 1
+
+thread1 = MyThread(1, "Thread1", 10)
+thread2 = MyThread(2, "Thread2", 5)
+
+thread1.start()
+thread2.start()
+thread1.join()
+thread2.join()
+print("Done main thread")
+```
+
 pathlib (Python >= 3.5)
 import pathlib
 pathlib.Path("/path/to/dir").mkdir(parents=True, exist_ok=True)
@@ -482,7 +549,8 @@ pathlib.Path("/path/to/dir").mkdir(parents=True, exist_ok=True)
 Python3: exec(open("script_to_run.py").read())
 Python2: execfile("script_to_run.py")
 
-How does the internal variable `__name__` work?
+### *How does the internal variable `__name__` work?*
+
 When the python interpreter runs over a script, it sets that module's 
 __name__ variable to "__main__". 
 Example:
@@ -609,10 +677,13 @@ Module Import Errors:
 Jupyter Notebook: Does `sys.executable` show what you expect?
 - Make sure that it points to the spot where your packages are stored.
 I have anaconda as my package manager, so I do:
+
+```bash
 conda list
-Can also find paths to python executables by doing:
+# Can also find paths to python executables by doing:
 which python
 which python3
+```
 
 if sys.executable in your JupyterNB doesn't point where you want, 
 then you have to change where it points to in the kernel.json file.
@@ -652,6 +723,14 @@ If you need to pass in arguments into a script using ipython:
 ```python
 ipython <script.py> -- --arg1 --arg2	# note the '--' between <script.py> and arg1
 ```
+
+help(<object>)			# brings up a help menu (docstring?) for <object>
+e.g. help(os.makedirs)
+
+It is often useful to debug a python script by doing:
+python -i <script.py>
+- this executes the script and then puts you in the python interpreter
+- This is beneficial because now all variables have been initialized and you can play around!
 
 ### Useful hotkeys
 

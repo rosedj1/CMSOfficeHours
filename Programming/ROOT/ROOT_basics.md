@@ -211,6 +211,7 @@ gr1.GetXaxis().SetRangeUser(-3.5, -2)
 
 Multigraph:
 
+```c++
 mg = TMultiGraph("<internal_name>", "<title>")
 
 mg.SetMaximum(<maxval>)		# set y-axis to <maxval>
@@ -224,6 +225,7 @@ mumuMass->Fit(g1,"R");
 - Easy way to fit a histo:
 h1.Fit("gaus", "S", "", x_min, x_max) 
 - the "S" argument lets you Save the parameters in a variable for later access
+```
 
 To learn more about fitting functions, go to LPC machines at Fermilab:
 /uscms/home/drosenzw/nobackup/YOURWORKINGAREA/CMSSW_9_3_2/src/
@@ -270,7 +272,7 @@ TString parabolic_name = TString::Format("parabolic_graphs_pT%f_%d", pT[1], k)
 // To get rid of the trailing zeroes, do: TString::Format("parabolic_graphs_pT%.0f_%d",...)
 ```
 
-Can also use the `Form()` function:
+Can also use the `Form()` function to combine `string`s into `TString`s:
 
 ```c++
 TString nome_canvas = Form("Integral = %.0f", 136.5);
@@ -281,7 +283,7 @@ histo_name = Form("UnbinnedPt_%s_%.0f_%.0f_%s_%s", lepton_type[j].Data(), pT_bin
 nome = Form("eta_%d_phi_%d", x, y);
 ```
 
-How to pass in a string to `tree->GetEntries(cuts)`:
+How to pass a `string` into `tree->GetEntries(cuts)`:
 
 ```c++
 Double_t m4mu_min = 105.0;

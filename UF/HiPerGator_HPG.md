@@ -1,15 +1,68 @@
+- [HiPerGator](#hipergator)
+  - [What is HiPerGator?](#what-is-hipergator)
+  - [How to submit SLURM scripts](#how-to-submit-slurm-scripts)
+    - [Notes on submitting to the SLURM scheduler](#notes-on-submitting-to-the-slurm-scheduler)
+    - [SBATCH directives](#sbatch-directives)
+  - [Development Sessions](#development-sessions)
+    - [How to start a SLURM interactive session on a compute node](#how-to-start-a-slurm-interactive-session-on-a-compute-node)
+  - [SLURM sbatch directives](#slurm-sbatch-directives)
+    - [QOS or burstQOS](#qos-or-burstqos)
+  - [HPG COMMANDS](#hpg-commands)
+  - [Use Jupyter Notebooks on HPG](#use-jupyter-notebooks-on-hpg)
+    - [Option 1: Run Jupyter Notebooks remotely using a SLURM script](#option-1-run-jupyter-notebooks-remotely-using-a-slurm-script)
+    - [How to use CMSSW on HPG](#how-to-use-cmssw-on-hpg)
+    - [Vaex on HPG](#vaex-on-hpg)
+  - [General HPG Info](#general-hpg-info)
+  - [Parallelism](#parallelism)
+    - [Some terms](#some-terms)
+  - [Resources](#resources)
+
 # HiPerGator
 
-The University of Florida has a supercomputer (a cluster of computers) called [HiPerGator (HPG)](https://www.rc.ufl.edu/services/hipergator/).
+## What is HiPerGator?
 
-You have a couple main directories:
+[HiPerGator (HPG)](https://www.rc.ufl.edu/services/hipergator/) is the University of Florida's supercomputer (a cluster of computers).
+It is used by many research groups at UF.
+Thus, HPG must share its resources intelligently.
+
+To log onto a "login node" do: `ssh -XY your_gatorlink_UN@gator.rc.ufl.edu`
+ssh’ing puts you into a login node
+Then submit a job to the scheduler.
+- The scheduler submits the job to the 51000 cores!
+- You must prepare a file to tell scheduler what to do (BATCH script)
+    - number of CPUS
+    - RAM
+    - how long to process the job
+    - 
+When you first log in, you will be placed at: `/home/<your_gatorlink_UN>/`
+
+- Do `pwd` to verify this.
+- Please do not store big files here as you are only given 20 GB of storage.
+- Also do not run intensive code here. To execute big jobs, [submit a SLURM script](#how-to-submit-slurm-scripts).
+
+Go here for bigger work area: `cd /blue/<group>/<your_gatorlink_UN>/`
+
+- Tab-complete won't work until you manually `cd` into that file path first.
+- Matt said that this area has access to 51000 cores.
+
+As part of the UF HEP group, it is **highly recommended** that you request `group=avery`.
+
+- Check your `group` by typing: `id`
+- `/orange/` and `/blue/` are **parallel file systems**
+- A filesystem is effectively a hard drive (used for data storage).
+  That's why it's beneficial to submit big jobs to the SLURM computer cluster.
+- login1, login2 are individual servers
+
+Some HPG-specific commands:
 
 ```bash
-/home/<your_gatorlink_UN>/          # CANNOT handle big files (only has 20 GB of storage)
-/blue/<group>/<your_gatorlink_UN>/  # can handle 51000 cores!
+showAssoc <username>  # See what groups are associated with <username>.
+slurmInfo             # See your primary group's info.
+slurmInfo <group>     # See a particular group's info.
 ```
 
-If you want access to certain software, you typically have to do `module load <package>`. Some examples:
+If you want access to certain software, you typically have to do `module load <package>`.
+Examples:
 
 ```bash
 module load python3  # Can also use the alias: `ml python3`
@@ -22,7 +75,7 @@ ml vscode
 
 # See available modules:
 ml spider
-ml spider cl   # Look for modules with 'cl' in name.
+ml spider py   # Look for modules with 'py' in name.
 
 # Search for all modules that deal with Python.
 ml key python
@@ -37,32 +90,33 @@ ml intel/2018 openmpi/3.1.0 # Compiles stuff?
 
 ## How to submit SLURM scripts
 
-The computer cluster is called **SLURM**
+The computer cluster itself is called **SLURM**
 (**S**imple **L**inux **U**tility for **R**esource **M**anagement).
+You must prepare a *SLURM script* which contains the instructions for your job.
+Then you submit your SLURM script to the SLURM scheduler which will then process your
+job using the available resources.
 
-It is useful to add the extension `.sbatch` for SLURM scripts.
-If you can run it locally, you can make a SLURM script to do it!
+- It is useful to add the extension `.sbatch` for SLURM scripts.
+- If you can run it locally, you can make a SLURM script to do it!
 
 Example SLURM job script (`myslurmscript.sbatch`).
 
-- NOTE: You must remove all characters starting from `#-->` to the end of the line. SLURM doesn't like comments.
-
 ```bash
-#!/bin/bash                     #--> Could also be something like: #!/usr/bin/env python3
-#SBATCH --job-name=my_job                    #--> Job name.
-#SBATCH --output=completed_job_%j.log        #--> Output file name. %j=jobID
-#SBATCH --error=completed_job_%j_error.log   #--> Error file name.
-#SBATCH --mail-type=ALL         #--> Email job status. Options: BEGIN, END, ALL, FAIL, NONE
-#SBATCH --mail-user=rosedj1@ufl.edu          #--> Your email.
+#!/bin/bash
+#SBATCH --job-name=my_job                    # Job name.
+#SBATCH --output=completed_job_%j.log        # Output file name. %j=jobID
+#SBATCH --error=completed_job_%j_error.log   # Error file name.
+#SBATCH --mail-type=ALL         # Email job status. Options: BEGIN, END, ALL, FAIL, NONE
+#SBATCH --mail-user=rosedj1@ufl.edu          # Your email.
 #SBATCH --nodes=1
-#SBATCH --ntasks=1              #--> Number of MPI tasks (processes). Ex: ntasks=1, runs on 1 CPU.
+#SBATCH --ntasks=1              # Number of MPI tasks (processes). Ex: ntasks=1, runs on 1 CPU.
 #SBATCH --cpus-per-task=4
-#SBATCH --mem=4gb               #--> Total job memory request on a node. Default is 2gb.
-#SBATCH --time=2:00:00          #--> Time limit (hh:mm:ss). Can also use: -t=00:01:00
-#SBATCH --account=avery         #--> Use resources from this account.
-#SBATCH --qos=avery             #--> Specify the QOS (quality of service).
+#SBATCH --mem=4gb               # Total job memory request on a node. Default is 2gb.
+#SBATCH --time=2:00:00          # Time limit (hh:mm:ss). Can also use: -t=00:01:00
+#SBATCH --account=avery         # Use resources from this account.
+#SBATCH --qos=avery             # Specify the QOS (quality of service).
 
-#--> Now put the code you want to run below:
+# Now put the code you want to run below:
 pwd; hostname; date
 
 module load python3
@@ -70,13 +124,14 @@ module load python3
 echo "Running my python script."
 
 python3 mypythonscript.py
+# NOTE: The very first line in this script could be something like: #!/usr/bin/env python3
 ```
 
 ### Notes on submitting to the SLURM scheduler
 
 - Submit the SLURM script by doing: `sbatch myslurmscript.sbatch`
 - Check that the job was submitted: `squeue -u rosedj1`
-  - You can see the `<job_id>` here.
+  - Get `<job_id>` here.
 - Cancel the job: `scancel <job_id>`
 - SLURM puts you in a clean shell (none of your aliases will be available).
   - So you should do something like: `source ~/.bash_profile`,
@@ -84,14 +139,16 @@ python3 mypythonscript.py
 
 [Check here](https://help.rc.ufl.edu/doc/Annotated_SLURM_Script)
 for more options on SLURM scripts.
-Useful options:
-
-- `#SBATCH --mem-per-cpu=600mb    # Memory (RAM) per core/processor/CPU.`
 
 Location of more example SLURM scripts: `/blue/data/training/SLURM/`
 
 - To learn about single jobs, look at: `single_job.sh`
 - To learn about parallel jobs, look at: `parallel_job.sh`
+
+### SBATCH directives
+
+- `#SBATCH --mem-per-cpu=600mb    # Memory (RAM) per core/processor/CPU.`
+
 
 Pass in Bash variables into your SLURM script:
 
@@ -99,9 +156,12 @@ Pass in Bash variables into your SLURM script:
 sbatch --export=A=5,b='test' my_script.sbatch
 ```
 
+---
+
 ## Development Sessions
 
-Before you submit a SLURM script, you can use an **interactive development session** to test your code first.
+Before you submit a SLURM script,
+use an **interactive development session** to test your code first.
 
 *When should I use a dev session?*
 
@@ -109,7 +169,7 @@ Before you submit a SLURM script, you can use an **interactive development sessi
 - When you need more than 64 GB of RAM.
 - When you need more than 16 cores.
 
-**NOTE:** There are 6 dev nodes.
+**NOTE:** HPG has 6 dev nodes.
 
 ### How to start a SLURM interactive session on a compute node
 
@@ -150,34 +210,25 @@ after ssh’ing into HPG, it will take you to:
 - Get 20GB of space
 - Has one server (node) hosting
 
-My groups:
-- It is CRUCIAL for HEP students to get their `group=avery`
 
 To use class resources, instead of Korytov’s resources:
 module load class/phz5155
 - each time you want to submit a job, do this command^
 
-See your associations:
-showAssoc <username>
-
-See your primary group's info:
-slurmInfo
-See a particular group's info:
-slurmInfo <group>
 
 View resource limits for a particular QOS:
 showQos <qos>
 - Find your <qos> options by doing `showAssoc`
 - Example: `showQos avery`
-- As of Pi Day 2020, this account has 100 CPU cores, 360 GB of RAM, and no GPUs. 
+- As of Pi Day 2020, this account has 100 CPU cores, 360 GB of RAM, and no GPUs.
 - Even more impressively, avery burst qos has 9x these resources! I.e. 3.24 TB of RAM!!!
 
 ***Install Python packages into your user area***
-ml python3  # Necessary to get the `pip` command 
+ml python3  # Necessary to get the `pip` command
 pip install --user <new_package>
 Example: pip install --user vaex
 
-SLURM sbatch directives
+## SLURM sbatch directives
 
 ```bash
 multi-letter directives are double dashes:
@@ -187,8 +238,7 @@ multi-letter directives are double dashes:
 --ntasks-per-socket
 --cpus-per-task (cores per task)
 # Memory usage:
---mem=1gb
---mem-per-cpu=1gb
+--mem=1gb  # Alternatively can do: --mem-per-cpu=500mb
 --distribution
 
 Long option	short option		description
@@ -197,30 +247,45 @@ Long option	short option		description
 --cpus-per-task=8	-c
 ```
 
-If you invest in 10 cores, burst qos can use up to 90 cores!
-#SBATCH --nodes=1
+### QOS or burstQOS
+
+"Quality of Service"
+
+You can do `sbatch -b` to trigger “burst capacity.” This allows **9x allocation of resources** when resources are idle.
+
+- So if you invest in 10 cores, burst qos can use up to 90 cores!
+
+```bash
+--qos=<group>  # E.g. --qos=phz5155-b
+```
 
 Task Arrays
+
+```bash
 #SBATCH --array=1-200%10	# run on 10 jobs at a time to be nice
-$SLURM_ARRAY_TASK_ID 
+$SLURM_ARRAY_TASK_ID
 %A: job id
 %a: task id
+```
 
-HPG COMMANDS:
+## HPG COMMANDS
+
+See full list [here](https://help.rc.ufl.edu/doc/SLURM_Commands).
 
 ```bash
 id                  # see your user id, your group id, etc.
 sbatch <script.sh>  # submit script.sh to scheduler
-sbatch --qos=phz5155-b <script.sh> 
+sbatch --qos=phz5155-b <script.sh>
 squeue             # see ALL jobs running
 squeue -u rosedj1  # just see your jobs
 squeue -j <job_id>
 scancel <job_id>   # kill a job
 sacct              # View your jobs and account info.
-sstat			# 
-slurmInfo			# see info about resource utilization; must do: module load ufrc
-slurmInfo -p		# partition, a better summary
+sstat -j <job_id>  # Get statistics about job <job_id>.
+slurmInfo          # Get info about resource utilization (may need `ml ufrc`).
+slurmInfo -p       # Partition, a better summary
 slurmInfo -g <group_name>	# 
+sinfo
 srun --mpi=pmix_v2 myApp
 ```
 
@@ -231,14 +296,8 @@ BE WISE ABOUT USING RESOURCES!
 
 - Users have taken up 16 cores and TOOK MORE TIME than just using 1 core!!!
 
-It would be interesting write a SLURM script which submits 
+It would be interesting write a SLURM script which submits
 many of the same job with different cores, plots the efficiency vs. num cores
-
-QOS or burstQOS
-"Quality of Service"
-When you do sbatch, the -b option is “burst capacity” to allow 9x allocation of resources when resources are idle
---qos=phz5155-b
---qos=<group>
 
 *In the job summary email, the memory usage is talking about RAM efficiency*
 
@@ -268,42 +327,38 @@ scancel <job_id>
 
 ln -s <file_path_that's_way_far_away> <dest_path>	# makes a symbolic link from <far_file> to <dest_path>
 
+---
+
 ## Use Jupyter Notebooks on HPG
 
-Go to: https://help.rc.ufl.edu/doc/Remote_Jupyter_Notebook
-Copy and paste the SLURM script there.
-sbatch <SLURM_job.sh>
-In your browser: localhost:<port_number>
+Two main ways to use Jupyter NB on HPG:
 
-ssh -NL 26686:c25a-s26.ufhpc:26686 rosedj1@hpg2.rc.ufl.edu
+**Option 1:** Run a SLURM script. Reliable and fast.
 
-module add jupyter
-launch_jupyter_notebook
-- In the job's log file, you will find the host 
+**Option 2:** Use HPG's robust built-in Jupyter NB GUI.
 
-Go to [jhub.rc.ufl.edu](jhub.rc.ufl.edu) to use an interactive Jupyter Notebook session on HPG.
+- It used to be jhub.rc.ufl.edu, but this link is permanently broken.
 
-The name Jupyter is a combination of other coding languages: Julia + Python + ??? + R
-- Although Jupyter notebooks can accommodate R, users prefer R studio. 
+### Option 1: Run Jupyter Notebooks remotely using a SLURM script
 
-You can either go to:
-jhub.rc.ufl.edu (hopefully the link works...)
-or you can run a SLURM script. I find this way more reliable.
+1. Log into HPG.
+2. (You only need to do this step if you have never done it before.)
+If you're not sure, then do this step anyway:
 
-How to run Jupyter Notebooks remotely using a SLURM script:
-(1) Log into HPG. 
-(2) You only need to do this step if you have never done it before. If you're not sure, then do this step anyway:
+```bash
 module load jupyter
 jupyter-notebook password
-- When it prompts you for a password, you can put anything or leave it blank.
-(3) Make a new file (call it 'practice.sbatch') and put these contents inside:
+# When it prompts you for a password, put anything or leave it blank.
+```
+
+3. Make a new file on HPG (call it `remote_jupynb.sbatch`) and put these contents inside:
 
 ```bash
 #!/bin/bash
 #SBATCH --job-name=jupyter
-#SBATCH --output=jupyter_notebook_%j.log
+#SBATCH --output=jupyter_notebook.log
 #SBATCH --ntasks=1
-#SBATCH --mem=2gb
+#SBATCH --mem=400mb
 #SBATCH --time=04:00:00
 date;hostname;pwd
 
@@ -314,49 +369,35 @@ launch_jupyter_notebook
 # This script was taken from: https://help.rc.ufl.edu/doc/Remote_Jupyter_Notebook#SLURM_Job
 ```
 
-(4) Do: `sbatch practice.sbatch`
-(5) `cat` the log file produced in your area
-(6) Copy the line that starts with `ssh` and execute that command in a second local terminal.
-(7) Copy the line that looks like 'http://localhost:23775' and paste it into your browser.
+4. In your HPG terminal do: `sbatch practice.sbatch`
+5. Then `cat` the log file (`jupyter_notebook.log`) produced in your area.
+6. Copy the line that starts with `ssh` and execute that command in a new local terminal (not HPG terminal).
+7. Copy the line that looks like `http://localhost:23775` and paste it into your browser.
 
 Possible errors:
-(1) "Resource allocation error" or something similar: This most likely means that your group doesn't have the necessary resources to submit SLURM scripts. How to check it:
-- In your HPC terminal: `id`. This will show your group. Ask this person to put ~$1,000,000 towards HPC resources, because science. 
-- For more debugging, go to: https://help.rc.ufl.edu/doc/Remote_Jupyter_Notebook
 
-Important Notes:
-- You can `import ROOT` but I can only get it to work on Python2 kernels.
+- "Resource allocation error" or something similar: This most likely means that your group doesn't have the necessary resources to submit SLURM scripts. How to check it:
+  - In your HPC terminal: `id`. This will show your group.
+  kindly ask this person to put $1,000,000 towards HPG resources, because science.
+  - For more debugging, go to: https://help.rc.ufl.edu/doc/Remote_Jupyter_Notebook
+
+Notes:
+
+- Log into a specific SLURM node: `ssh -NL 26686:c25a-s26.ufhpc:26686 your_gatorlink@gator.rc.ufl.edu`
+- I can only `import ROOT` on a Python2 kernel, not Python3.
 - I cannot get feather to work on HPG or IHEPA computers.
+- The name Jupyter is a combination of other coding languages: Julia + Python + R
+  - Although Jupyter notebooks can accommodate R, users prefer R studio.
+- Matt Gitzendanner's JupyNB tutorial: `/blue/data/training/Jupyter/Training_demo.ipynb`
 
-
-Matt's potentially useful JupyNB tutorial:
-/ufrc/data/training/Jupyter/Training_demo.ipynb
-
-In the Notebook, do:
-%env    # Can set environment variables.
-%run     # Run a python script. 
-%who    # See all defined variables. 
-Put a '!' in front of a bash command to run that bash command!
-- e.g. you can 
-- I think you can also put %%bash at the top of the cell to run entire blocks of bash commands.
-%timeit    # Runs 10K loops of your code, takes the 3 fastest 
-
-df = pd.DataFrame(data, columns=['a','b'])
-scatter_matrix(df, alpha=0.9, figsize=())
+---
 
 QUESTIONS:
-[X] Why doesn't my squeue command work?
-- change bash_profile
 [X] I can't reconnect to my screen command because each time I log into the cluster I attach to a different node
 - Reattach to: ssh login1
 - `hostname` to get host info
 [X] Do I have to run sbatch script.sbatch or can I just do ./script.sbatch
 - ALWAYS do `sbatch`. This will use the cluster's resources instead of /ufrc/'s (a filesystem) resources. 
-- Remember to do `scancel <job_id>`
-- `squeue -u rosedj1` to get job_id
-- /ufrc/  /orange/  /blue/ are all parallel file systems
-- filesystem = hard drive, data storage
-- login1, login2 are individual servers
 [X] After I do cmsenv, I can't run a Python3 kernel. 
 - I can! Lovely. 
 [X] You say up above it runs 100K loops but I think it's just 10K loops. 
@@ -368,14 +409,11 @@ QUESTIONS:
 - R is for statistics!
 - R is pure!
 - Python has many modules, some of which may be incompatible with others.
-[X] Figure out how to get ROOT working on remote Jupyter NB on HPG.
-- Only works with Python2 kernel! 
 
-
-### Use CMSSW on HPG
+### How to use CMSSW on HPG
 
 1. Start a dev session
-2. source /cvmfs/cms.cern.ch/cmsset_default.sh    # this makes cmsrel and cmsenv two new aliases for you!
+2. `source /cvmfs/cms.cern.ch/cmsset_default.sh`  # this makes cmsrel and cmsenv two new aliases for you!
 3. Now cmsrel your favorite CMSSW_X_Y_Z
 
 ### Vaex on HPG
@@ -383,7 +421,7 @@ QUESTIONS:
 ```bash
 ml python3
 pip install --user vaex
-How to convert root files to hdf5 on HPG:
+# How to convert root files to hdf5 on HPG:
 from root_numpy import root2array
 import numpy
 import vaex
@@ -391,7 +429,7 @@ arr = root2array("<file.root>", "<tree>")
 np.savetxt("<file.csv>", arr)
 vdf = vaex.from_csv("<file.csv>")
 vdf.export_hdf5("<file.hdf5>")
-# Hopefully this doesn't get killed...
+# I'm pretty sure this process gets killed though.
 ```
 
 ## General HPG Info
@@ -404,7 +442,32 @@ world-class cluster
 
 threaded=parallel=open MPI
 
-## Parallelism ()
+## Parallelism
+
+HPG can allow your program to be run across multiple threads.
+However, the process must run on a single server/computer/node.
+
+- Must use: `--ntasks=1`
+- `--cpus-per-task=your_num`
+
+For example, you can use Python's `multiprocessing` package.
+In that case, you don't have to set `--ntasks=1`;
+you can choose a different number.
+
+```bash
+#!/bin/bash
+#SBATCH --job-name=parallel_job_test # Job name
+#SBATCH --mail-type=END,FAIL         # Mail events (NONE, BEGIN, END, FAIL, ALL)
+#SBATCH --mail-user=email@ufl.edu    # Where to send mail	
+#SBATCH --nodes=1                    # Run all processes on a single node	
+#SBATCH --ntasks=4                   # Number of processes
+#SBATCH --mem=1gb                    # Total memory limit
+#SBATCH --time=01:00:00              # Time limit hrs:min:sec
+#SBATCH --output=multiprocess_%j.log # Standard output and error log
+date;hostname;pwd
+module load python/3
+python script.py  # This must implement `multiprocessing`.
+```
 
 ### Some terms
 
@@ -432,21 +495,12 @@ Two processors, each processor has 2 cores
 
 For Windows users who need a Terminal:
 - MobaXterm
-- or the Ubuntu subsystem
+- or the Linux subsystem
 Need an SFTP client to move from to your computer
 - Cyberduck
 - FileZilla
 Text editor:
 - BBedit(?)
-
-Cluster basics:
-ssh’ing puts you into a login node
-Then submit a job to the scheduler.
-- The scheduler submits the job to the 51000 cores!
-- You must prepare a file to tell scheduler what to do (BATCH script)
-    - number of CPUS
-    - RAM
-    - how long to process the job
 
 There are also compute nodes
 - this is where the money is! 
@@ -488,8 +542,6 @@ Default job parameters given by the scheduler:
 10 min time limit
 - Of course you can change these using directives (flags)!
 
-
-
 Terminology:
 8 cpus/task = 8 cores on that one server (compute node?)
 1 node has: RAM, maybe 2 sockets (processors), each with 2 cores
@@ -502,8 +554,3 @@ processor = cpu = core
 Entire PHZ5155 course is allocated a whole node!
 - This is 32 cores on HPG2
 The slowdown of your job may be in the bandwidth!
-
-Example directives for specifying the amount of memory:
---mem=4gb
-or
---mem-per-cpu=1000mb
