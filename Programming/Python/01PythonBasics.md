@@ -187,16 +187,24 @@ Ternary operator:
 ```
 
 How to check the type of an object:
+
+```python
 isinstance(obj, float)
+# Check if a non-int can be represented as an int:
+(4.0).is_integer()
+```
 
 ### Functions
 
 Variable number of arguments:
+
+```python
 def asManyAsYouWant(var, *argv):	# pass in as many arguments into argv as you want
 	for arg in argv:					# each one will be iterated over
 		print "do stuff"
 
-- NOTE: argv is a tuple!
+# NOTE: argv is a tuple!
+```
 
 Lambda functions
 A way to write quick functions
@@ -294,11 +302,11 @@ assert <condition>, "Error message here"
 
 ```python
 import numpy as np
-Modify certain values in an array:
+# Modify certain values in an array:
 np.where(<condition>, if_true, if_false)
-Example:
->>> np.where(np.arange(5) < 3, -1, myarr)
-array([-1,-1,-1,3,4])
+# Example:
+np.where(np.arange(5) < 3, -1, myarr)
+# Returns: array([-1,-1,-1,3,4])
 
 Speed tests:
 import numpy as np
@@ -655,11 +663,17 @@ _		# used as a placeholder var in a function or something; a 'throw-away' variab
 - If you want to make an **Internal names** then just *precede* the name with a '_': `_`
 
 Reading from and writing to files:
-Read lines from a file:
-with open(<filename>) as f:
-	content = f.readlines()
 
-Write to a file:
+**Read lines from a file:**
+
+with open(<filename>) as f:
+    content = f.readlines()
+
+  Reading this way will store each line as an element in a list:
+data = [line.strip() for line in open('mytext.txt', 'r')]
+
+**Write to a file:**
+
 with open(savePath + saveName + ".txt", "w") as myfile:
    myfile.write('rootPath: ' + rootPath1 + '\n')       
    myfile.write('rootfile: ' + rootfile1 + '\n')       
@@ -667,11 +681,6 @@ with open(savePath + saveName + ".txt", "w") as myfile:
        myfile.write('var_x: ' + vars1_x[i] + '\n')     
        myfile.write('var_y: ' + vars1_y[i] + '\n')     
        myfile.write('cut: ' + cuts1[i] + '\n')         
-myfile.close()  # don't even need this                                     
-
-Reading this way will store each line as an element in a list:
-data = [line.strip() for line in open('mytext.txt', 'r')]
-
 
 Module Import Errors:
 Jupyter Notebook: Does `sys.executable` show what you expect?

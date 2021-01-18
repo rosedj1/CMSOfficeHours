@@ -82,6 +82,11 @@ conda install -n my_venv -c conda-forge numpy  # Install from a specific channel
 conda remove -n my_env --all  # Delete a conda env.
 
 conda config --env --add channels conda-forge  # Avoids typing `-c conda-forge` all the time.
+
+# Conda doesn't make it easy to rename an env.
+# You have to clone it and delete the original:
+conda create --name newboy --clone oldboy
+conda remove --name oldboy --all
 ```
 
 Important conda-related `bash` env variables:

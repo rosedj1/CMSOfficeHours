@@ -21,39 +21,50 @@
 
 ## What is HiPerGator?
 
-[HiPerGator (HPG)](https://www.rc.ufl.edu/services/hipergator/) is the University of Florida's supercomputer (a cluster of computers).
-It is used by many research groups at UF.
-Thus, HPG must share its resources intelligently.
+[HiPerGator (HPG)](https://www.rc.ufl.edu/services/hipergator/) is UF's supercomputer
+(a cluster of computers).
+Since HPG is used by many research groups at UF,
+it is _vital_ that HPG must share its resources intelligently.
 
-To log onto a "login node" do: `ssh -XY your_gatorlink_UN@gator.rc.ufl.edu`
-ssh’ing puts you into a login node
-Then submit a job to the scheduler.
-- The scheduler submits the job to the 51000 cores!
-- You must prepare a file to tell scheduler what to do (BATCH script)
-    - number of CPUS
-    - RAM
-    - how long to process the job
-    - 
-When you first log in, you will be placed at: `/home/<your_gatorlink_UN>/`
+## Log into a HPG node
 
-- Do `pwd` to verify this.
-- Please do not store big files here as you are only given 20 GB of storage.
-- Also do not run intensive code here. To execute big jobs, [submit a SLURM script](#how-to-submit-slurm-scripts).
+Once you have a
+[HPG account](https://www.rc.ufl.edu/access/account-request/),
+you can `ssh` into a **login node**:
 
-Go here for bigger work area: `cd /blue/<group>/<your_gatorlink_UN>/`
+```bash
+ssh -XY your_gatorlink_UN@gator.rc.ufl.edu
+```
+
+When you first log in, you will be placed at: `/home/your_gatorlink_UN/`.
+Do `pwd` to verify this.
+
+- Do not store big files here as you are only given **20 GB of storage**.
+- Do not run intensive code here. To execute big jobs, [submit a SLURM script](#how-to-submit-slurm-scripts).
+- This area has only one server (node) hosting it.
+
+You have a bigger workspace. To access it, do:
+
+```bash
+cd /blue/your_group/your_gatorlink_UN/
+```
 
 - Tab-complete won't work until you manually `cd` into that file path first.
-- Matt said that this area has access to 51000 cores.
+- This area has access to 51000 cores.
+
+## Whose group are you in?
+
+Check your `group` by typing: `id`
 
 As part of the UF HEP group, it is **highly recommended** that you request `group=avery`.
+Prof. Paul Avery was instrumental in setting up UF's HEP computing resources.
+Email Prof. Avery (`avery@phys.ufl.edu`) explaining who you are and why you seek his computing resources.
+If he gives you permission, then fill out a
+[UFRC service request](https://www.rc.ufl.edu/help/support-requests/)
+and forward Avery's permission email.
+Once approved, you'll be able to submit SLURM scripts to the UFRC computer cluster!
 
-- Check your `group` by typing: `id`
-- `/orange/` and `/blue/` are **parallel file systems**
-- A filesystem is effectively a hard drive (used for data storage).
-  That's why it's beneficial to submit big jobs to the SLURM computer cluster.
-- login1, login2 are individual servers
-
-Some HPG-specific commands:
+## Some HPG-specific commands
 
 ```bash
 showAssoc <username>  # See what groups are associated with <username>.
@@ -126,6 +137,14 @@ echo "Running my python script."
 python3 mypythonscript.py
 # NOTE: The very first line in this script could be something like: #!/usr/bin/env python3
 ```
+
+Then submit a job to the scheduler.
+- The scheduler submits the job to the 51000 cores!
+- You must prepare a file to tell scheduler what to do (BATCH script)
+    - number of CPUS
+    - RAM
+    - how long to process the job
+
 
 ### Notes on submitting to the SLURM scheduler
 
@@ -200,33 +219,36 @@ srundev -t 60  # session lasts 60 min
 -p bigmem  # Either the process name or shortcut for --partition.
 ```
 
-/ufrc/phz5155/$USER
-- parallel file system
+/ufrc/ is a **parallel file system**
+
 - CAN handle 51000 cores, reading and writing to it
 - 2 TB limit per group
-after ssh’ing into HPG, it will take you to:
-/home/$USER
-- for me this is: /home/rosedj1
-- Get 20GB of space
-- Has one server (node) hosting
 
+_I'm taking a computing course: how do I use my course's resources instead of my research group's?_
 
-To use class resources, instead of Korytov’s resources:
+```bash
+# If you are taking PHZ 5155 for example:
 module load class/phz5155
-- each time you want to submit a job, do this command^
-
+# Each time you want to submit a SLURM job, do that command.
+```
 
 View resource limits for a particular QOS:
-showQos <qos>
+`showQos <qos>`
+
 - Find your <qos> options by doing `showAssoc`
 - Example: `showQos avery`
 - As of Pi Day 2020, this account has 100 CPU cores, 360 GB of RAM, and no GPUs.
 - Even more impressively, avery burst qos has 9x these resources! I.e. 3.24 TB of RAM!!!
 
 ***Install Python packages into your user area***
-ml python3  # Necessary to get the `pip` command
+
+```bash
+ml python3  # Doing this makes the `pip` command available.
 pip install --user <new_package>
-Example: pip install --user vaex
+# Example: pip install --user vaex
+```
+
+---
 
 ## SLURM sbatch directives
 
@@ -469,13 +491,12 @@ module load python/3
 python script.py  # This must implement `multiprocessing`.
 ```
 
-### Some terms
+### Computing Terms
 
 - **Process**: A completely different program. Effectively runs in its own Python interpreter.
-  - 
-- asdf
 
-Can do parallel applications:
+You can do parallel applications:
+
 - OpenMP, Threaded, Pthreads applications
 - all cores on ONE server, shared memory
 - CAN'T talk to other servers
@@ -554,3 +575,8 @@ processor = cpu = core
 Entire PHZ5155 course is allocated a whole node!
 - This is 32 cores on HPG2
 The slowdown of your job may be in the bandwidth!
+
+- `/orange/` and `/blue/` are **parallel file systems**
+- A filesystem is effectively a hard drive (used for data storage).
+  That's why it's beneficial to submit big jobs to the SLURM computer cluster.
+- login1, login2 are individual servers

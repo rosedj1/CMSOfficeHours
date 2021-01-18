@@ -1,5 +1,58 @@
 # C++ Language
 
+## Resources
+
+[Comment your code using Doxygen](https://en.wikipedia.org/wiki/Doxygen#Example_code). Like this:
+
+```cpp
+/**
+ * @file
+ * @author  John Doe <jdoe@example.com>
+ * @version 1.0
+ *
+ * @section LICENSE
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of
+ * the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details at
+ * https://www.gnu.org/copyleft/gpl.html
+ *
+ * @section DESCRIPTION
+ *
+ * The time class represents a moment of time.
+ */
+
+class Time {
+
+    public:
+
+       /**
+        * Constructor that sets the time to a given value.
+        *
+        * @param timemillis is a number of milliseconds
+        *        passed since Jan 1, 1970.
+        */
+       Time (int timemillis) {
+           // the code
+       }
+
+       /**
+        * Get the current time.
+        *
+        * @return A time object set to the current time.
+        */
+       static Time now () {
+           // the code
+       }
+};
+```
+
 ## Control Flow
 
 ```c++
@@ -63,11 +116,12 @@ Similar to arrays, but dynamically sized.
 
 ```cpp
 #include <vector>
-vector<type> vec;
-vec.push_back(value);  // Append value at the end of vec.
-vec[index];            // Index vec, just like arrays.
-vec;                   // Show all entries in vec.
-vec.size();            // Number of elements in vec.
+vector<int> vec;   // Doesn't have to be `int`; could be any type.
+vec.push_back(2);  // Append 2 at the end of vec.
+vec[0];            // Index vec, just like arrays. Returns `2`.
+vec;               // Show all entries in vec.
+vec.size();        // Number of elements in vec.
+vec.begin();       // Return an iterator.
 ```
 
 #### Other ways to play wth vectors
@@ -94,6 +148,13 @@ int idL1 = (*lep_id)[L1];
 int idL2 = (*lep_id)[L2];
 
 ## Other Notes
+
+### Casting: turn one data type into another
+
+```cpp
+Double_t n_bins = round((m4mu_max - m4mu_min) / bin_width);
+Int_t n_bins_in_fitrange = static_cast<Int_t>(n_bins);  // Cast to an Int_t.
+```
 
 A header file (file that has extension `.h`) simply defines functions.
 Header files are placed at the beginning of the script to let your script know

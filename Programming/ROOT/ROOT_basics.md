@@ -1,10 +1,11 @@
 # The ROOT of all ~Evil~ High-Energy Physics Data Analysis
 
-## Some tutorials for your pleasure
+## Other ROOT tutorials
 
 - A [2-day ROOT course on GitHub](https://github.com/root-project/training/tree/master/BasicCourse).
 - Here is a [comprehensive and XKCD-comic-filled tutorial](ROOT_Tutorial_with_XKCD_Pitstops.pdf) on how to use ROOT.
 If you want the boiled down version, keep reading below.
+- [Some dude's surprisingly useful notes to himself.](https://twiki.cern.ch/twiki/bin/view/Main/RootNotes)
 
 ## Find your ROOTs
 
@@ -232,6 +233,22 @@ To learn more about fitting functions, go to LPC machines at Fermilab:
 And follow these directions:
 https://twiki.cern.ch/twiki/bin/viewauth/CMS/SWGuideCMSDataAnalysisSchoolPreExerciseFourthSet
 
+
+### Changing text
+
+```cpp
+// How to change axis labels (not axis titles):
+tg->GetXaxis()->SetBinLabel
+
+// OR
+
+TH1F* h = (TH1F*) tg->GetHistogram()->Clone();
+for (Int_t i = 0; i < tg->GetN(); i++)
+    h->GetXaxis()->SetBinLabel(i + 1, x_labels[i].c_str());
+
+h->Draw("AXIS");
+tg->Draw("LP");
+```
 ## Other ROOT Info
 
 ### Some types in ROOT
@@ -251,6 +268,19 @@ The most important ROOT objects:
 | `TH1` | Histogram |  |
 | `TF1` | 1-dim Function | |
 | `TLorentzVector` | 4-vector | |
+
+#### How to determine the type of a branch in a TTree
+
+This is a sloppy way to do it but it works:
+
+```cpp
+// Make a variable to attach to the branch.
+Int_t var;
+tree->SetBranchAddress("mass4mu", &var);
+// At this point, ROOT will either complain that branch "mass4mu: is not of
+// type Int_t and it will tell you the real type or if there's no problem then
+// you know the branch is of type Int_t!
+```
 
 ### Format text
 
@@ -276,7 +306,6 @@ Can also use the `Form()` function to combine `string`s into `TString`s:
 
 ```c++
 TString nome_canvas = Form("Integral = %.0f", 136.5);
-
 nome_canvas += Form("%d", h+1);
 histo_name = lepton_type.at(j) + Form("Pt_Lep%d", i);
 histo_name = Form("UnbinnedPt_%s_%.0f_%.0f_%s_%s", lepton_type[j].Data(), pT_bins.at(y-1), pT_bins.at(y), eta_bins_name[x-1].Data(), eta_bins_name[x].Data());
@@ -339,4 +368,73 @@ Use the ROOT interpreter to **test pieces of your code**, before you put it into
 string outputFileName = opts["output"].as<string>();
 tree = (TTree*)_infile->Get("tree");
 auto t = f->Get<TTree>("tree");
+```
+
+---
+
+## Header files
+
+Keep your code organized by **defining functions, etc.** in header files.
+Let's define a function called `linspace()` in a file called `linspace.h`:
+
+```cpp
+#ifndef LINSPACE_H
+#define LINSPACE_H
+
+#include <vector>
+
+vector<double> linspace(double start, double stop, int num);
+
+#endif
+```
+
+Then fill out the guts of this function in an *implementation file*:
+
+```cpp
+#include "linspace.h"  // Must include the header file!
+#include <vector>
+
+vector<double> linspace(double start, double stop, int num) {
+    int steps = num - 1;
+    vector<double> pts;
+    // Width of each segment.
+    double width = (stop - start) / steps;
+    pts.push_back(start);
+    // Create the intermediate points, between start and stop.
+    for (int k = 1; k < steps; k++) {
+        pts.push_back(start + k*width);
+    }
+    // Finally add the end point.
+    pts.push_back(stop);
+    return pts;
+}
+```
+
+Now anyone can use these header and implementation files in their code.
+As an example, let's make a file called `testyboi.C`:
+
+```cpp
+#include "linspace.h"  // Again, include the header file.
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+void testyboi(double start, double stop, int num) {
+    vector<double> myrange;
+    myrange = linspace(start, stop, num);
+    for (int k = 0; k < myrange.size(); k++) {
+        cout << "myrange[" << k << "] is: " << myrange[k] << endl;
+    }
+}
+```
+
+Now have ROOT compile and run your code:
+
+```cpp
+root -l
+.L linspace.cpp+  // The `+` sign compiles the implementation file.
+.L testyboi.C     // This just loads the testyboi function into ROOT.
+testyboi(2, 6, 8)
+// Executes the testyboi function.
 ```

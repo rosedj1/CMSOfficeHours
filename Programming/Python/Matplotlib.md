@@ -131,7 +131,43 @@ with plt.style.context('<mystyle>'):
     plt.plot(data)
 plt.show()
 
-
-
 If Python complains about not finding font files, do:
 import matplotlib.font_manager as font_manager; font_manager._rebuild()
+
+Suzanne's code to plot 2 histograms to the same axes and
+plot their ratio on a separate axes below.
+
+```python
+from matplotlib import gridspec
+def PlotMe(data, kinematic, color, label, bins=None, ax=None):
+    """
+    This function plots the kinematics in order to all have the same basic format (e.g. left).
+    """
+    try:
+        if bins == None: range, bins = setupPlotting(kinematic)
+        else: range, bins_temp = setupPlotting(kinematic)
+    except: range, bins_temp = setupPlotting(kinematic)
+    if ax == None:
+        n, bins, patches = plt.hist(data, range=range, bins=bins, histtype='step', align='mid', color=color, label=label)
+    else:
+        n, bins, patches = ax.hist(data, range=range, bins=bins, histtype='step', align='mid', color=color, label=label)
+    plt.legend(loc='best', prop={'size': 12})
+    return n, bins, patches
+
+fig = plt.figure() # Build figure
+gs = gridspec.GridSpec(2, 1, height_ratios=[4, 1]) # Allow for axes of various sizes
+ax = fig.add_subplot(gs[0]) # Build first axis with aspect ratio gs[0]
+n_denom, bins1, patches = PlotMe(reco_data['jet_bTagScore'], kin, color='blue', label=r'baseline', ax=ax)
+n_num, bins2, patches = PlotMe(btag, kin, color='orange', label=r'$\Delta R < {}$'.format(deltaR_cut), bins=bins1, ax=ax)
+ax.xaxis.set_major_formatter(plt.NullFormatter())
+ax.text(1500,10**3,"{:.1f}% Retention".format(float(np.shape(btag)[0])/float(np.shape(reco_data['jet_bTagScore'])[0])*100),weight='bold',fontsize=12)
+x = (bins1[1:] + bins2[:-1])/2
+eff_hist = np.true_divide(n_num, n_denom, out=np.zeros_like(n_num), where=n_denom!=0)
+ax = fig.add_subplot(gs[1])
+ax.plot(x, eff_hist)
+ax.set_xlabel(r'$p_T$ [GeV]')
+ax.set_ylim([0,1.0])
+plt.tight_layout()
+pdf.savefig()
+plt.clf()
+```

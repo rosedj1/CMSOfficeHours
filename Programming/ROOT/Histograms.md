@@ -176,6 +176,7 @@ h->GetXaxis()->SetRangeUser(-5, 5)  // Changes the x-axis range to [-5, 5].
 h->SetBinContent(<int bin>, <double val>)	# Deletes whatever is in bin number bin, and fills it with value val
 											(this counts as adding a NEW entry!)
 h->SetAxisRange(double <xmin>, double <xmax>, "<X or Y>") 	# 
+h->Integral(3, 9)  // Integrate bin contents from bin 3 to 9.
 h->IntegralAndError(<bin1>,<bin2>,<err>)					# calculates the integral 
     - err will store the error that gets calculated
     - so before you execute the IntegralAndError, first do err = Double(2) to create the err variable 

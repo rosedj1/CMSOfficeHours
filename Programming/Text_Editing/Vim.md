@@ -1,16 +1,24 @@
 # VIM: Vi IMproved
 
+Vim is a powerful, ubiquitous text editor found on nearly every Linux machine.
+You can make macros, edit multiple files at once, and so much more with this tiny program.
+
+## Getting started
+
 vim <file1>		# open <file1> in Vim
 
 Command Mode:
 You start Vim in Command Mode
-Esc				# return to Command Mode
-:q(!) 			# (force) quit Vim; return to your shell
-i				# puts you in Insert Mode; let's you type regularly
-Ctrl+V			# puts you in Visual Block Mode
-I (A)			# moves cursor to beginning (end) of line, then puts you in Insert Mode [capital 'i']
-:w				# write to file (save)
-:wq				# write, then quit
+
+```bash
+Esc     # return to Command Mode
+:q(!)   # (force) quit Vim; return to your shell
+i       # puts you in Insert Mode; let's you type regularly
+Ctrl+V  # puts you in Visual Block Mode
+I (A)   # moves cursor to beginning (end) of line, then puts you in Insert Mode [capital 'i']
+:w      # write to file (save)
+:wq     # write, then quit
+```
 
 Movement in Command Mode:
 h,j,k,l	# move cursor: left, down, up, right
@@ -56,22 +64,24 @@ y'<char>		# yank all text from current cursor position to mark <char>
 lower case registers are local marks
 UPPER case registers are GLOBAL marks (these allow you to easily move between different files)
 
-# =============================
-FOLDS:
+### Folds
+
 Collapse your functions for readability.
-zf<movement>		# folds whatever lines the cursor touches during <movement>
-za					# opens the fold if closed; closes the fold if open
-zo					# opens fold
-zc					# closes fold
-:<num1>,<num2>fo		# fold code from line <num1> to line <num2>
+
+```bash
+zf<movement>      # folds whatever lines the cursor touches during <movement>
+za                # opens the fold if closed; closes the fold if open
+zo                # opens fold
+zc                # closes fold
+:<num1>,<num2>fo  # fold code from line <num1> to line <num2>
+```
 
 Add this to .vimrc if you want to save folds:
 autocmd BufWinLeave *.* mkview
 autocmd BufWinEnter *.* silent loadview
 
+### TABS
 
-# =============================
-TABS:
 Put code into different tabs to stay organized.
 :tabedit <file1>		# opens <file1> in new tab
 gt (gT)				# go to next (previous) tab
@@ -141,11 +151,11 @@ vim scp://remoteuser@remote_IP_or_hostname/relative/path/of/file
 Consider using Vim-LaTeX!
 http://vim-latex.sourceforge.net/index.php?subject=download&title=Download
 
-
 Read another file into your current file:
+
+```bash
 :r /path/to/file
-Read in the first 55 lines:
-:r !head -55 /path/to/file
-Read in only lines 10-15:
-:r !sed -n 10,15p /path/to/file
-:put =readfile('/path/to/file')[9:14]
+:r !head -55 /path/to/file       # Read in the first 55 lines:
+:r !sed -n 10,15p /path/to/file  # Read in only lines 10-15:
+:put =readfile('/path/to/file')[10:15]  # Another way to read in lines.
+```

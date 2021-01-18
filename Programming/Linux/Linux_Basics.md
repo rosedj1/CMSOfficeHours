@@ -5,12 +5,6 @@ The philosophy: **small, sharp tools**
 Bash is the "**B**ourne-**a**gain **sh**ell". 
 It is the standard interpreter on most Linux distributions .
 
-## Resources
-
-- Here's the [friendly Linux Tutorial](https://ryanstutorials.net/linuxtutorial/commandline.php)
-that I used to learn Linux.
-- Tutorials from [Linux.com](https://www.linux.com/training-tutorials/).
-
 ## Must know Bash commands
 
 ```bash
@@ -21,7 +15,53 @@ cd ..               # Go up a dir.
 cd -                # Go back to previous dir.
 mv <source> <dest>  # Move or rename a file (THIS WILL OVERWRITE <dest>).
 cp <source> <dest>  # Copy source to destination.
-mkdir <newdir>  # Make newdir.
+mkdir <newdir>      # Make newdir.
+man -k <cmd>        # Shows you the manual for the command.
+
+# Step it up a notch:
+head <file>  # Print the last 10 lines in the file.
+tail <file>  # Print the last 10 lines in the file.
+head -n 2 <file>   # Print the first 2 lines in the file.
+tail -n 15 <file>  # Print the last 15 lines in the file.
+tail -n +7 <file>  # Print ALL lines from line 7 onward.
+
+>   # The "redirection" operator. Sends output somewhere.
+|   # The "pipe" operator. Makes one command's output another's input.
+
+# Examples:
+# Pipe the output of `ls` into the `grep` command:
+ls -l | grep "Apr" > somefile.txt
+command-name 2> errors.txt
+
+# Send command1's output to out.txt and the errout to err.txt.
+command1 > out.txt 2> err.txt
+
+cmd 2>&1 | tee log.txt
+
+scp  # Secure copy from one computer to another.
+scp <source> <dest>	# the remote <source> or <dest> should be of the form: user@server:/path/to/file
+scp -r 
+history				# shows you all previous commands you’ve entered
+more					# prints to stdout the entire file(?)
+less					# prints to temporary shell, not to stdout
+wc						# word count, useful flags: -l -w
+sort	[-nN] [-r]			# usually sorts alphabetically, sort by number size with -n, -r is reverse search
+uniq					# returns unique values 
+diff <file1> <file2>		#	see the differences between <file1> and <file2>; 
+						'<' indicates <file1>; '>' indicates <file2>
+diff -r <dir1> <dir2>	# compares differences between all files in <dir1> and <dir2>
+
+top -n 1 -b | grep chenguan		# see system summary and running processes; -n flag is iterations; -b is batch mode
+# can grep to see a user's processes
+free 	[-g]				# displays the amount of free and used memory in the system; -g to make it more readable
+read [-s] [-p] [<prompt>] <var>	# stores user input into <var>; -s=silent text, -p=prompt becomes <prompt>
+cut -d' ' -f2-4			# use whitespace as delimiter, and cut (print to screen) only fields (columns) 2 through 4
+cat <file1> | tee [-a] <file2>		# tee will append the stdout to both a file and to stdout (it piplines the info into a 'T' shape)
+ln -s <file> <link_name>	# creates a symbolic link (a reference) between <file> and <link_name>
+- If you modify <link_name> then you WILL MODIFY <file>!
+- Except for 'rm'; deleting <link_name> does NOT delete <file>
+file <>
+printf			# appears to just be a fancier and more reliable echo
 ```
 
 ## Some Bash magic
@@ -29,14 +69,14 @@ mkdir <newdir>  # Make newdir.
 ```bash
 !        # This is the 'bang' operator, an iconic part of bash.
 !$       # The argument of the last command. Try: `cd !$`
-!!       # Execute the last command from history. Try: `sudo !!`
-!cp      # Run the last `cp` command from your history.
+!!       # Execute the last command from history.
+!cp      # Run the last `cp` command from your history. VERY useful.
 !cat:p   # Print the last `cp` command you used to stdout, add that command to history, do not execute.
 ^ls^rm   # Replace `ls` in the last command with `rm`
-$?    # The return value from last cmd (0=success).
+$?       # The return value from last cmd (0=success).
 history  # Check your history; displays command numbers.
 !<cmd_num>  # execute command number <cmd_num>
-<space>cmd # will not add 'cmd' to history!
+<space>cmd  # will not add 'cmd' to history!
 ```
 
 ### Control statements
@@ -67,79 +107,46 @@ done
 | `-w FILE` |  FILE has write permission. |
 | `-x FILE` |  FILE has execute permission. |
 
-##### Truth testing
+#### Truth testing
 
 ```bash
 [ "a" = "a" ]  # Tests if the 2 strings are equal. If true, exit status = 0.
 ```
 
-Redirect the output and errors to log.txt:
+Redirect the output and errors to log.txt
+
+```bash
 cmd 2>&1 log.txt
-Redirect the output and errors to both log.txt and the screen simultaneously:
+# Redirect the output and errors to both log.txt and the screen simultaneously:
 cmd 2>&1 | tee log.txt
+```
 
 bash batch expansion
-cp /etc/rc.conf{,-old}	# will make copy of 'rc.conf' called 'rc.conf-old'
-mkdir newdir{1,2,3}		# will make newdir1, newdir2, newdir3
-- it's as if the filepath "gets distributed" over the braces
-- this is a good way to mv files and make backups
+
+```bash
+cp /etc/rc.conf{,-old}  # will make copy of 'rc.conf' called 'rc.conf-old'
+mkdir newdir{1,2,3}     # will make newdir1, newdir2, newdir3
+# It's as if the filepath "gets distributed" over the braces
+# This is a good way to mv files and make backups
+```
 
 Difference between 'source' and 'export':
 source <script.sh> 			# effectively the same as: . <script.sh>; executes script in current shell
 export VAR=value			# saves value as a new environmental VAR available to child processes
 
-computer cluster: 
+**MOVE THESE NOTES TO PARALLEL PROCESSING**
+computer cluster:
 folders aren’t contained on just one computer, 
 but network mounts can make it look like they are
-
-If a file path begins with / 
-- this is an absolute path ("root")
-- relative paths use: ./
-
 server uses a "load balancer"
-- puts each user on a variety of nodes to balance the load of resource usage
+puts each user on a variety of nodes to balance the load of resource usage
 
-man -k <cmd>
-- shows you the manual for the command
+- **Absolute** file paths ("root paths") being with `/`.
+- **Relative** files paths use: `./`
 
-> is the redirection operator
-| is the pipe operator
 
-e.g.,
-ls -l | grep Apr > somefile.txt
-- piping the output of ls into the grep command
-command-name 2> errors.txt
 
-command1 > out.txt 2> err.txt
-
-cmd 2>&1 | tee log.txt
-
-scp					#
-scp <source> <dest>	# the remote <source> or <dest> should be of the form: user@server:/path/to/file
-scp -r 
-history				# shows you all previous commands you’ve entered
-more					# prints to stdout the entire file(?)
-less					# prints to temporary shell, not to stdout
-wc						# word count, useful flags: -l -w
-sort	[-nN] [-r]			# usually sorts alphabetically, sort by number size with -n, -r is reverse search
-uniq					# returns unique values 
-diff <file1> <file2>		#	see the differences between <file1> and <file2>; 
-						'<' indicates <file1>; '>' indicates <file2>
-diff -r <dir1> <dir2>	# compares differences between all files in <dir1> and <dir2>
-
-top -n 1 -b | grep chenguan		# see system summary and running processes; -n flag is iterations; -b is batch mode
-								can grep to see a user's processes
-free 	[-g]				# displays the amount of free and used memory in the system; -g to make it more readable
-read [-s] [-p] [<prompt>] <var>	# stores user input into <var>; -s=silent text, -p=prompt becomes <prompt>
-cut -d' ' -f2-4			# use whitespace as delimiter, and cut (print to screen) only fields (columns) 2 through 4
-cat <file1> | tee [-a] <file2>		# tee will append the stdout to both a file and to stdout (it piplines the info into a 'T' shape)
-ln -s <file> <link_name>	# creates a symbolic link (a reference) between <file> and <link_name>
-- If you modify <link_name> then you WILL MODIFY <file>!
-- Except for 'rm'; deleting <link_name> does NOT delete <file>
-file <>
-printf			# appears to just be a fancier and more reliable echo
-
-### Less common commands:
+### Less common commands
 
 ```bash
 uname -a			# look at your Linux kernel architecture, server, etc.
@@ -507,4 +514,9 @@ $?  # return statement of last command: 0 is successful
 ```
 
 - [AFS Permissions](https://computing.cs.cmu.edu/help-support/afs-acls)
-- 
+
+## Resources
+
+- Here's the [friendly Linux Tutorial](https://ryanstutorials.net/linuxtutorial/commandline.php)
+that I used to learn Linux.
+- Tutorials from [Linux.com](https://www.linux.com/training-tutorials/).

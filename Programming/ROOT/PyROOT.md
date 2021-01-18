@@ -18,6 +18,8 @@ Mention `conda activate my_root_env`.
 
 ```python
 import ROOT as r
+from array import array
+
 # You must open/create your file before playing with the TTree.
 newfile = r.TFile("/work/area/newfile.root", "recreate")
 tree = r.TTree("t1", "My New Tree")
@@ -43,83 +45,28 @@ tree.Fill()
 
 When you close a file (`f.Close()`), then your histograms may be closed with them.
 To keep your hist open, do:
+
 ```python
 hist.SetDirectory(0)  # Must be called before you close the file.
 ```
 
-Suzanne's method of splitting a TCanvas up into different pads:
-```python
-# This program prints the mass distribution for samples with varying values of the selection criteria, Delta R.
-
-print("[INFO] Importing libraries...")
-from ROOT import TFile, TH1F, TCanvas, gROOT, kTRUE, gPad
-import numpy as np
-gROOT.SetBatch(kTRUE)
-
-num_bins = 30
-lower_bound = 0
-upper_bound = 1600 # 300 for mH, 800 for mY, 1600 for mX
-
-print("[INFO] Building canvas...")
-c1 = TCanvas("c1", "Mass Distribution") # Canvas object
-c1.Divide(1,2) # Divide canvas into 2 pads (1 columns, 2 rows)
-
-c1.cd(1)
-gPad.SetLogy() # Set y-axis to log scale
-f1 = TFile("test_NMSSM_XYH_bbbb_MC_005.root") # Open ROOT file
-t1 = f1.Get("bbbbTree") # Extract ROOT tree
-h1 = TH1F("h1","DeltaR = 0.05", num_bins, lower_bound, upper_bound) # Create histogram object
-t1.Draw("HH_m >> h1","gen_H1_b1_matchedflag >= 0 && gen_H1_b2_matchedflag >= 0 && gen_H2_b1_matchedflag >= 0 && gen_H2_b2_matchedflag >= 0","goff") # Fill histogram with events that pass the selection criteria
-h1.Draw("hist e1") # Draw histogram
-
-c1.cd(2)
-gPad.SetLogy()
-f2 = TFile("test_NMSSM_XYH_bbbb_MC_010.root")
-t2 = f2.Get("bbbbTree")
-h2 = TH1F("h2","DeltaR = 0.10", num_bins, lower_bound, upper_bound)
-t2.Draw("HH_m >> h2","gen_H1_b1_matchedflag >= 0 && gen_H1_b2_matchedflag >= 0 && gen_H2_b1_matchedflag >= 0 && gen_H2_b2_matchedflag >= 0","goff")
-h2.Draw("hist e1")
-
-c1.Draw() # Draw canvas
-c1.SaveAs("distribution_mX.pdf") # Save canvas
-```
-
-Suzanne's code to plot 2 histograms to the same axes and
-plot their ratio on a separate axes below.
+Divide your TCanvas up into different pads
+and save a multi-page pdf:
 
 ```python
-from matplotlib import gridspec
-def PlotMe(data, kinematic, color, label, bins=None, ax=None):
-    """
-    This function plots the kinematics in order to all have the same basic format (e.g. left).
-    """
-    try:
-        if bins == None: range, bins = setupPlotting(kinematic)
-        else: range, bins_temp = setupPlotting(kinematic)
-    except: range, bins_temp = setupPlotting(kinematic)
-    if ax == None:
-        n, bins, patches = plt.hist(data, range=range, bins=bins, histtype='step', align='mid', color=color, label=label)
-    else:
-        n, bins, patches = ax.hist(data, range=range, bins=bins, histtype='step', align='mid', color=color, label=label)
-    plt.legend(loc='best', prop={'size': 12})
-    return n, bins, patches
-
-fig = plt.figure() # Build figure
-gs = gridspec.GridSpec(2, 1, height_ratios=[4, 1]) # Allow for axes of various sizes
-ax = fig.add_subplot(gs[0]) # Build first axis with aspect ratio gs[0]
-n_denom, bins1, patches = PlotMe(reco_data['jet_bTagScore'], kin, color='blue', label=r'baseline', ax=ax)
-n_num, bins2, patches = PlotMe(btag, kin, color='orange', label=r'$\Delta R < {}$'.format(deltaR_cut), bins=bins1, ax=ax)
-ax.xaxis.set_major_formatter(plt.NullFormatter())
-ax.text(1500,10**3,"{:.1f}% Retention".format(float(np.shape(btag)[0])/float(np.shape(reco_data['jet_bTagScore'])[0])*100),weight='bold',fontsize=12)
-x = (bins1[1:] + bins2[:-1])/2
-eff_hist = np.true_divide(n_num, n_denom, out=np.zeros_like(n_num), where=n_denom!=0)
-ax = fig.add_subplot(gs[1])
-ax.plot(x, eff_hist)
-ax.set_xlabel(r'$p_T$ [GeV]')
-ax.set_ylim([0,1.0])
-plt.tight_layout()
-pdf.savefig()
-plt.clf()
+outpath_file = "/path/to/outfile.pdf"
+c = r.TCanvas()
+c.Divide(2,1)  # 2 cols, 1 row
+c.Print(outpath_file + "[")
+for pT in pT_ls:
+    gr, gr_witherrs = make_two_graphs()
+    c.cd(1)
+    gr.Draw("ALP")
+    c.cd(2)
+    gr_witherrs.Draw("ALP")
+    c.Update()
+    c.Print(outpath_file)
+c.Print(outpath_file + "]")
 ```
 
 ## Common ROOT Objects
@@ -133,12 +80,12 @@ You have a few options:
 ```python
 # (xmin, ymin, xmax, ymax, "BRNDC")
 # BR = shadow appears in Bottom-Right corner.
-pave = ROOT.TPaveText(0.08, 0.5, 0.45, 0.7, "NDC")  # NDC = normalized coord.
+pave = r.TPaveText(0.08, 0.5, 0.45, 0.7, "NDC")  # NDC = normalized coord.
 pave.SetFillColor(0)
 pave.SetFillStyle(1001)  # Solid fill.
 pave.SetBorderSize(1) # Use 0 for no border.
 pave.SetTextAlign(11) # 11 is against left side, 22 is centered vert and horiz.
-pave.SetTextSize(0.06)
+pave.SetTextSize(0.025)
 pave.AddText(0.1, 0.5, "words go here")  # (x, y, "text")
 pave.AddText("E = #sqrt{#vec{p}^{2} + m^{2}}")  # Accommodates LaTeX!
 pave.Draw("same")
@@ -197,7 +144,7 @@ str(latex)  # Return the name and title associated with this obj.
 
 ```python
 pad = r.TPad("pad", "A pad with a hist", 0.03, 0.02, 0.97, 0.57)
-legend =  rt.TPad("legend_0","legend_0",x0_l,y0_l,x1_l, y1_l )
+legend = r.TPad("legend_0","legend_0",x0_l,y0_l,x1_l, y1_l )
 #legend.SetFillColor( rt.kGray )
 legend.Draw()
 legend.cd()
@@ -234,26 +181,40 @@ gr.SetTitle('Theoretical Muon Trajectory')
 gr.GetXaxis().SetTitle('Transverse Pixel/Strip Positions [cm]')
 gr.GetYaxis().SetTitle('Distance from x-axis [cm]')
 gr.GetXaxis().SetLimits(-0.05, 0.05)  # SetRangeUser() doesn't work for x-axis! SetLimits() instead.
-gr.GetYaxis().SetRangeUser(-0.2, 0.2)
+gr.GetYaxis().SetRangeUser(-0.2, 0.2) # Can also use: gr.SetMaximum(0.2)
 gr.Draw("APC")  # Draw the Axes, Points, and a smooth Curve.
 
 # Drawing Options Description
-"A"	Axis are drawn around the graph
-"I"	Combine with option 'A' it draws invisible axis
-"L"	A simple polyline is drawn
-"F"	A fill area is drawn ('CF' draw a smoothed fill area)
-"C"	A smooth Curve is drawn
-"*"	A Star is plotted at each point
-"P"	The current marker is plotted at each point
-"B"	A Bar chart is drawn
-"1"	When a graph is drawn as a bar chart, this option makes the bars start from the bottom of the pad. By default they start at 0.
-"X+"    # The X-axis is drawn on the top side of the plot.
-"Y+"    # The Y-axis is drawn on the right side of the plot.
-"PFC"   # Palette Fill Color: graph's fill color is taken in the current palette.
-"PLC"   # Palette Line Color: graph's line color is taken in the current palette.
-"PMC"   # Palette Marker Color: graph's marker color is taken in the current palette.
-"RX"    # Reverse the X axis.
-"RY"    # Reverse the Y axis.
+# "A"     # Axis are drawn around the graph
+# "I"     # Combine with option 'A' it draws invisible axis
+# "L"     # A simple polyline is drawn
+# "F"     # A fill area is drawn ('CF' draw a smoothed fill area)
+# "C"     # A smooth Curve is drawn
+# "*"     # A Star is plotted at each point
+# "P"     # The current marker is plotted at each point
+# "B"     # A Bar chart is drawn
+# "1"     # When a graph is drawn as a bar chart, this option makes the bars start from the bottom of the pad. By default they start at 0.
+# "X+"    # The X-axis is drawn on the top side of the plot.
+# "Y+"    # The Y-axis is drawn on the right side of the plot.
+# "PFC"   # Palette Fill Color: graph's fill color is taken in the current palette.
+# "PLC"   # Palette Line Color: graph's line color is taken in the current palette.
+# "PMC"   # Palette Marker Color: graph's marker color is taken in the current palette.
+# "RX"    # Reverse the X axis.
+# "RY"    # Reverse the Y axis.
+
+fitfunc = r.TF1("f1", "gaus", 1, 3)
+result = gr.Fit(fitfunc, "S")
+# The result pointer is very useful:
+cov = result.GetCovarianceMatrix() # Access the covariance matrix.
+chi2 = result.Chi2()    # Return the chi^2 of the fit.
+par0 = result.Value(0)  # Retrieve the value for the parameter 0.
+err0 = result.ParError(0)      # Retrieve the error for the parameter 0.
+result.Print("V")       # Print full info of fit verbosely.
+result.Write()          # Store fit info in a file.
+# You can also get fit info from the fit function itself:
+fitfunc.GetChisquare()
+fitfunc.GetParameter(0)
+fitfunc.GetParError(0)
 
 # Other useful methods.
 gr.GetN()        # Return the number of points in the graph.
@@ -266,7 +227,6 @@ gr.GetPointY(4)  # Return the y-coordinate of point 4.
 A TGraph but with x and y errorbars.
 
 ```python
-
 ```
 
 If you want to put many TGraphs on the same plot, then use a **TMultiGraph**:
@@ -275,9 +235,93 @@ If you want to put many TGraphs on the same plot, then use a **TMultiGraph**:
 gr = TGraph(3, array('f', [1,2,3]), array('f', [4,5,6]))
 grerr = TGraphErrors(n,x,y,ex,ey)
 mg = TMultiGraph()
-mg.Add(gr,"lp")
+mg.Add(gr,"lp")  # Draw a line and the points.
 mg.Add(grerr,"cp")
+mg.SetMinimum(0.0)                # Change y-axis limits.
+mg.SetMaximum(9.0)
+# Changing the x-axis is a little funky.
+# First, draw the multigraph, then change the axis.
 mg.Draw("a")
+r.gPad.Modified()
+mg.GetXaxis().SetLimits(1.5, 7.5)  # Change x-axis limits.
+```
+
+### TMultiGraph
+
+```python
+import ROOT as r
+from array import array
+import numpy as np
+
+from Utils_Python.Plot_Styles_ROOT.tdrstyle_official import setTDRStyle,tdrGrid
+tdrStyle = setTDRStyle()
+tdrGrid(tdrStyle, gridOn=True)
+
+n_pts = 5
+# I prefer to use numpy arrays to perform computations.
+x_vals = np.array([2,4,6,8,10])
+y_vals = x_vals**2
+# Then convert them to array.arrays afterward.
+x_arr = array('f', x_vals)
+y_arr = array('f', y_vals)
+# Make the graph.
+gr = r.TGraph(n_pts, x_arr, y_arr)
+# Pretty it up.
+gr.SetLineColor(2)
+gr.SetLineWidth(2)
+gr.SetMarkerColor(4)
+gr.SetMarkerStyle(21)
+gr.SetMarkerSize(0.5)
+gr.SetTitle('Theoretical Muon Trajectory')
+gr.GetXaxis().SetTitle('Transverse Pixel/Strip Positions [cm]')
+gr.GetYaxis().SetTitle('Distance from x-axis [cm]')
+gr.GetXaxis().SetLimits(-0.05, 0.05)  # SetRangeUser() doesn't work for x-axis! SetLimits() instead.
+gr.GetYaxis().SetRangeUser(-0.2, 0.2)
+
+x_vals1 = np.array([2,4,6,8,10])
+y_vals1 = x_vals**3
+# Then convert them to array.arrays afterward.
+x_arr1 = array('f', x_vals1)
+y_arr1 = array('f', y_vals1)
+# Make the graph.
+gr1 = r.TGraph(n_pts, x_arr1, y_arr1)
+# Pretty it up.
+gr1.SetLineColor(4)
+gr1.SetLineWidth(1)
+gr1.SetMarkerColor(4)
+gr1.SetMarkerStyle(22)
+gr1.SetMarkerSize(0.5)
+gr1.SetTitle('Something else')
+gr1.GetXaxis().SetTitle('another x axis title')
+gr1.GetYaxis().SetTitle('yep')
+gr1.GetXaxis().SetLimits(-0.05, 0.05)  # SetRangeUser() doesn't work for x-axis! SetLimits() instead.
+gr1.GetYaxis().SetRangeUser(-0.2, 0.2)
+print(gr1.GetXaxis().GetTitle())
+print(gr1.GetYaxis().GetTitle())
+print(gr1.GetTitle())
+
+c = r.TCanvas()
+c.Draw()
+mg = r.TMultiGraph()
+mg.Add(gr, "lp")
+mg.Add(gr1, "lp")
+titles = f"My favorite; {gr.GetXaxis().GetTitle()}; y axis"
+mg.SetTitle(titles)
+mg.Draw("a")
+c.Update()
+c.Draw()
+```
+
+### Legends
+
+```python
+leg = ROOT.TLegend(xmin, ymin, xmax, ymax)  # (all floats between 0 and 1, as a proportion of the x or y dimension)
+leg = ROOT.TLegend(0.60, 0.7, 0.8, 0.9)
+leg.AddEntry(h1, "lhaid = %s" % pdf1, "lpf")
+leg.SetLineWidth(3)
+leg.SetBorderSize(0)
+leg.SetTextSize(0.03)
+leg.Draw("same")
 ```
 
 ### Fit Functions
@@ -306,9 +350,14 @@ par_and_err2 = fit_func.GetParameter(2), fit_func.GetParError(2)
 
 Run your `.rootlogon.C` file using Python: `ROOT.gROOT.LoadMacro('.rootlogon.C')`
 
-Print **global environment variables** to access things like fonts: `ROOT.gEnv.Print()`
+Print **global environment variables** to access things like fonts:
+
+- `ROOT.gEnv.Print()`
+- `gPad.SetLogy()`
 
 Set a default layout for all your plots by making a **TStyle**:
+
+Learn how to modify a statistics box: [https://root.cern.ch/doc/master/classTPaveStats.html](https://root.cern.ch/doc/master/classTPaveStats.html)
 
 ```python
 def make_pretty_plots():
@@ -337,6 +386,72 @@ def make_pretty_plots():
 
 - Using a minus sign in a superscript: replace `^-` with `^{#font[122]{\55}}`
 
-### Items to research
+## Load C++ script into Python
+
+Suppose you have a script called `simple.C`:
+
+```c++
+// A simple function to load into Python.
+int easy_func(int x) {
+    int y;
+    y = x + 4;
+    return y;
+}
+```
+
+There are at least **two ways** to make this function available to Python:
+
+**Option 1:**
+
+Compile the code (`root -l` then `.L simple.C+`) and use the `.so` file:
+```python
+import ROOT
+ROOT.gSystem.Load("./simple_C.so")
+ROOT.easy_func(5)  # Returns 9.
+```
+
+**Option 2:**
+
+Put the C++ code into a Python string and load it into ROOT:
+
+```python
+import ROOT
+
+cpp_code = """
+int easy_func(int x) {
+    int y;
+    y = x + 4;
+    return y;
+}
+"""
+
+ROOT.gInterpreter.ProcessLine(cpp_code)  # or try: gInterpreter.Declare(cpp_code)
+ROOT.easy_func(5)  # Returns 9.
+```
+
+You may have to combine a couple of these commands:
+
+```python
+ROOT.gSystem.Load("./RooMyPDF_DSCB_C.so")
+ROOT.gInterpreter.Declare(cpp_code)
+ROOT.DSCB_scanner()
+```
+
+### Other ways to link C++ and Python in ROOT
+
+Create C++ types:
+
+```python
+# Make a vector of strings:
+branchList = ROOT.vector('string')()
+```
+
+Other possible ways?
+
+```python
+cpp_fn = """
+ROOT.gInterpreter.Declare()
+```
+## Items to research
 
 - [PyROOT Hats](https://indico.cern.ch/event/917673/)

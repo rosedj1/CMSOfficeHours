@@ -1,10 +1,16 @@
 # RooFit Python
 
-Make an independent variable `x`:
+RooFit is an **incredibly powerful statistics package** that uses ROOT.
+
+## The Basics
+
+_Everything_ in RooFit is its own object.
+For example, the independent variable `x`:
 
 ```python
 import ROOT as r
 x = r.RooRealVar("x", "The Independent Variable", 0, 500, "GeV")  # (name, title, min, max, units)
+# Now `x` has its own set of methods, like:
 x.setBins(50)
 x.getBins()  # Returns the number of bins.
 x.setRange('fit_region', 105, 140)
@@ -42,7 +48,7 @@ RooArgList(lambda_,  massZErr)
 RooFormulaVar("sigma","@1*@0", RooArgList(lambda_,  massZErr))
 ```
 
-Build a **workspace** to organize your objects:
+### Build a **workspace** to organize your objects
 
 ```python
 w = ROOT.RooWorkspace('w')
@@ -66,29 +72,64 @@ Useful workspace methods:
 w.Print()    # See what's inside your workspace.
 ```
 
-Generic fitting routine:
+### Generic fitting routine
 
 ```python
-x = w.var('x')
-pdf = w.pdf('model')
-frame = x.frame()
-data = pdf.generate(ROOT.RooArgSet(x))
-data.plotOn(frame)
-fit_result = pdf.fitTo(data)
-fit_result = pdf.fitTo(data, ROOT.RooFit.Save(), ROOT.RooFit.PrintLevel(-1))
+x = w.var('x')        # Independent variable.
+pdf = w.pdf('model')  # The function to describe the data.
+frame = x.frame()     # The axes.
+data = pdf.generate(ROOT.RooArgSet(x))  # The data themselves.
+data.plotOn(frame)    # Draw it on your axes.
+result = pdf.fitTo(data)  # Fit the pdf onto the data. Store the info for later.
+result = pdf.fitTo(data, ROOT.RooFit.Save(), ROOT.RooFit.PrintLevel(-1))
 pdf.plotOn(frame)
 frame.Draw()
+```
+
+Useful fit result methods:
+
+```python
+# Do the fit:
+result = my_pdf.fitTo(roodataset)
+
+# View fit values:
+result.Print()
+result.Print("v")  # Verbose.
+list(result.floatParsFinal())
+# View the value of a fit parameter which you named "mean":
+result.floatParsFinal().find("mean").getVal()
+result.correlationHist()
+
+# Other fit info:
+result.edm()  # ??
+result.minNll()  # Minimum of negative log likelihood.
+result.correlation("bkgfrac", "mean")  # Correlation between 2 variables.
+result.correlationMatrix()
+result.covarianceMatrix() 
+
+# Save your fit info to a ROOT file.
+f = ROOT.TFile("myfitresult.root", "RECREATE")
+result.Write("stored_fit_result")
+f.Close()
+# Retrieve it:
+result = gDirectory.Get("stored_fit_result")
+
+# Plot it if you want.
+result.plotOn(frame, sigma1, sig1frac, "ME12ABHV")
+   # M - a marker at the best fit result
+   # E - an error ellipse calculated at 1-sigma using the error matrix at the minimum
+   # 1 - the 1-sigma error bar for parameter 1
+   # 2 - the 1-sigma error bar for parameter 2
+   # B - the bounding box for the error ellipse
+   # H - a line and horizontal axis for reading off the correlation coefficient
+   # V - a line and vertical axis for reading off the correlation coefficient
+   # A - draw axes for reading off the correlation coefficients with the H or V options
 ```
 
 ```python
 mean = r.RooRealVar("mean","Mean of Gaussian",-10,10)
 sigma = r.RooRealVar("sigma","Width of Gaussian",3,-10,10, "GeV")  # Can assign units to var.
 gauss = r.RooGaussian("gauss","The Gaussian PDF",x,mean,sigma)
-
-# View fit values:
-fit_result = my_pdf.fitTo(roodataset)
-fit_result.Print()
-# - fit values (e.g. "my_mean") will get printed
 
 #Retrieve fit values:
 w.var("my_mean").getVal()	# 
@@ -208,76 +249,36 @@ c.SaveAs("rf108_plotbinning.png")
 - [Hands-on Advanced Tutorials](https://lpc.fnal.gov/programs/schools-workshops/hats.shtml) (HATS)
   - Will require access to Indico.
 
-# HZZ Analyzer for CMS Run2
+### Random dude's example of PyROOT RooFit code
 
-## How to install the Analyzer
+```python
+import ROOT
 
-```bash
-# Prepare your area.
-export SCRAM_ARCH=slc7_amd64_gcc700
-cmsrel CMSSW_10_6_12
-cd CMSSW_10_6_12/src
-cmsenv
+x = ROOT.RooRealVar("x", "x", -5, 5)
+mu = ROOT.RooRealVar("mu", "mu", 0, -1, 1)
+sigma = ROOT.RooRealVar("sigma", "sigma", 1, 0.1, 2)
+pdf = ROOT.RooGaussian("gaus", "gaus", x, mu, sigma)
 
-# Install the repo.
-git cms-init
-git clone -b 10_6_12 https://ferrico@github.com/ferrico/UFHZZAnalysisRun2.git
-git config merge.renameLimit 999999
-cp UFHZZAnalysisRun2/install*.sh .
-chmod u+x install_2.sh
-./install_2.sh
-```
+data = pdf.generate(ROOT.RooArgSet(x), 10000)
 
-## How to use the Analyzer
+pdf.fitTo(data)
 
-Now you can run over the template files found in `UFHZZAnalysisRun2/UFHZZ4LAna/python/`:
+frame = x.frame()
+data.plotOn(frame)
+pdf.plotOn(frame)
 
-```bash
-cmsRun UFHZZAnalysisRun2/UFHZZ4LAna/python/Sync_102X_2016_Legacy_cfg.py
-cmsRun UFHZZAnalysisRun2/UFHZZ4LAna/python/Sync_102X_2017_Legacy_cfg.py
-cmsRun UFHZZAnalysisRun2/UFHZZ4LAna/python/Sync_102X_2018_Legacy_cfg.py
-```
+pdf.paramOn(frame,
+            ROOT.RooFit.FillColor(ROOT.kRed),
+            ROOT.RooFit.Label("Global Fit parameters:"),
+            ROOT.RooFit.Layout(0.1, 0.4, 0.9),
+            ROOT.RooFit.Format("NEU", ROOT.RooFit.AutoPrecision(1)),
+            ROOT.RooFit.ShowConstants())
 
-Only run over **a maximum of 10K events** locally.
-If you need to run over more, then you should submit a CRAB job:
+canvas = ROOT.TCanvas()
+frame.Draw()
 
-```bash
-cp UFHZZAnalysisRun2/Utilities/crab/* .
-# Initialize your proxy. If you get errors, check your certificate.
-# May need to instead do: `voms-proxy-init -voms cms -rfc`
-voms-proxy-init --valid=168:00
-source /cvmfs/cms.cern.ch/crab3/crab.sh
-
-# Submit your job:
-python SubmitCrabJobs.py -t "myTask_Data" -d datasets_2016ReReco.txt -c UFHZZAnalysisRun2/UFHZZ4LAna/python/templateData_80X_M1703Feb_2l_cfg.py
-
-# or similary for MC:
-python SubmitCrabJobs.py -t "myTask_MC" -d datasets_Summer16_25ns_MiniAOD.txt -c UFHZZAnalysisRun2/UFHZZ4LAna/python/templateMC_80X_M17_4l_cfg.py
-```
-
-### Check the status of your job
-
-You can use manageCrabTask.py to check the status, resubmit, or kill your task. E.g. after submitting:
-
-```bash
-nohup python -u manageCrabTask.py -t resultsAna_Data_M17_Feb19 -r -l >& managedata.log &
-```
-
-This will start an infinite loop of running crab resubmit on all of your tasks, then sleep for 30min.
-You should kill the process once all of your tasks are done.
-Once all of your tasks are done, you should run the following command to purge your crab cache so that it doesn't fill up:
-
-```bash
-python manageCrabTask.py -t resultsAna_Data_M17_Feb19 -p
-```
-
-## Useful templates
-
-```bash
-UFHZZ4LAna/python/templateMC_102X_Legacy16_4l_cfg.py
-UFHZZ4LAna/python/templateMC_102X_Legacy17_4l_cfg.py
-UFHZZ4LAna/python/templateMC_102X_Legacy18_4l_cfg.py
-UFHZZ4LAna/python/templateData_102X_Legacy16_3l_cfg.py
-UFHZZ4LAna/python/templateData_102X_Legacy17_3l_cfg.py
-UFHZZ4LAna/python/templateData_102X_Legacy18_3l_cfg.py
+# I really don't like this
+canvas.GetListOfPrimitives().FindObject("gaus_paramBox").SetTextColor(ROOT.kRed)
+# this crash my computer:
+canvas.GetListOfPrimitives().FindObject("gaus_paramBox").SetTextSize(0.025)
 ```

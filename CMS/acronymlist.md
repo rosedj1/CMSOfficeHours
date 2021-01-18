@@ -30,7 +30,7 @@
 | CFEB  | Cathode Front-End Board | An electronic board found on a CSC that stores analog signals from strips in SCA for digitization.|
 | CINCO | CMS Information on Conferences| |
 | CINT  | C INTerpreter | A C/C++ interpreter, like the terminal is for Linux commands. |
-| CJLST | CMS Joint 4Lepton Study Team| |
+| CJLST | CMS Joint 4Lepton Study Team | |
 | CLCT  | Cathode Local Charged Track | A trigger board |
 | CMSSDT | CMS Software Development Tools | |
 | CMSSW  | CMS SoftWare| |
