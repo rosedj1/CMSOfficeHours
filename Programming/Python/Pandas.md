@@ -1,18 +1,43 @@
 # Pandas
 
-The package **pandas** gives us a way to analyze data in *DataFrames* (essentially a spreadsheet). 
+Python's version of Excel or R Dataframes.
 
-**Terms:**
+The package **pandas** gives us a way to analyze data in *DataFrames* (a "spreadsheet").
 
-- **DataFrames** (df): A table of data
-- **Series** (ser): A column of data.
+Pandas comes with **built-in data visualization**.
 
-Examples:
+Install it in your `conda` environment: `conda install pandas`
+
+## Terms
+
+- **Series** (ser): A column of data. Think of it like an array.
+- **DataFrames** (df): A *table* of data, made of Series.
+
+## Let's make a Series
 
 ```python
 import pandas as pd
-# Make a quick Series (column of data).
-ser = pd.Series(np.arange(10))
+# Make a Series (column of data).
+data = [2, 4, 8]
+ser = pd.Series(data)
+
+# Your data are indexed by labels (0th entry, 1st entry, etc.).
+# Change the labels:
+labels = ['a', 'b', 'c']
+ser = pd.Series(data, labels)
+
+# A fast and easy way to make a labeled series is to use a dict:
+d = {'low':10, 'med':20, 'high':30}
+ser = pd.Series(d)
+# NOTE: The indices must be strings.
+```
+
+### What can you do with Series?
+
+```python
+# Access a Series, like a dict.
+ser['low']  # Returns 10. 
+```
 
 # Make a quick DataFrame (table of data - like a spreadsheet!)
 df = pd.DataFrame(np.random.randn(15,6), columns='A B C D E F'.split())  

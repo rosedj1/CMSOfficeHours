@@ -49,6 +49,7 @@ h.GetTitle()              # Returns the title of hist.
 h.GetNbinsX()             # Return the number of bins along the x-axis.
 h.Fill(7)                 # Put one entry into the bin where x = 7 (so not the 7th bin!).
 h.Fill(7, 100)            # Put 100 entries into the bin where x = 7.
+h.GetMean()               # Get the mean of the UNBINNED data.
 h.GetBinContent(3)        # Return the number of entries in bin 3.
                           # (bin 0 is underflow and bin max+1 is overflow)
 h.GetBinCenter(2)         # Get the x-axis value corresponding to the center of bin 2.
@@ -273,7 +274,7 @@ else{
 ```python
 import ROOT as r
 import numpy as np
-h_2d = r.TH2F("h_2d", "Fill with text", 
+h2 = r.TH2F("h2", "Fill with text", 
               7, np.array([5,7,10,14,20,27,38,50], dtype=float),
               5, np.array([0.0, 0.2, 0.4, 0.6, 0.8, 1.0]))
 
@@ -281,25 +282,47 @@ h_2d = r.TH2F("h_2d", "Fill with text",
 for _ in range(10000):
     x = np.random.random() * 100.
     y = x / 100.
-    h_2d.Fill(x, y)
+    h2.Fill(x, y)
 
 # Draw the hist to a canvas.
 c1 = r.TCanvas()
-h_2d.Draw("colz")  # colz will draw the z-axis as a color bar.
+h2.Draw("colz")  # colz will draw the z-axis as a color bar.
 c1.Draw()
 ```
 
 You can play with the color bar (called a color palette in ROOT):
 
 ```python
-h_2d.Draw("colz text")                # Writes the value stored in each 2D bin on the bin.
-h_2d.GetZaxis().SetRangeUser(10, 20)  # Restrict color bar to have limits: [10, 20].
+h2.Draw("colz text e")                # Writes the value stored in each 2D bin on the bin +- weight.
+h2.GetZaxis().SetRangeUser(10, 20)  # Restrict color bar to have limits: [10, 20].
 r.gStyle.SetPalette(55)               # Change the color map. Default is kBird.
 # More color maps: https://root.cern.ch/doc/master/classTColor.html#C06
-h_2d.SetContour(100)                   # Split the color bar into 100 colors (creates a nice gradient).
-r.gStyle.SetPaintTextFormat("6.1f")   # Format of the text to be displayed on cells.
+h2.SetContour(100)                   # Split the color bar into 100 colors (creates a nice gradient).
+r.gStyle.SetPaintTextFormat("6.1f words")   # Format of the text to be displayed on all cells.
 r.gStyle.SetOptStat(0)                # Don't display hist stats.
 c1.Draw()
+```
+
+## Make a ratio plot
+
+```cpp
+void ratioplot1() {
+   gStyle->SetOptStat(0);
+   auto c1 = new TCanvas("c1", "A ratio example");
+   auto h1 = new TH1D("h1", "h1", 50, 0, 10);
+   auto h2 = new TH1D("h2", "h2", 50, 0, 10);
+   auto f1 = new TF1("f1", "exp(- x/[0] )");
+   f1->SetParameter(0, 3);
+   h1->FillRandom("f1", 1900);
+   h2->FillRandom("f1", 2000);
+   h1->Sumw2();
+   h2->Scale(1.9 / 2.);
+   h1->GetXaxis()->SetTitle("x");
+   h1->GetYaxis()->SetTitle("y");
+   auto rp = new TRatioPlot(h1, h2);
+   c1->SetTicks(0, 1);
+   rp->Draw();
+   c1->Update();
 ```
 
 ## Histogram quirks

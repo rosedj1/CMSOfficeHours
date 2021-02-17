@@ -72,16 +72,6 @@ Generate a QR (quick response) code for any website:
 
 ---
 
-## Visual Studio Code
-
-- Find matching parenthesis, brace, etc.: `Cmd + Shift + \`
-- Box selection on a Mac:
-  - `Shift + Option + Cmd + 'arrow key'`
-  - `Shift + Option + highlight`
-- Multiple cursors:
-  - Hold `Option` and click using the cursor.
-- View a function docstring: `Cmd + K, Cmd + I ("eye")`
-
 ### Connecting to a remote host
 
 If VSC keeps failing to connect, then open up the Command Palette

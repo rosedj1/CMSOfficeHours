@@ -62,6 +62,15 @@ Example command:
 FWLiteHistograms inputFiles=slimMiniAOD_MC_MuEle.root outputFile=ZPeak_MC.root maxEvents=-1 outputEvery=100
 ```
 
+## CMS Configuration Files
+
+[FWCore.ParameterSet.Config](https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookConfigFileIntro)
+
+Many examples of `_cfg.py` can be found in:
+
+- `/CMSSW/CMS.PhysicsTools/PatAlgos/test`
+- `/CMSSW/CMS.PhysicsTools/PatExamples/test`
+
 ## Other Resources
 
 - [How to write an EDAnalyzer.](https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookWriteFrameworkModule?LOCALSHELL=bash)

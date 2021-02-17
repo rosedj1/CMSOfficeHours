@@ -1,4 +1,5 @@
 - [HiPerGator](#hipergator)
+ - [HiPerGator](#hipergator)
   - [What is HiPerGator?](#what-is-hipergator)
   - [How to submit SLURM scripts](#how-to-submit-slurm-scripts)
     - [Notes on submitting to the SLURM scheduler](#notes-on-submitting-to-the-slurm-scheduler)

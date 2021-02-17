@@ -233,7 +233,6 @@ To learn more about fitting functions, go to LPC machines at Fermilab:
 And follow these directions:
 https://twiki.cern.ch/twiki/bin/viewauth/CMS/SWGuideCMSDataAnalysisSchoolPreExerciseFourthSet
 
-
 ### Changing text
 
 ```cpp
@@ -310,6 +309,9 @@ nome_canvas += Form("%d", h+1);
 histo_name = lepton_type.at(j) + Form("Pt_Lep%d", i);
 histo_name = Form("UnbinnedPt_%s_%.0f_%.0f_%s_%s", lepton_type[j].Data(), pT_bins.at(y-1), pT_bins.at(y), eta_bins_name[x-1].Data(), eta_bins_name[x].Data());
 nome = Form("eta_%d_phi_%d", x, y);
+
+// Can also put TStrings inside of Form():
+nome = Form("eta_%s", nome_canvas.Data());
 ```
 
 How to pass a `string` into `tree->GetEntries(cuts)`:

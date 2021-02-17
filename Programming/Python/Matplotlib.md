@@ -10,13 +10,16 @@ When using Jupyter Notebooks, also add:
 %matplotlib inline
 
 Make a plot, quick and dirty:
+
+```python
 t = np.arange(0., 5., 0.2)
 # red dashes, blue squares and green triangles
 plt.plot(t, t^2)
-Can combine multiple plots in a single plot() call:
+# Can combine multiple plots in a single plot() call:
 plt.plot(t, t, 'r--', t, t**2, 'bs', t, t**3, 'g^')
 plt.plot(t, t^2, drawstyle='steps-pre')
 plt.show()
+```
 
 Use more control:
 f = plt.figure()				# Make a figure (canvas).
@@ -63,8 +66,10 @@ ax.plot(x, np.sin(x), color='red', label='sine fn', alpha=0.6    # alpha is tran
 Add x10^(-3) to your axis labels:
 ax.ticklabel_format(axis="x", style="sci", scilimits=(3,3), useMathText=True)
 
-Legend:
+```python
+# Add a legend:
 ax.legend(loc='upper left')
+```
 
 Text box:ax.text(x, y, "Some words", horizontalalignment='center', verticalalignment='center', transform=ax.transAxes)
 - Using `transform=ax.transAxes` puts x,y in terms of axes coordinates (as opposed to data coordinates)

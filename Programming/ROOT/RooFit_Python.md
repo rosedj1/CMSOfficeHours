@@ -151,7 +151,7 @@ rds = RooDataSet("rds","dataset from tree", tree, r.RooArgSet(x), "cut string") 
 rds = RooDataSet('data', 'dataset', r.RooFit.Import(tree), r.RooArgSet(rooVar), r.RooFit.Cut(Cut + ' && 1' ))  # Needs testing.
 ```
 
-## Useful RooDataSet methods:
+## Useful RooDataSet methods
 
 ```python
 rds.SaveAs('my_RooDataSet.root')  # FIXME: Test this.

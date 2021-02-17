@@ -121,7 +121,7 @@ txt.DrawTextNDC(0.3, 0.4, "Hello world!")  # x,y as a fraction of the canvas wid
 So far I've found this to be the best way to add text to the canvas.
 
 
-#### Option 2: TLaTeX
+#### Option 2: TLatex
 
 ```python
 latex = r.TLatex()
@@ -129,6 +129,7 @@ latex.SetNDC()
 latex.SetTextSize(0.013)
 latex.SetTextColor(r.kRed)
 bestfit_mean = 0.006718
+# This one TLatex object can draw many different lines.
 latex.DrawLatex(0.185, 0.90, f"#mu = {bestfit_mean:%.3E}")
 latex.DrawText(0.1, 0.8, "mean  = %.5E" % bestfit_mean_corr)
 
@@ -244,6 +245,9 @@ mg.SetMaximum(9.0)
 mg.Draw("a")
 r.gPad.Modified()
 mg.GetXaxis().SetLimits(1.5, 7.5)  # Change x-axis limits.
+
+# Retrieve the graphs inside of mg:
+gr_ls = mg.GetListOfGraphs()
 ```
 
 ### TMultiGraph
@@ -452,6 +456,25 @@ Other possible ways?
 cpp_fn = """
 ROOT.gInterpreter.Declare()
 ```
+
+## Uproot
+
+```python
+# From Suzanne.
+import uproot
+import awkward
+
+f = uproot.open(filename)
+tree = f['path/to/tree_name']
+branches = tree.arrays(namedecode='utf-8')
+table = awkward.Table(branches)
+nevents = len(table['tree_branch'])
+
+mask = table['tree_branch'] > some_cut
+table['tree_branch'][mask]
+table['another_tree_branch'][mask]
+```
+
 ## Items to research
 
 - [PyROOT Hats](https://indico.cern.ch/event/917673/)

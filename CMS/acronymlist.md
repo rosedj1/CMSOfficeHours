@@ -72,6 +72,7 @@
 | GMT | Global Muon Trigger| |
 | GSf | Gaussian-sum filter| |
 | GT | Global Tag| |
+| HDFS | Hadoop Distributed File System | |
 | HEEP   | High-Energy Electron Pair | |
 | HEFT | Higgs Effective Field Theory| |
 | HELAS | HELicity Amplitude Subroutine library| |

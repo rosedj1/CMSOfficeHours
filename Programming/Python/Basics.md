@@ -52,9 +52,9 @@ print(f"the value is {val:>7.4f}")
 
 # You can do multiline f-strings:
 msg = (
-    f"Put your text on {num_lines} lines."
-    f"It looks really good this way!"
-)
+       f"Put your text on {num_lines} lines."
+       f"It looks really good this way!"
+      )
 ```
 
 If you are (unfortunately) working in Python2, then you can import f-strings.
@@ -146,9 +146,16 @@ Sort by values, return keys:
 sorted_ls_of_keys = sorted(my_dict, key=my_dict.__getitem__)
 
 ### Lists
-- Unordered and mutable!
+
+- Ordered and mutable
+
+```python
 mylist = [1,3,'hey']			# lists can hold different data types
 mylist.append(4.6)			# permanently appends value to mylist
+
+# Make a quick list of strings:
+str_ls = 'each word will be its own element'.split()
+```
 
 ### Sets
 Unordered, immutable objects
@@ -171,10 +178,20 @@ Unordered, immutable objects
 Very similar to lists... except tuples are immutable!
 They are processed faster than lists
 
+## Control Flow
 
-for loops
-for item1,item2 in zip( list1,list2 ):	# will iterate through item1 at same time as item2
-	# do stuff
+**for loops**
+
+```python
+import gc  # Garbage Collector.
+# https://rushter.com/blog/python-garbage-collector/
+# https://stackify.com/python-garbage-collection/
+
+# Iterate through list1 at the same time as list2
+for item1, item2 in zip(list1, list2):
+# do stuff
+gc.collect()
+```
 
 range
 - creates an iterable object
@@ -450,19 +467,15 @@ Pass in command line options to your script: `python myscript.py --xmin=0 --xmax
 
 ```python
 import argparse
-def ParseOption():
-    parser = argparse.ArgumentParser(description='submit all')
-    parser.add_argument('--min', dest='min_Zmass', type=float, help='min for Zmass')
-    parser.add_argument('--filename', dest='filename', type=str, help='output file')
-    parser.add_argument('--widthZ', dest='widthZ', type=float, help='Z width in MC or pdg value')
-    parser.add_argument('--plotBinInfo', dest='binInfo', nargs='+', help='', type=int)
-    parser.add_argument('--doubleCB_tail',dest='doubleCB_tail', nargs='+', help='', type=float)
-    parser.add_argument('--doREFIT', dest='doREFIT', action='store_true', default=False, help='doREFIT')
-    args = parser.parse_args()
-    return args
+parser = argparse.ArgumentParser(description='submit all')
+parser.add_argument('--min', dest='min_Zmass', type=float, help='min for Zmass')
+parser.add_argument('--filename', dest='filename', type=str, help='output file')
+parser.add_argument('--widthZ', dest='widthZ', type=float, help='Z width in MC or pdg value')
+parser.add_argument('--plotBinInfo', dest='binInfo', nargs='+', help='', type=int)
+parser.add_argument('--doubleCB_tail',dest='doubleCB_tail', nargs='+', help='', type=float)
+parser.add_argument('--doREFIT', dest='doREFIT', action='store_true', default=False, help='doREFIT')
+args = parser.parse_args()
 
-# Call the function.
-args = ParseOption()
 # Retrieve values from args object.
 args.Z_width
 massZErr_rel_min = args.min_relM2lErr
@@ -901,6 +914,11 @@ You can use jupyter notebooks on remote machines!
 1. On remote machine: jupyter notebook --no-browser --port=8881
 2. On local machine: ssh -NL 8888:localhost:8881 <UN@host.server.com>
 3. In browser, go to: localhost:8888
+
+## Memory Allocation in Python
+
+Every variable in Python is a reference (a pointer) to an object and not the
+actual value itself.
 
 ---
 
