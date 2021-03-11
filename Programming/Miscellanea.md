@@ -1,17 +1,18 @@
 # Tips and Tricks with Other Software
 
-Make reusable, adaptable code.
+- Make reusable, modular, adaptable code. Make each function a strong, independent Lego block.
+- [Here's some great programming advice.](https://pythonprinciples.com/blog/getting-unstuck/)
 
 ## Skype
 
 ```bash
-*<words>* 			# make <words> bold
-_<words>_ 			# make <words> italic
-~<words>~ 			# make <words> strikethrough
-```<words>```		# make <words> monospace and code-like (can be multiline)
-{code}<words>{code} 	# make <words> monospace and code-like
-!!<space>			# make entire message monospace by beginning message with '!!' and then a space!
-@@<space>			# ignore all special formatting by beginning message with '@@' and then a space
+*<words>*           # Make <words> bold.
+_<words>_           # Make <words> italic.
+~<words>~           # Make <words> strikethrough.
+```<words>```       # Make <words> monospace and code-like (can be multiline).
+{code}<words>{code} # Make <words> monospace and code-like.
+!!<space>           # Make entire message monospace. Beginning message with '!!' and then a space.
+@@<space>           # Ignore all special formatting. Begin message with '@@' and then a space.
 ```
 
 ---

@@ -36,10 +36,10 @@
 
 Multiple cursors:
 
-- `Cmd D`: Simultaneously highlight another instance of highlighted text
-- `Cmd Shift L`: Select all occurrences of highlighted text |
-- `Option click_with_mouse` to drop additional cursors wherever you click.
-- `Option Cmd up-arrow/down-arrow` : make additional cursors above/below
+- `Cmd D`: Simultaneously highlight another instance of highlighted text.
+- `Cmd Shift L`: Select all occurrences of highlighted text.
+- `Option click_with_mouse`: Drop additional cursors wherever you click.
+- `Option Cmd up-arrow/down-arrow`: Make additional cursors above/below.
 
 Box selection (MacOS):
 
