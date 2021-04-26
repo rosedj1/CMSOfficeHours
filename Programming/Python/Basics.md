@@ -3,6 +3,7 @@
 ## Resources and Tutorials
 
 - For all your Python needs: [Real Python](https://realpython.com/python-first-steps/).
+- [Useful reference sheet.](https://pythonprinciples.com/reference/)
 
 Use **Python3**, since Python2 is no longer supported.
 
@@ -145,6 +146,11 @@ sorted_ls_of_vals = [value for (key, value) in sorted(my_dict.items())]
 Sort by values, return keys:
 sorted_ls_of_keys = sorted(my_dict, key=my_dict.__getitem__)
 
+Useful module for naturally sorting strings:
+`conda install -c anaconda natsort`
+
+
+
 ### Lists
 
 - Ordered and mutable
@@ -256,6 +262,14 @@ Module vs. Script:
 - a script is executed by the Python interpreter  # `python script.py`  # Though script is a module!
 - Remember that 
 
+#### Function Decorators
+
+A **decorator** is a function that "decorates" another function.
+Decorators:
+
+- Take in a function as an argument.
+- Return a function.
+
 ### Classes
 
 A class is a *blueprint* that you use to make objects (think _nouns_, like cars, ninjas, galaxies, etc.):
@@ -355,6 +369,18 @@ How to use wildcards:
 | `*` | matches 0 or more characters |
 | `?` | matches 1 character in that position |
 | `[0-9]` | matches any single digit |
+
+### json
+
+Save your objects for later in a `.json` file:
+
+```python
+import json
+dct = {'1':'a', '2':'b'}
+with open("path/to/newfile.json", "w") as f:
+    # Prettify using indent.
+    json.dump(dct, f, indent=4, sort_keys=True)
+```
 
 ### pickle
 
@@ -461,13 +487,27 @@ print(elapsed_time)
 
 Pass in command line options to your script: `python myscript.py --xmin=0 --xmax=10`
 
-**Note:** It is difficult to use **bools** as input arguments!
+**Note:** It is difficult to use **bool**s as input arguments!
 
 - A quick hack is to pass in `0` and `1` instead. *Python is forgiving.* :-)
 
 ```python
 import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument('-v', '--verbose', dest="verb", action="store_true")
+args = parser.parse_args()
+if args.verb:
+    print("Debug info.")
+# Now specifying either the -v or --verbose flags will print "Debug info".
+# E.g. `python thisscript.py -v`
+# Note: 'store_true' is short for:
+# `action='store_const', const=True, default=False`
+```
+
+```python
+import argparse
 parser = argparse.ArgumentParser(description='submit all')
+parser.add_argument('-v', dest='--verbose', action="store_true")  # Specify just `-v` to get verbose.
 parser.add_argument('--min', dest='min_Zmass', type=float, help='min for Zmass')
 parser.add_argument('--filename', dest='filename', type=str, help='output file')
 parser.add_argument('--widthZ', dest='widthZ', type=float, help='Z width in MC or pdg value')
@@ -921,6 +961,43 @@ Every variable in Python is a reference (a pointer) to an object and not the
 actual value itself.
 
 ---
+
+## Performance in Python
+
+Run the `cProfile` profiler found in the Python standard library
+to check the detailed performance of your code:
+
+```bash
+python -m cProfile -o output_file.prof latest_tutorial.py
+# Wait for code to run.
+python -m pstats output_file.prof
+# This takes you to the profile stats browser. It's useful to do:
+output_file.prof% strip         
+output_file.prof% sort tottime  # `cumtime` counts time when outer fns calls inner fns.
+output_file.prof% stats 20      # Show the first 20 lines of stats.
+```
+
+`cProfile` is good for identifying which functions consume the most time
+but it doesn't tell you *which lines* are troublesome.
+Instead, use `line_profiler`:
+
+```python
+# Install it.
+conda install -c anaconda line_profiler
+
+# Then add the `@profile` decorator above the problem function.
+@profile
+def big_boi():
+    # Function details here.
+```
+
+View time details by running the line_profiler in your shell:
+
+```bash
+kernprof -l your_script.py
+# This will produce a file called: `your_script.py.lprof`. Then do:
+python -m line_profiler your_script.py.lprof
+```
 
 ## Things to look into
 

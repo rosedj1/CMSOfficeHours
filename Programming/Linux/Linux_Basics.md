@@ -8,7 +8,15 @@ It is the standard interpreter on most Linux distributions .
 ## Must know Bash commands
 
 ```bash
-ls                  # List files. Useful flags: ls -lhtra
+ls     # List files.
+# Useful flags:
+# -l : long list
+# -h : human readable
+# -t : sorted by time modified
+# -r : reverse the order
+# -a : show all files, even hidden ones
+# -S : Sort files by size.
+
 pwd                 # Print Working Directory. Shows you where you are.
 cd <path/to/files>  # Change Directory. This is how you move around.
 cd ..               # Go up a dir.
@@ -62,6 +70,7 @@ ln -s <file> <link_name>	# creates a symbolic link (a reference) between <file> 
 - Except for 'rm'; deleting <link_name> does NOT delete <file>
 file <>
 printf			# appears to just be a fancier and more reliable echo
+wc <file> # Word count. -l : count lines, -c : count bytes
 ```
 
 ## Some Bash magic
@@ -373,7 +382,7 @@ Quickly rename a bunch of files in a dir:
 
 ```bash
 for file in *.pdf;
-    do mv "$file" "${file/.pdf/_standardsel.pdf}";  # ${file/replace_this/with_this}
+    do mv "$file" "${file/.pdf/.txt}";  # ${file/replace_this/with_this}
 done
 ```
 

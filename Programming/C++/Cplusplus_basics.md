@@ -122,6 +122,9 @@ vec[0];            // Index vec, just like arrays. Returns `2`.
 vec;               // Show all entries in vec.
 vec.size();        // Number of elements in vec.
 vec.begin();       // Return an iterator.
+// Sort a vector:
+vector<double> vec = {2.0, 1.0}
+std::sort(vec.begin(), vec.end())  // After: { 1.0000000, 2.0000000 }
 ```
 
 #### Other ways to play wth vectors

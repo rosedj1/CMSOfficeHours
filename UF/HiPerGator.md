@@ -1,6 +1,8 @@
 - [HiPerGator](#hipergator)
- - [HiPerGator](#hipergator)
   - [What is HiPerGator?](#what-is-hipergator)
+  - [Log into a HPG node](#log-into-a-hpg-node)
+  - [Whose group are you in?](#whose-group-are-you-in)
+  - [Some HPG-specific commands](#some-hpg-specific-commands)
   - [How to submit SLURM scripts](#how-to-submit-slurm-scripts)
     - [Notes on submitting to the SLURM scheduler](#notes-on-submitting-to-the-slurm-scheduler)
     - [SBATCH directives](#sbatch-directives)
@@ -15,7 +17,7 @@
     - [Vaex on HPG](#vaex-on-hpg)
   - [General HPG Info](#general-hpg-info)
   - [Parallelism](#parallelism)
-    - [Some terms](#some-terms)
+    - [Computing Terms](#computing-terms)
   - [Resources](#resources)
 
 # HiPerGator
@@ -194,7 +196,7 @@ use an **interactive development session** to test your code first.
 ### How to start a SLURM interactive session on a compute node
 
 ```bash
-srun --partition=hpg2-dev --pty bash -i --mem=4gb --ntasks=1 --cpus-per-task=8 --time=04:00:00
+srun --partition=hpg2-dev --mem=4gb --ntasks=1 --cpus-per-task=8 --time=04:00:00 --pty bash -i 
 ```
 
 N.B. `srundev` is an alias for `srun --partition=hpg2-dev --pty bash -i`, so the above simplfies to:
@@ -536,7 +538,7 @@ There are also compute nodes
 What is HPG?
 HPG is essentially just a big cluster of computers.
 More technically, it is many interconnected servers (compute nodes). 
-Each compute node has either 2 or 4 "sockets" and each socket holds around 32 or 64 "CPU cores" (CPUs). 
+Each compute node has either 2 or 4 "sockets" and each socket holds around 32 or 64 "CPU cores" (CPUs).
 Therefore each node has a limited amount of:
 - CPU cores, RAM, memory bandwidth, network bandwidth, and local storage.
 Impressively, the entire HPG network has ~200 PB of memory (RAM)!!!
@@ -572,7 +574,6 @@ You can also specify the number of tasks per processor: ntasks-per-socket
 each processor only has a certain bandwidth to memory
 processor = cpu = core
 
-
 Entire PHZ5155 course is allocated a whole node!
 - This is 32 cores on HPG2
 The slowdown of your job may be in the bandwidth!
@@ -581,3 +582,6 @@ The slowdown of your job may be in the bandwidth!
 - A filesystem is effectively a hard drive (used for data storage).
   That's why it's beneficial to submit big jobs to the SLURM computer cluster.
 - login1, login2 are individual servers
+
+View memory use of jobs:
+`sacct --format=User,JobID,ReqMem,MaxRss`

@@ -10,9 +10,32 @@ Mention `conda activate my_root_env`.
 
 ## More Resources
 
+- [Scikit-HEP](https://scikit-hep.org/):
+  - Amazing packages to help with your particle physics analysis.
 - [Pyroot_Zen](https://pyroot-zen.readthedocs.io/en/latest/#): Make ROOT even more Pythonic.
 
-## How to make a TTree and store values using PyROOT
+## TTrees
+
+The ubiquitous data container for event information.
+It's most useful to loop over each event in the TTree:
+
+```python
+f = ROOT.TFile("infile_path.root")
+tree = f.Get("yourtreename")
+
+for n_evt in range(tree.GetEntries()):
+    # Set the internal ROOT pointer at the first event.
+    tree.GetEntry(n_evt)
+    # Now extract event info.
+    # Here I assume that "pT_muon" is a branch in my TTree.
+    pT = tree.pT_muon
+
+# There is more pythonic way to iterate over TTree events.
+for evt in tree:
+    evt.pT_muon
+```
+
+### How to make a TTree and store values using PyROOT
 
 ### Example
 
@@ -120,8 +143,13 @@ txt.DrawTextNDC(0.3, 0.4, "Hello world!")  # x,y as a fraction of the canvas wid
 
 So far I've found this to be the best way to add text to the canvas.
 
-
 #### Option 2: TLatex
+
+ROOT supports LaTeX symbols.
+However instead of using a backslash (`\`), use a hashtag (`#`):
+`#p_{T}^{#mu}`
+
+- [List of symbols](https://root.cern.ch/doc/master/classTLatex.html#L5)
 
 ```python
 latex = r.TLatex()
@@ -219,7 +247,7 @@ fitfunc.GetParError(0)
 
 # Other useful methods.
 gr.GetN()        # Return the number of points in the graph.
-gr.GetPointX(4)  # Return the x-coordinate of point 4.
+gr.GetPointX(4)  # Return the x-coordinate of point 4. First point indexed at 0.
 gr.GetPointY(4)  # Return the y-coordinate of point 4.
 ```
 

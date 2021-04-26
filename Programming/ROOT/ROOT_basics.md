@@ -4,7 +4,9 @@
 
 - A [2-day ROOT course on GitHub](https://github.com/root-project/training/tree/master/BasicCourse).
 - Here is a [comprehensive and XKCD-comic-filled tutorial](ROOT_Tutorial_with_XKCD_Pitstops.pdf) on how to use ROOT.
-If you want the boiled down version, keep reading below.
+If you want the boiled down version, keep reading the notes below.
+- Enjoyable [slides](http://hadron.physics.fsu.edu/~skpark/document/ROOT/RootLecture/)
+from 2009.
 - [Some dude's surprisingly useful notes to himself.](https://twiki.cern.ch/twiki/bin/view/Main/RootNotes)
 
 ## Find your ROOTs
@@ -354,6 +356,10 @@ Objects should be drawn (`obj->Draw()`) only **once**.
 - Use `c->Modified()` to update an already drawn object.
 
 Use the ROOT interpreter to **test pieces of your code**, before you put it into a script.
+
+Make a nice multiplication/times symbol using ROOT: `thing1 #upoint thing2`
+
+- Comes out as a small dot.
 
 ## More Resources
 
