@@ -323,6 +323,22 @@ Useful statements:
 Can also do:
 assert <condition>, "Error message here"
 
+### Enumeration
+
+[How and why to use enums.](https://florian-dahlitz.de/blog/why-you-should-use-more-enums-in-python#what-is-an-enum)
+Enums help to give *names* to numbers:
+
+```python
+from enum import Enum
+class Color(Enum):
+    RED = 1
+    GREEN = 4
+    INDIGO = 6
+
+c = Color.GREEN
+c is Color.GREEN  # True.
+```
+
 ---
 
 ## Packages

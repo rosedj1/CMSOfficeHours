@@ -60,11 +60,12 @@ class Time {
 
 if(condition) statement;
 
-if(condition) {
+if (condition) {
     statement1;
     statement2; ...
+} else if {
+    statementX;
 }
-else statementX;
 
 while(condition) statement;  // May not execute statement.
 

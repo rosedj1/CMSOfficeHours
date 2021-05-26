@@ -2,19 +2,29 @@
 
 ## Other ROOT tutorials
 
-- A [2-day ROOT course on GitHub](https://github.com/root-project/training/tree/master/BasicCourse).
 - Here is a [comprehensive and XKCD-comic-filled tutorial](ROOT_Tutorial_with_XKCD_Pitstops.pdf) on how to use ROOT.
-If you want the boiled down version, keep reading the notes below.
 - Enjoyable [slides](http://hadron.physics.fsu.edu/~skpark/document/ROOT/RootLecture/)
 from 2009.
+- A [2-day ROOT course on GitHub](https://github.com/root-project/training/tree/master/BasicCourse).
+If you want the boiled down version, keep reading the notes below.
 - [Some dude's surprisingly useful notes to himself.](https://twiki.cern.ch/twiki/bin/view/Main/RootNotes)
 
-## Find your ROOTs
+## How to Start ROOT
 
-**ROOT** is installed with **CMSSW**. So `cd` into a CMSSW environment, like: `cd /path/to/CMSSW_10_2_18/src/`, and then do `cmsenv`. Now you should be able to open up ROOT: `root -l`
+**ROOT** is easily installed with **CMSSW**.
 
-- If you need to install a CMSSW environment, [read this](FIXME:link to CMSSW install).
-- The `-l` flag keeps the splash window from popping up.
+1. Enter a CMSSW environment: `cd /path/to/CMSSW_10_2_18/src/`
+   1. Don't have a CMSSW environment? Do:
+
+   ```bash
+   source /cvmfs/cms.cern.ch/cmsset_default.sh
+   cmsrel CMSSW_10_2_18
+   # Et voilà!
+   ```
+
+2. Then do `cmsenv` to make CMSSW commands available to you.
+3. Finally, open up ROOT: `root -l` (the letter "ell")
+   1. The `-l` flag keeps the splash window from popping up.
 
 ## Basic ROOT Commands
 
@@ -119,6 +129,24 @@ Save the script above in a file called **open_file_print_val.C**.
 Then do `root -l open_file_print_val.C` to run it.
 
 ## Most Common ROOT Objects
+
+### TTree
+
+The essential data storage container in ROOT.
+
+Imagine a TTree to be like a spreadsheet.
+Each row is an event (usually) and each column is a variable
+(think: pT, energy, mass, x_position, etc.).
+
+- Columns are called **branches**.
+- TTrees are actually much more powerful than a spreadsheet because each
+branch can hold a different type of data (int, vector, hist, TTree, etc.).
+
+[Make a subset of a TTree.](https://root.cern.ch/doc/master/copytree3_8C.html)
+
+### TChain
+
+Chains multiple TTrees together (perhaps they even live in different files).
 
 ### TCanvas
 
@@ -367,8 +395,6 @@ Make a nice multiplication/times symbol using ROOT: `thing1 #upoint thing2`
 - [ROOT Presentation (longer)](http://nuclear.ucdavis.edu/~calderon/Presentations/ROOT-TipsTricks.pdf)
 - [Nevis Columbia links](https://www.nevis.columbia.edu/~seligman/root-class/links.html)
 - [ROOT for Beginners](https://en.wikitolearn.org/ROOT_for_beginners)
-
-- `TChain* tree = sample.getTree();`
 
 ## Scrap ROOT code: to organize
 
