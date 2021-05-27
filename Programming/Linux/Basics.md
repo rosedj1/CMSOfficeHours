@@ -137,6 +137,9 @@ sed "4q;d" <file>
 # q = quits once line is reached
 # d usually deletes the last line, except when program quits.
 
+# Print lines 6-9 from a file (`p` here means "print", `-n` is quiet mode):
+sed -n '6,9p' coleridge.txt
+
 # Strip python/bash comments from a file:
 sed -i -e 's/#.*$//g' -e '/^$/d' <file>
 # the '-e' executes another instance of sed, like piping.

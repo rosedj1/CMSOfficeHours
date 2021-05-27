@@ -1,22 +1,46 @@
 # Bash Scripting
 
-You can string together many Bash commands into a script.
+You can put many Bash commands together into a script.
 Thus, Bash is like other programming languages (Python, Java, C++, etc.).
 
 [Arrays](https://www.tutorialkart.com/bash-shell-scripting/bash-array/)
 
-## For loops
+## Control Flow
 
 ```bash
-for num in {15..60..5};  # Start from 15, end at 60, increment by 5.
-    do echo $num;
+############################
+#--- if/then statements ---#
+############################
+FILE=/home/jake/myfile.txt
+if test -f "${FILE}"; then  # -f checks if it's an actual file (versus a dir).
+    echo "${FILE} exists."
+fi
+
+# Another example:
+if [ ! -e "${FILE}" ]; then  # Can also use double square brackets.
+    echo "${FILE} does not exist."
+else
+    echo "You betcha, don'tcha know."
+fi
+
+# You can be really fancy:
+test -f /etc/resolv.con && echo "$FILE exists." || echo "$FILE doesn't exist."
+# The part after the `&&` executes if true, `||` executes if false.
+
+###################
+#--- for loops ---#
+###################
+# for loops:
+for num in {15..60..5}; do  # Start from 15, end at 60, increment by 5.
+    echo $num;
 done
-```
 
-```bash
-$#  # number of arguments passed to script
-$@  # the arguments themselves which were passed to script
-$?  # return statement of last command: 0 is successful
+#####################
+#--- while loops ---#
+#####################
+while true; do
+    <cmds>
+done
 ```
 
 ## Functions
@@ -31,18 +55,6 @@ function <func_name> {
 # Functions can be one liners:
 function cdl { cd $1; ls; }
     cdl mydir  # cd into mydir and then ls
-```
-
-## If/then statements
-
-```bash
-if [[ ! -x <path/to/file> ]]; then
-    <cmds>
-fi
-
-while true; do
-    <cmds>
-done
 ```
 
 ### Useful flags
@@ -65,4 +77,12 @@ done
 
 ```bash
 [ "a" = "a" ]  # Tests if the 2 strings are equal. If true, exit status = 0.
+```
+
+### Helpful bash variables
+
+```bash
+$#  # number of arguments passed to script
+$@  # the arguments themselves which were passed to script
+$?  # return statement of last command: 0 is successful (usually).
 ```
