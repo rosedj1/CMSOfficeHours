@@ -14,7 +14,14 @@ Mention `conda activate my_root_env`.
   - Amazing packages to help with your particle physics analysis.
 - [Pyroot_Zen](https://pyroot-zen.readthedocs.io/en/latest/#): Make ROOT even more Pythonic.
 
-## TTrees
+## TFile
+
+The ROOT version of a file.
+
+```python
+```
+
+## TTree
 
 The ubiquitous data container for event information.
 It's most useful to loop over each event in the TTree:
@@ -150,6 +157,7 @@ However instead of using a backslash (`\`), use a hashtag (`#`):
 `#p_{T}^{#mu}`
 
 - [List of symbols](https://root.cern.ch/doc/master/classTLatex.html#L5)
+- Cursive 'ell': `"m_{4#font[12]{l}} (GeV)"`
 
 ```python
 latex = r.TLatex()
@@ -347,7 +355,8 @@ c.Draw()
 ### Legends
 
 ```python
-leg = ROOT.TLegend(xmin, ymin, xmax, ymax)  # (all floats between 0 and 1, as a proportion of the x or y dimension)
+leg = ROOT.TLegend(xmin, ymin, xmax, ymax)
+# (All floats between 0 and 1, as a proportion of the x or y dimension)
 leg = ROOT.TLegend(0.60, 0.7, 0.8, 0.9)
 leg.AddEntry(h1, "lhaid = %s" % pdf1, "lpf")
 leg.SetLineWidth(3)

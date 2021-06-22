@@ -15,6 +15,9 @@
     - [Option 1: Run Jupyter Notebooks remotely using a SLURM script](#option-1-run-jupyter-notebooks-remotely-using-a-slurm-script)
     - [How to use CMSSW on HPG](#how-to-use-cmssw-on-hpg)
     - [Vaex on HPG](#vaex-on-hpg)
+  - [Tier 2](#tier-2)
+    - [Modify CRAB T2 Area](#modify-crab-t2-area)
+    - [Your Personal T2 Area](#your-personal-t2-area)
   - [General HPG Info](#general-hpg-info)
   - [Parallelism](#parallelism)
     - [Computing Terms](#computing-terms)
@@ -53,7 +56,7 @@ cd /blue/your_group/your_gatorlink_UN/
 ```
 
 - Tab-complete won't work until you manually `cd` into that file path first.
-- This area has access to 51000 cores.
+- This area has access to 51,000 cores.
 
 ## Whose group are you in?
 
@@ -70,6 +73,7 @@ Once approved, you'll be able to submit SLURM scripts to the UFRC computer clust
 ## Some HPG-specific commands
 
 ```bash
+ssh login3            # Jump to login node 3. There are nodes 1-4.
 showAssoc <username>  # See what groups are associated with <username>.
 slurmInfo             # See your primary group's info.
 slurmInfo <group>     # See a particular group's info.
@@ -147,7 +151,6 @@ Then submit a job to the scheduler.
     - number of CPUS
     - RAM
     - how long to process the job
-
 
 ### Notes on submitting to the SLURM scheduler
 
@@ -456,6 +459,40 @@ vdf = vaex.from_csv("<file.csv>")
 vdf.export_hdf5("<file.hdf5>")
 # I'm pretty sure this process gets killed though.
 ```
+
+## Tier 2
+
+HPG can access the UF T2 storage space, which commonly holds CMS root files.
+The area is:
+
+- `/cmsuf/data/store/user/<your_UN>/`
+
+You cannot write to this T2 area; only CRAB can!
+Simply add this to your CRAB config file:
+
+- `config.Site.storageSite = 'T2_US_Florida'`
+
+### Modify CRAB T2 Area
+
+Although you can't directly modify the CRAB T2 area,
+there actually is a way:
+
+1. Go to somewhere like an `lxplus` machine.
+
+2. Activate your proxy:
+
+  ```voms-proxy-init -voms cms -rfc --valid=168:00```
+
+1. Perform a command in the CRAB T2 area, e.g.:
+
+  ```uberftp cmsio.rc.ufl.edu "rm your_file"```
+
+### Your Personal T2 Area
+
+You *can* write to your "personal T2 area" which has rather large storage.
+Use this area frequently:
+
+- `/cmsuf/data/store/user/t2/users/<your_UN>/`
 
 ## General HPG Info
 

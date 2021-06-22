@@ -34,11 +34,19 @@ h1 = r.TH1F("h1", "Variable Bin Width", 5, np.array([5, 10, 20, 30, 50, 100], dt
 
 ---
 
-Rebinning should be rather easy! 
+Rebinning should be rather easy!
 - there is a Rebin method
 - Errors are automatically recalculated
+
+```python
+h.Rebin(3)  # Merge three bins at a time (1-3, 4-6, 7-9, etc.). Default=2.
+```
+
 Normalizing Histos:
-Use: Scale(1/h->Integral)
+
+```c++
+h->Scale(1/h->Integral())
+```
 
 ## Common Histogram Methods
 
