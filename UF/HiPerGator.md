@@ -49,14 +49,18 @@ Do `pwd` to verify this.
 - Do not run intensive code here. To execute big jobs, [submit a SLURM script](#how-to-submit-slurm-scripts).
 - This area has only one server (node) hosting it.
 
-You have a bigger workspace. To access it, do:
+You have two bigger workspaces. To access them, do:
 
 ```bash
 cd /blue/your_group/your_gatorlink_UN/
+# and
+cd /orange/your_group/your_gatorlink_UN/
 ```
 
 - Tab-complete won't work until you manually `cd` into that file path first.
 - This area has access to 51,000 cores.
+- `/blue/` has a total storage of 8 PB.
+- `/orange/` has a total storage of 6 PB.
 
 ## Whose group are you in?
 
