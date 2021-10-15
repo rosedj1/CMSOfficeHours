@@ -27,15 +27,21 @@ Go to the DuckDuckGo search bar and type:
 
 - `!yt cute dogs` : Searches YouTube for "cute dogs"
 
-Common bangs:
+Useful bangs:
 
-- `!sopy` : Stack Overflow Python
-- `!ddso` : DuckDuckGo Stack Overflow
-- `!stack` : Stack Overflow
-- `!w` : Wikipedia
-- `!yt` : YouTube
-- `!wa` : Wolfram Alpha
-- `!reddit` : Reddit
+| `bang` | **Website** |
+| --- | --- |
+| `!di` | Dictionary.com |
+| `!t` | Thesaurus.com |
+| `!w` | Wikipedia |
+| `!yt` | YouTube |
+| `!stack` | Stack Overflow|
+| `!wa` | Wolfram Alpha |
+| `!reddit` | Reddit |
+| `!sopy` | Stack Overflow Python |
+| `!ddso` | DuckDuckGo Stack Overflow |
+| `!whitl` | Whitaker's Words: Latin to English. |
+| `!whitakers` | Whitaker's Words: English to Latin. |
 
 Pull up useful "Cheat Sheets":
 
@@ -421,25 +427,31 @@ mutate(pop = pop / 1000)
 mutate(gpd = gdpPercap * pop)
 - does not permanently change the old tibble; creates a new one
 
-## MacOS Tips and Tricks
+## macOS Tips and Tricks
 
-### Tips for PDFs
+### PDFs
 
 While using **Preview**, press `Cmd + Option + 2` to view all pages of your PDF.
 
 - You can **drag and drop** these pages into *other* PDFs or into **other programs**, like Keynote for your presentations!
 - You can also **rearrange** the pages or delete them from the PDF.
 
-### Keyboard shortcuts
+### Keyboard Shortcuts
 
-Lock your screen with: `Ctrl + Cmd + Q`
+| Function | Shortcut |
+| --- | --- |
+| Paste without formatting. | `Cmd + Shift + Opt + V` |
+| Lock your screen. | `Cmd + Ctrl + Q` |
+| Force quit an app. | `Cmd + Opt + Esc` |
 
-In terminal:
+Find more [here](https://support.apple.com/en-us/HT201236).
+
+### Terminal Shortcuts
 
 ```bash
-Cmd+up				# Go to last shell prompt.
-Cmd+Shift+right		# Go to next terminal tab.
-Cmd+right			# Go to next terminal window.
+Cmd+up          # Go to last shell prompt.
+Cmd+Shift+right # Go to next terminal tab.
+Cmd+right       # Go to next terminal window.
 ```
 
 Comment multiple highlighted lines:
@@ -447,15 +459,21 @@ Cmd+/
 
 Equivalent to Alt: fn+Opt
 
-### Keynote Tricks:
+### Keynote Tricks
 
-Insert image: 			Cmd+Shift+V
-Insert special char:	Cmd+Ctrl+Space
+JAKE: Turn into a table:
 
-Cmd+Opt+E	# Enter LaTeX equation.
+| Shortcut | Effect |
+| --- | --- |
+| Cmd+Shift+V | Insert image. |
+| Cmd+Ctrl+Space | Insert special char. |
+| Cmd+Opt+E | Enter LaTeX equation. |
+
+[All Keynote LaTeX commands.](https://support.apple.com/en-us/HT202501)
+
 \mathrm{}    # Normal font.
 {\it your text here}    # Italic text
-\text{}    # This may give normal font, but it is bold? 
+\text{}    # This may give normal font, but it is bold?
 
 ## VNC Viewer
 

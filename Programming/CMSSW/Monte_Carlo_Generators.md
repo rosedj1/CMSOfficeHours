@@ -23,19 +23,21 @@ to test a new kind of trigger, for example.
 - [OpenData intro to MC](http://opendata.cern.ch/docs/cms-mc-production-overview)
 - [TWiki: Intro to MC Generation](https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookGenIntro)
 - [TWiki: Another CMS Workbook](https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookGeneration)
+- [Presentation](https://indico.cern.ch/event/602457/contributions/2435408/attachments/1434598/2205444/luisoni_powheg.pdf)
+by Gionata Luisoni on LO vs. NLO math in MC production.
 
 ## Notes on MC generators
 
-| MC Generator | What for it mean? | How to use it |
+| MC Generator | What for it mean? | How to use it | Order |
 | ------------ | ----------------- | --- |
-| `Pythia8` | General purpose | |
-| `Herwig++` | General purpose | |
-| `POWHEG` | Matrix Element (ME) calculator| [How to use it](https://twiki.cern.ch/twiki/bin/viewauth/CMS/PowhegBOXPrecompiled#How_to_Run_a_POWHEG_gridpack_and) |
-| `MadGraph5_amCatNLO` | ME calculator | [How to use it](https://twiki.cern.ch/twiki/bin/view/CMS/QuickGuideMadGraph5aMCatNLO) |
-| `Alpgen` | ME calculator | |
-| `JHUGen` | | |
-| `Tauola` | | |
-| `Delphes` | Fast multipurpose detector response simulation | [How to use it](https://cp3.irmp.ucl.ac.be/projects/delphes/wiki)| 
+| `Pythia8` | General purpose | | |
+| `Herwig++` | General purpose | | |
+| `POWHEG` | Matrix Element (ME) calculator| [How to use it](https://twiki.cern.ch/twiki/bin/viewauth/CMS/PowhegBOXPrecompiled#How_to_Run_a_POWHEG_gridpack_and) | NLO |
+| `MadGraph5_amCatNLO` | ME calculator | [How to use it](https://twiki.cern.ch/twiki/bin/view/CMS/QuickGuideMadGraph5aMCatNLO) | |
+| `Alpgen` | ME calculator | | |
+| `JHUGen` | | | |
+| `Tauola` | | | |
+| `Delphes` | Fast multipurpose detector response simulation | [How to use it](https://cp3.irmp.ucl.ac.be/projects/delphes/wiki)| |
 
 ### Notes on ME generators
 
@@ -45,12 +47,39 @@ which is just a big ASCII (txt) file with all the produced event info in it.
 - LHE files are usually stored at: `/eos/cms/store/lhe/`
 - Within CMSSW, typically the command `cmsRun`
 
-### MadGraph
+## MadGraph
 
-- [Tanedo's Personal Notes](https://www.physics.uci.edu/~tanedo/files/notes/ColliderMadgraph.pdf)
-on how to install MadGraph and the math behind it all.
+[Useful notes by Flip Tanedo](https://www.physics.uci.edu/~tanedo/files/notes/ColliderMadgraph.pdf)
 
----
+- Includes how to install MadGraph, a tutorial on how to use it,
+and the math behind it all.
+
+### Tips and Tricks
+
+Syntax of the `generate` command:
+
+```bash
+generate INITIAL STATE > REQ S-CHANNEL > FINAL STATE $ EXCL S-CHANNEL /
+FORBIDDEN PARTICLES COUP1=ORDER1 COUP2=ORDER2 @N
+# -- generate diagrams for a given process
+# Example 1: generate l+ vl > w+ > l+ vl a $ z / a h QED=3 QCD=0 @1
+# Example 2: generate p p > t t~ w+ [QCD]
+# When a coupling order is specified or [QCD], the process is NLO.
+# See: https://arxiv.org/pdf/1405.0301.pdf, pp. 64, 120.
+
+# Alternative required s-channels can be separated by "|":
+b b~ > W+ W- | H+ H- > ta+ vt ta- vt~
+# If no coupling orders are given , MG5 will try to determine
+# orders to ensure maximum number of QCD vertices.
+# Note that if there are more than one non-QCD coupling type ,
+# coupling orders need to be specified by hand.
+
+# Decay chain syntax:
+core process , decay1 , (decay2 , (decay2 ’, ...)), ... etc
+# Example: p p > t~ t QED=0, (t~ > W- b~, W- > l- vl~), t > j j b @2
+# Note that identical particles will all be decayed.
+# To generate a second process use the "add process" command
+```
 
 ## Use CMSSW to generate events
 
@@ -90,3 +119,25 @@ Monte Carlo generator **fragments** live in `Configuration/Generator/python/`.
 ```bash
 cmsDriver.py ZMM_13TeV_TuneCUETP8M1_cfi  --conditions auto:run2_mc -n 10 --era Run2_2018 --eventcontent RAWSIM --step GEN,SIM --datatier GEN-SIM --beamspot Realistic25ns13TeVEarly2018Collision --no-exec
 ```
+
+## How to find info about a MC sample
+
+[Monte-Carlo Request Management (MCM)](https://cms-pdmv.cern.ch/mcm/)
+
+1. Go to MCM > Request > Output Dataset > search the full name of the sample.
+1. Copy the PrepId (in the left-most column).
+1. In the Dataset name column, click the little "chained request" symbol to see the history of the sample.
+1. In the bottom-right, click "All" to show all results.
+1. In the Chain column, search for the copied PrepId.
+1. Click the generator PrepId (the first PrepId in the chain and usually contains 'LHEGS')
+
+EITHER:
+
+1. In the Actions column, click the Get dictionary icon (it's a down arrow).
+1. Search for "https://" to find the fragment URL.
+1. Go to this link and deduce whether LO, NLO, or NNLO.
+
+OR:
+
+1. Select View > check 'Fragment' > in the Fragment column, click the cross icon.
+

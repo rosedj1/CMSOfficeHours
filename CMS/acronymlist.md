@@ -30,13 +30,14 @@
 | CFEB  | Cathode Front-End Board | An electronic board found on a CSC that stores analog signals from strips in SCA for digitization.|
 | CINCO | CMS Information on Conferences| |
 | CINT  | C INTerpreter | A C/C++ interpreter, like the terminal is for Linux commands. |
-| CJLST | CMS Joint 4Lepton Study Team | |
+| CJLST | CERN, Johns Hopkins, LLR, Split, Turin <br />*or* <br /> CMS Joint 4Lepton Study Team | |
 | CLCT  | Cathode Local Charged Track | A trigger board |
 | CMSSDT | CMS Software Development Tools | |
 | CMSSW  | CMS SoftWare| |
 | CR     | Control Region| |
 | CRAB   | CMS Remote Analysis Builder| |
 | CSV    | Combined Secondary Vertex| |
+| CTEQ | Coordinated Theoretical-Experimental project on QCD | [CTEQ](http://www.physics.smu.edu/scalise/cteq/) |
 | CVMFS  | Cern Virtual Machine File System| |
 | CWR    | Collaboration-Wide Review| |
 | DAS    | Data Aggregation Service (used to be DBS, Data Bookkeeping Service)| |
@@ -130,6 +131,7 @@
 | PFN  | Physical File Name| |
 | PhEDEx| Physics Experiment Data Export service| |
 | POG  | Physics Objects Groups| |
+| POSIX | Portable Operating System Interface | |
 | PPD | Physics Performance Dataset| |
 | PPE | Personal Protective Equipment| |
 | PPS | Precision Proton Spectrometer| |

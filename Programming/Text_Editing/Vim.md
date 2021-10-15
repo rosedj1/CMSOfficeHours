@@ -71,6 +71,13 @@ SUBSTITUTIONS:
 :%s/thisword/thatword/g		# search for thisword and substitute in thatword, globally
 :s/ <\thisword\> / thatword/	# replace thisword (exactly matching), with thatword
 # =============================
+
+REGISTERS:
+
+```
+"k<cmd>  # Store the result of <cmd> into register k.
+```
+
 MARKS:
 m<char>		# set a mark (checkpoint) wherever the cursor is. This is mark <char>
 `<char>		# recall to mark <char>

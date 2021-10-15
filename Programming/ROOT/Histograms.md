@@ -1,5 +1,7 @@
 # Histograms
 
+[An excellent summary.](https://root.cern.ch/root/htmldoc/guides/users-guide/Histograms.html#statistics-display).
+
 ## Make Your First Histogram
 
 ```python
@@ -14,13 +16,24 @@ h = TH1F("h_name", "The Histogram Title", 10, 0, 50)
 It's probably more efficient to set the binwidth than the num_bins!
 NOTE!!!
 The stats box that appears on histogram refers to the UNBINNED data!
-i.e. you will get the same mean, stdev to appear 
+i.e. you will get the same mean, stdev to appear
 regardless of how you bin the data.
 There is an "overflow bin" on the right edge of the histogram that collects entries which lie outside the 
 histogram x range. These entries are NOT counted in the statistics (mean, stdev), BUT they are counted
 as new entries!
 - There's also an underflow bin
 Therefore, entries in overflow bins DO count towards total entries, but not towards statistics, like Integral()
+
+**IMPORTANT:**
+If you extract a hist from a TFile, the hist will disappear once the TFile is closed.
+Avoid this by doing `h.SetDirectory(0)`:
+
+```python
+f = TFile(infile, "read")
+h = f.Get("lep_pT")
+h.SetDirectory(0)  # Now hist will stay alive after f is closed.
+f.Close()
+```
 
 ### Make a hist with variable bin width
 
@@ -54,19 +67,37 @@ h->Scale(1/h->Integral())
 h.GetEntries()            # Return the number of total entries in all bins.
 h.GetName()               # Returns the internal name of hist.
 h.GetTitle()              # Returns the title of hist.
-h.GetNbinsX()             # Return the number of bins along the x-axis.
 h.Fill(7)                 # Put one entry into the bin where x = 7 (so not the 7th bin!).
 h.Fill(7, 100)            # Put 100 entries into the bin where x = 7.
 h.GetMean()               # Get the mean of the UNBINNED data.
-h.GetBinContent(3)        # Return the number of entries in bin 3.
+h.GetNbinsX()             # Return the number of bins along the x-axis.
+                          # (Does not include under/overflow bins.)
+h.GetBinContent(3)        # Return the number of entries in (height of) bin 3.
                           # (bin 0 is underflow and bin max+1 is overflow)
+                          # This is also called the "weight" of the bin.
 h.GetBinCenter(2)         # Get the x-axis value corresponding to the center of bin 2.
 h.GetBinLowEdge(k)        # Get the left edge of the bin k. k=0 is overflow, k=1 is first bin.
+h.GetBinUpEdge(k)         # Get the right edge of the bin k.
 h.GetBinWidth(2)          # Get the bin width of bin 2.
+h.FindBin(5.3)            # Get bin number of bin at x = 5.3.
 h.FillRandom("gaus", 10)  # Fill the hist with 10 random entries from a gaus distribution.
-h.Sumw2()                 # IMPORTANT! Tells the hist to handle errors using sum(weights^2).
+h.Sumw2()                 # IMPORTANT! Tells the hist to handle errors using sqrt(sum(weights^2)).
 h.StatOverflows(True)     # IMPORTANT! Count under/overflow bins in stats. Default is False.
 h.Write()                 # Save your hist to the open root file.
+```
+
+### Hist Contents
+
+```python
+h.Integral(2, 3)  # Sum the bin contents from bin2 to bin3.
+                  # Same as doing h.GetBinContent(2) + h.GetBinContent(3).
+# Example:
+# bin1 has weight = 3
+# bin2 has weight = 2
+# bin3 has weight = 6
+h.Integral(1, 2) # Returns 5
+h.Integral(2, 3) # Returns 8
+h.Integral(1, 3) # Returns 11
 ```
 
 ### Statistics of your Hist
@@ -82,12 +113,16 @@ h.GetStdDevError()  # Return the error on the RMS.
 
 ```python
 h.GetXaxis().SetTitleOffset(1.3)
+h.SetMarkerStyle(20)  # Put a black data point at the top of each bin.
 ```
 
+#### Statistics Box
+
 After drawing a histogram, you can **modify the statistics box** (see below).
-To change what info it displays, [check this out](https://root.cern.ch/root/htmldoc/guides/users-guide/Histograms.html#statistics-display).
+[Also check this out.](https://root.cern.ch/root/htmldoc/guides/users-guide/Histograms.html#statistics-display).
 
 ```python
+h.SetStats(0)  # Turn stats box off (1 = on).
 # Create the statsbox and access it.
 h.Draw()
 gPad.Update()              # Not always necessary, but sometimes helpful.
@@ -200,6 +235,7 @@ h2->Draw("COLZ1") // "COL" means color, "Z" means draw the color bar, "1" makes 
 h->Draw()
 h->Draw("hist")    // Make sure to draw a histogram
 h->Draw("hist e")  // Draw histogram with error bars ( where err = sqrt(num_entries_in_bin) )
+h->Draw("hist e1") // Error bars ( where err = sqrt(num_entries_in_bin) )
 
 // Bin convention:
 // bin = 0; underflow bin
@@ -338,6 +374,13 @@ void ratioplot1() {
 Instead of doing `canv.RedrawAxis()` do: `hist.Draw("sameaxis")`
 
 - _What does `h.Draw("samex0")` do?_
+
+
+## Other useful histogram methods
+
+```python
+h2.FindLastBinAbove(3)  # Return the last bin whose content > 3.
+```
 
 ## Tutorials on ROOT Histograms
 

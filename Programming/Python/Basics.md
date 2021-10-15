@@ -149,7 +149,9 @@ sorted_ls_of_keys = sorted(my_dict, key=my_dict.__getitem__)
 Useful module for naturally sorting strings:
 `conda install -c anaconda natsort`
 
-
+```python
+from collections import OrderedDict  # Make an ordered dictionary.
+```
 
 ### Lists
 
@@ -226,7 +228,7 @@ def asManyAsYouWant(var, *argv):	# pass in as many arguments into argv as you wa
 	for arg in argv:					# each one will be iterated over
 		print "do stuff"
 
-# NOTE: argv is a tuple!
+# NOTE: `argv` is not originally a tuple, but gets passed in as one.
 ```
 
 Lambda functions
@@ -244,10 +246,13 @@ Probably safer to put the arguments of an if statement in parentheses:
 if (not os.path.exists(<path_to_dir>)): print "this dir doesn't exist"
 
 Passing arguments to script:
-myscript.py  arg1  arg2
+
+```python
+# myscript.py  arg1  arg2
 sys.argv[0]	# name of script (myscript.py)
 sys.argv[1]	# first argument passed to script (arg1)
 sys.argv[2]	# first argument passed to script (arg2)
+```
 
 Useful string methods:
 <string>.lstrip()			# temporarily removes whitespace from beginning of <string> to first non-whitespace char
@@ -501,6 +506,8 @@ print(elapsed_time)
 
 ### argparse
 
+NOTE: 2021-04-09:  `optparse` is deprecated. Use `argparse` instead.
+
 Pass in command line options to your script: `python myscript.py --xmin=0 --xmax=10`
 
 **Note:** It is difficult to use **bool**s as input arguments!
@@ -510,7 +517,7 @@ Pass in command line options to your script: `python myscript.py --xmin=0 --xmax
 ```python
 import argparse
 parser = argparse.ArgumentParser()
-parser.add_argument('-v', '--verbose', dest="verb", action="store_true")
+parser.add_argument('-v', '--verbose', dest="verbose", action="store_true")
 args = parser.parse_args()
 if args.verb:
     print("Debug info.")
@@ -976,6 +983,12 @@ You can use jupyter notebooks on remote machines!
 Every variable in Python is a reference (a pointer) to an object and not the
 actual value itself.
 
+```python
+# Determine the approximate size of an object:
+import sys
+print(obj.__sizeof__())
+```
+
 ---
 
 ## Performance in Python
@@ -1024,3 +1037,17 @@ python -m line_profiler your_script.py.lprof
 - Topics to research:
 - import multiprocessing
 - datetime.datetime.now()
+
+
+## PrettyTable
+
+Print pretty tables to the terminal (stdout).
+
+```python
+from prettytable import PrettyTable
+
+t = PrettyTable()
+t.field_names = ["mass", "pT", "eta"]  # Headers.
+t.add_row([0.105, 50.4, 2.3])
+# Note: must add rows, cols, and fields as type `list`.
+```

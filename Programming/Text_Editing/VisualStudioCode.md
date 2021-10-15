@@ -30,8 +30,6 @@
 | `Cmd Shift V` | Markdown preview. |
 | `Cmd K, V` | Markdown preview to the side. |
 
----
-
 ## Editing multiple lines simultaneously
 
 Multiple cursors:
@@ -45,3 +43,11 @@ Box selection (MacOS):
 
 - `Shift Option Cmd arrow-key`
 - `Shift Option highlight`
+
+## Highlighted Words
+
+Some words in comments will be highlighted:
+
+```python
+# FIXME, NOTE, TODO, HACK, XXX.
+```

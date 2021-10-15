@@ -78,7 +78,7 @@ ax.text(x, y, "Some words", horizontalalignment='center', verticalalignment='cen
 # Using `transform=ax.transAxes` puts x,y in terms of axes coordinates (as opposed to data coordinates)
 # Example:
 props = dict(boxstyle='square', facecolor='whitesmoke', edgecolor='blue', alpha=0.8)
-ax.text(0.9915, 0.986, textstr, transform=ax.transAxes, fontsize=textsize_legend, verticalalignment='top', horizontalalignment='right',bbox=props)
+ax.text(0.9915, 0.986, textstr, transform=ax.transAxes, fontsize=textsize_legend, verticalalignment='top', horizontalalignment='right', bbox=props)
 ```
 
 Make a colorbar and put limits on it:

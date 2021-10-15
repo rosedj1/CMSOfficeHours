@@ -1,17 +1,20 @@
 # Git
 
-Git Lang:
-nice tutorial: 
-https://www.sbf5.com/~cduan/technical/git/git-1.shtml
+Powerful version-control software.
 
-How to start:
-mkdir [project]
-cd [project]
+Check out this [nice tutorial](https://www.sbf5.com/~cduan/technical/git/git-1.shtml).
+
+## 'Git' Started
+
+```bash
+mkdir <project_name>
+cd <project_name>
 git init
 
-Make some changes.
-git add <file>
+# Add some files... make some changes... Then:
+git add <file1>
 
+git commit -m "My first commit"  # Useful to make
 git commit -a    # Adds all modified files, but not new ones.
 
 git log    # Shows a log of your commits.
@@ -20,6 +23,7 @@ git status
 git diff <file>
 git mv <file>    # Rename files.
 git rm <file>    # Remove files.
+```
 
 
 General workflow:
@@ -41,13 +45,16 @@ When you do `git checkout <head-name>` you are pointing HEAD to the commit objec
 - The important point here is, save your changes (commit them) before moving away from this commit/branch/head.
 - Similarly for before merging... COMMIT YOUR CHANGES!
 
+```bash
 git branch    # shows existing heads, with a star at HEAD
 git branch -r    # Show remote branches.
+git fetch <remote> <branch>  # 
 git diff <head1>..<head2>    # Shows diff between commits ref'ed by <head1> and <head2>
 git diff <head1>...<head2>    # Shows diff between <head2> and the common ancestor of <head1>,<head2>
 git log <head1>..<head2>    # Show change log between <head2> and common ancestor
 
 git config merge.renameLimit 999999
+```
 
 #### Good workflow:
 

@@ -24,11 +24,12 @@ The ROOT version of a file.
 ## TTree
 
 The ubiquitous data container for event information.
-It's most useful to loop over each event in the TTree:
+
+### Loop over events in TTree
 
 ```python
 f = ROOT.TFile("infile_path.root")
-tree = f.Get("yourtreename")
+tree = f.Get("treename")
 
 for n_evt in range(tree.GetEntries()):
     # Set the internal ROOT pointer at the first event.
@@ -42,9 +43,7 @@ for evt in tree:
     evt.pT_muon
 ```
 
-### How to make a TTree and store values using PyROOT
-
-### Example
+### Make a new TTree and store values inside
 
 ```python
 import ROOT as r
@@ -52,22 +51,36 @@ from array import array
 
 # You must open/create your file before playing with the TTree.
 newfile = r.TFile("/work/area/newfile.root", "recreate")
-tree = r.TTree("t1", "My New Tree")
+newtree = r.TTree("t1", "My New Tree")
 
 # Make a pointer to store values. 
-ptr = array('f', [0.])  # Use 'f' for floats, 'd':doubles, 'i':ints. 
+ptr = array('f', [0.])  # Use 'f' for floats, 'd':doubles, 'i':ints.
+# Store a bool:
+# ptr_bool = np.array([0], dtype=np.bool)
+# newtree.Branch("is3P1F", ptr_bool, "is3P1F/O")
+# ...but it shows up as an `int`...
 
 # Make a branch in the TTree.
 # First and third arguments should exactly match. 
 # Third argument needs a type, using a capital letter. 
-tree.Branch("m4mu", ptr, "m4mu/F")
+newtree.Branch("m4mu", ptr, "m4mu/F")
 
-# Do your analysis to get value to be stored.
-val = 1 + 2  # Example value.
-ptr[0] = val
+# Do analysis loop to store the value of each entry in newtree.
+for x in range(5):
+    ptr[0] = x**2  # Store value in pointer which points to newtree.
+    newtree.Fill()  # This saves the "row" info in the TTree.
 
-# Finally fill the tree with this value.
-tree.Fill()  
+# You must write the TTree to the file and close the file!
+newtree.Write()
+newfile.Close()
+```
+
+### Create a copy of a TTree
+
+```python
+# Clone the structure of an existing TTree `t` with 0 events:
+newtree = t.CloneTree(0)
+# Use `-1` to clone all events.
 ```
 
 - Also check out [this nice explanation](https://wiki.physik.uzh.ch/cms/root:pyroot_ttree).
@@ -97,6 +110,11 @@ for pT in pT_ls:
     c.Update()
     c.Print(outpath_file)
 c.Print(outpath_file + "]")
+```
+
+```python
+ROOT.gPad.GetUymin() # Return the axis y-min of current pad.
+ROOT.gPad.GetUymax() # Return the axis y-max of current pad.
 ```
 
 ## Common ROOT Objects
@@ -160,21 +178,21 @@ However instead of using a backslash (`\`), use a hashtag (`#`):
 - Cursive 'ell': `"m_{4#font[12]{l}} (GeV)"`
 
 ```python
-latex = r.TLatex()
-latex.SetNDC()
-latex.SetTextSize(0.013)
-latex.SetTextColor(r.kRed)
+tex = r.TLatex()
+tex.SetNDC()
+tex.SetTextSize(0.013)
+tex.SetTextColor(r.kRed)
 bestfit_mean = 0.006718
 # This one TLatex object can draw many different lines.
-latex.DrawLatex(0.185, 0.90, f"#mu = {bestfit_mean:%.3E}")
-latex.DrawText(0.1, 0.8, "mean  = %.5E" % bestfit_mean_corr)
+tex.DrawLatex(0.185, 0.90, f"#mu = {bestfit_mean:%.3E}")
+tex.DrawText(0.1, 0.8, "mean  = %.5E" % bestfit_mean_corr)
 
-# You can also associate a name and title to your latex obj:
-latex1 = r.TLatex()  # Default coord: (x=0,y=0)
-latex1.SetTitle("A new title")
-latex1.GetTitle()  # Returns str "A new title".
-latex1.SetText(0.4, 0.3, "new words here")  # WARNING: this changes the title!
-str(latex)  # Return the name and title associated with this obj.
+# You can also associate a name and title to your tex obj:
+tex1 = r.TLatex()  # Default coord: (x=0,y=0)
+tex1.SetTitle("A new title")
+tex1.GetTitle()  # Returns str "A new title".
+tex1.SetText(0.4, 0.3, "new words here")  # WARNING: this changes the title!
+str(tex1)  # Return the name and title associated with this obj.
 ```
 
 #### Option 3: TPad
@@ -445,6 +463,7 @@ There are at least **two ways** to make this function available to Python:
 **Option 1:**
 
 Compile the code (`root -l` then `.L simple.C+`) and use the `.so` file:
+
 ```python
 import ROOT
 ROOT.gSystem.Load("./simple_C.so")

@@ -101,15 +101,23 @@ int main()
 }
 ```
 
-C++ files usually have one of these extensions: 
-.cpp, .cxx, .C, .cc
-Use the GNU compiler (g++) to compile your C++ script:
-g++ <c++_script>.cpp -o <name_of_new_executable>
+C++ files usually have one of these extensions: `.cpp, .cxx, .C, .cc`
 
-To determine size of a C++ array:
+Use the **GNU compiler** (`g++`) to compile your C++ script:
+
+```bash
+g++ <c++_script>.cpp -o <name_of_new_executable>
+```
+
+### Arrays
+
+```cpp
+// Initialize array of ints:
 int myarr[] = {4, 6, 8, 9};
-sizeof(myarr)/sizeof(*myarr)
-VECTORS ARE BETTER THAN ARRAYS! # more flexibility!
+// Determine size of a C++ array:
+int arr_len = sizeof(myarr)/sizeof(*myarr);
+// VECTORS ARE BETTER THAN ARRAYS! # more flexibility!
+```
 
 ### Vectors
 
@@ -132,7 +140,8 @@ std::sort(vec.begin(), vec.end())  // After: { 1.0000000, 2.0000000 }
 
 Access last element of vector: `vec[vec.size()-1]`
 
-Make a pointer to the array (...but the vector *is* a pointer...):
+Make a pointer to the vector (...but the vector *is* a pointer...):
+
 ```cpp
 vector<type> * vecPtr = &vec  // Initialize pointer to point to address of vec.
 *vecPtr                       // Return the 

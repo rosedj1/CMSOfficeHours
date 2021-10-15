@@ -27,24 +27,12 @@ mkdir <newdir>      # Make a new directory.
 man -k <cmd>        # Shows you the manual for the command.
 
 # Step it up a notch:
-head <file>  # Print the last 10 lines in the file.
-tail <file>  # Print the last 10 lines in the file.
+head <file>        # Print the last 10 lines in the file.
 head -n 2 <file>   # Print the first 2 lines in the file.
+tail <file>        # Print the last 10 lines in the file.
+tail -f file.txt   # Keeps printing output as it's appended to file.txt.
 tail -n 15 <file>  # Print the last 15 lines in the file.
 tail -n +7 <file>  # Print ALL lines from line 7 onward.
-
->   # The "redirection" operator. Sends output somewhere.
-|   # The "pipe" operator. Makes one command's output another's input.
-
-# Examples:
-# Pipe the output of `ls` into the `grep` command:
-ls -l | grep "Apr" > somefile.txt
-command-name 2> errors.txt
-
-# Send command1's output to out.txt and the errout to err.txt.
-command1 > out.txt 2> err.txt
-
-cmd 2>&1 | tee log.txt
 
 scp  # Secure copy from one computer to another.
 scp <source> <dest>	# the remote <source> or <dest> should be of the form: user@server:/path/to/file
@@ -61,46 +49,101 @@ diff -r <dir1> <dir2> # Compares differences between all files in directories.
 
 top -n 1 -b | grep chenguan  # See system summary and running processes; -n flag is iterations; -b is batch mode
 # can grep to see a user's processes
-free  [-g]  # displays the amount of free and used memory in the system; -g to make it more readable
+free [-g]  # displays the amount of free and used memory in the system; -g to make it more readable
 read [-s] [-p] [<prompt>] <var> # stores user input into <var>; -s=silent text, -p=prompt becomes <prompt>
 cut -d' ' -f2-4  # use whitespace as delimiter, and cut (print to screen) only fields (columns) 2 through 4
 cat <file1> | tee [-a] <file2>  # tee will append the stdout to both a file and to stdout (it piplines the info into a 'T' shape)
-ln -s <file> <link_name>  # creates a symbolic link (a reference) between <file> and <link_name>
+
+#--- Links (a.k.a. "shortcuts"). ---#
+# Create a soft link (a reference) between <original_file> and <link_name>
+ln -s  <original_file>  <link_name>
+# Also called a "symbolic link" or "symlink".
 # If you modify <link_name> then you WILL MODIFY <file>!
-# Except for 'rm'; deleting <link_name> does NOT delete <file>
+# Except for 'rm'; deleting <link_name> does NOT delete <file>.
+# This makes sense because the link is just a shortcut.
+# Deleting a shortcut should not delete the original file.
+
+# Create a hard link:
+ln  <original_file>  <link_name>
+# Now <original_file> and <link_name> are names for the exactly the same data.
+# Deleting <original_file> does NOT delete the data.
+# The data still live in <link_name>.
+#--- Summary ---#
+# A hard link always points a filename to data on a storage device.
+# A soft link always points a filename to another filename, which then points to information on a storage device.
+
 file <> FIXME
 printf    # appears to just be a fancier and more reliable echo
+printf "My brother %s is %d years old.\n" Prakash 21
+# Prints: My brother Prakash is 21 years old.
+# Note: `echo` automatically adds '\n'.
 
 alias				# check your aliases
 alias <newalias>="<command>"	# add <newalias> to 
 ```
+
+### Input/Output Redirection
+
+Commands in Linux take some kind of input to produce some kind of output.
+You can control where the input comes from and where the output goes.
+
+There is **standard input** ('stdin', your keyboard),
+**standard output** ('stdout', your screen), and **standard error** ('stderr').
+These are all technically files and so they have **file descriptors** (FD):
+
+- stdin: FD**0**
+- stdout: FD**1**
+- stderr: FD**2**
+
+```bash
+# Redirect stdout to a file using `>`:
+# Warning: `>` will overwrite files. Use `>>` to append.
+echo "Linux is dope." > howireallyfeel.txt
+
+# Redirect stderr:
+cmd 2> errors.txt
+
+# Send command1's output to out.txt and the errout to err.txt.
+cmd > out.txt 2> err.txt
+
+# Have the stderr (2) be redirected to the same place as stdout (1):
+cmd 2>&1 log.txt
+# Redirect the output and errors to both log.txt and the screen simultaneously:
+cmd 2>&1 | tee log.txt
+
+# 'Pipe' the output of one command into the input of another command with `|`:
+ls | grep "April"  # (The result of `ls` are fed into `grep`)
+```
+
+[A more in-depth tutorial.](https://wiki.bash-hackers.org/howto/redirection_tutorial)
 
 ## Intermediate Commands
 
 ```bash
 watch -n 10 '<cmd>'	# repeats <cmd> every 10 seconds
 - default is 2 seconds
-uname -a			# look at your Linux kernel architecture, server, etc.
-uname -n			# find out what node you're on
-ldd --version		# Check the glibc version.
-env					# print all your environmental variables to stdout
-gdb					# GNU DeBugger (not sure how this works yet)
-basename <filepath> 	# strips <filepath> of directory part of name and suffix
-- basename /usr/bin/sort 		# returns: 'sort'
-- basename include/stdio.h .h	# returns: stdio
-date					# prints the date
+uname -a  # look at your Linux kernel architecture, server, etc.
+uname -n  # find out what node you're on
+ldd --version# Check the glibc version.
+env  # print all your environmental variables to stdout
+gdb  # GNU DeBugger (not sure how this works yet)
+basename <filepath>  # strips <filepath> of directory part of name and suffix
+- basename /usr/bin/sort  # returns: 'sort'
+- basename include/stdio.h .h  # returns: stdio
+date        # prints the date
 whoami      # Prints your username.
 cat /etc/*-release    # Find out what distribution of Linux you're running
+ps -eaf | grep [p]ython  # Show all running processes/jobs which contain 'python'.
 
 # Timestamp things:
 date +%F-%T	# gives 2019-07-17-20:10:16
 
 # Less important but still really cool commands!
-say [-v] [name] "<phrase>"		# 
-write	 <user>					# start a chat with <user> on your server
+say [-v] [name] "<phrase>"  # 
+write <user>  # start a chat with <user> on your server
     - You are immediately put into "write mode". Now you can send messages back and forth.
     - Press 'Ctrl+C' or 'Esc' to exit write mode.
-mesg [y|n]					# allow [y] people to send you messages using 'write' or not [n]
+mesg [y|n]  # allow [y] people to send you messages using 'write' or not [n]
 sleep 7  # make the shell sleep for 7 seconds
 ```
 
@@ -124,12 +167,21 @@ awk "BEGIN {printf \"%.2f\n\", 100/3}"  # 33.33
 
 ### sed (stream editor)
 
-A powerful, ubiquitous command. Learn it well.
+A powerful, ubiquitous command that implements **regex**.
+Learn it well.
 
 ```bash
-# replace every instance of "MASS" in yourfile.txt with `20`.
-zdmass=20
-sed -i "s/MASS/${zdmass}/g" yourfile.txt
+# Changes the instance of 'day' to 'night':
+echo day | sed 's/day/night/'
+# The 's' means substitute.
+# You always need 3 delimiters (doesn't have to be '/' - could be '@', ':').
+
+# Substitute "MASS" in myfile.txt (in place `-i`) with '20':
+sed -i "s/MASS/20/g" myfile.txt
+
+# Use input from a file, do a sub, and make a new output file:
+sed 's@ohyeah@neat@' <inputfile.txt >outputfile.txt
+# Note: You can use other delimiters like '@' instead of '/'.
 
 # Print the 4th line from a file:
 sed "4q;d" <file>
@@ -140,6 +192,10 @@ sed "4q;d" <file>
 # Print lines 6-9 from a file (`p` here means "print", `-n` is quiet mode):
 sed -n '6,9p' coleridge.txt
 
+# Use ^ to mean 'beginning of line' 
+echo "this is the song that never ends" | sed 's@^.*at@REPLACED@'
+# Prints: 'REPLACED never ends'
+
 # Strip python/bash comments from a file:
 sed -i -e 's/#.*$//g' -e '/^$/d' <file>
 # the '-e' executes another instance of sed, like piping.
@@ -148,30 +204,50 @@ sed -i -e 's/#.*$//g' -e '/^$/d' <file>
 # sed, in place, on a Mac:
 sed -i '' -e "s|STORAGESITE|${storageSiteGEN}|g" DELETEFILE.txt 
 
+# Use '&' to mean "the matched pattern":
+echo "123 abc" | sed 's/[0-9]*/& stuff &/'
+# Prints: 123 stuff 123 abc
+
 echo "1e-2" | sed "s#^+*[^e]#&.000000#;s#.*e-#&0#"  # makes 1e-2 become 1.000000e-02
 # can also do:
 sed "s#^[0-9]*[^e]#&.000000#;s#.*e-#&0#"
+
+# Assign a variable:
+chamber="$( echo ME21 | sed 's@ME@YOU@')"
 ```
+
+#### Tips on using `sed`
+
+- Use `"` or `'` to avoid triggering metacharacters.
 
 ### Finding files
 
 ```bash
 find
-find ./ -name "*plots*"								# find all files with name plots in this dir and subsequent dir
-find /<path> -mtime +180 -size +1G					# find files with mod times >180 days and size>1GB
-find . -type d -exec touch '{}/__init__.py' \;				# create (touch) a __init__.py file in every dir and subsequent dir
-find . -type f -printf '%s\t%p\n' | sort -nr | head -n 30		# find the 30 biggest files in your working area, sorted 
-find . -type f -printf '%T@ %p\n' | sort -n | tail -20 | cut -f2- -d" "		# find the 20 most recently modified files
-find . -name "*.css" -exec sed -i -r 's/MASS/mass/g' {} \;	# use sed on every found file (the {} indicates a found file)
-find ~/src/ -newer main.css							# find files newer than main.css
+find ./ -name "*plots*"  # Find files with name plots in this dir and subsequent dir.
+find ./<path> -mtime +180 -size +1G  # Find files with mod times >180 days and size>1GB
+find ./<path> -type f -delete  # Fast way to delete all files in a dir.
+find . -type f -printf '%s\t%p\n' | sort -nr | head -n 30  # Find the 30 biggest files in your working area, sorted.
+find . -type f -printf '%T@ %p\n' | sort -n | tail -20 | cut -f2- -d" "  # Find the 20 most recently modified files.
+find . -type d -exec touch '{}/__init__.py' \;  # create (touch) a __init__.py file in every dir and subsequent dir
+find . -name "*.css" -exec sed -i -r 's/MASS/mass/g' {} \;  # Use sed on every found file (the {} indicates a found file).
+find ./ -name "cr*" -mtime -4 -type d -exec rm -r '{}' \;
+find ~/src/ -newer main.css  # Find files newer than main.css.
 
 locate
-locate -i <file_to_be_found>		# searches computer's database. -i flag means case insensitive
+locate -i <file_to_be_found>  # Searches computer's database. -i flag means case insensitive.
 ```
 
 ## Wildcards
 
 **Wild**ly important! [Here's a tutorial.](https://linuxhint.com/bash_wildcard_tutorial/)
+
+```bash
+ls dog*  # `*` finds zero or more chars: dog, dogs, dogsandthings...
+ls dog?  # `?` finds ONE char: dogs, dogh, dogu...
+ls dog[!s]  # Exclude the `s`: dogh, dogr, dogt...
+ls [Dd]og  # Matches to: Dog, dog.
+```
 
 ## Some Bash Magic
 
@@ -186,14 +262,6 @@ $?       # The return value from last cmd (0=success).
 history  # Check your history; displays command numbers.
 !<cmd_num>  # execute command number <cmd_num>
 <space>cmd  # will not add 'cmd' to history!
-```
-
-Redirect the output and errors to log.txt
-
-```bash
-cmd 2>&1 log.txt
-# Redirect the output and errors to both log.txt and the screen simultaneously:
-cmd 2>&1 | tee log.txt
 ```
 
 Batch expansion
@@ -305,11 +373,11 @@ tar -xvf <tarball> <file1> <file2>		# untar specific files from tarball
 ### Memory usage
 
 ```bash
-du 				# "disk usage"; good for find which files or dirs are taking up the most space
-du -h <dir>		# print size of <dir> in human-readable format 
-du -sh ./			# sums up the total of current workspace and all subdirs
+du           # "disk usage"; good for find which files or dirs are taking up the most space
+du -h <dir>  # print size of <dir> in human-readable format 
+du -sh ./    # sums up the total of current workspace and all subdirs
 
-df -h				# "disk filesystem", shows usage of memory on entire filesystem 
+df -h        # "disk filesystem", shows usage of memory on entire filesystem 
 ```
 
 Copy multiple files from remote server to local:
@@ -349,15 +417,15 @@ if [  $run_random_start -gt "89999990" ]; then
     max_events_per_iteration=$(( $nevt > 10000*9 ? ($nevt / 9) + ($nevt % 9 > 0) : 10000 ))
 fi
 
-# Learn more about nohup:
-nohup ./gridpack_generation_patched06032014.sh tt 1nd > tt.log &
-
 tr "." "_"			# translates all "." chars into "_" (used with piping)
 perl -ne 'print if /pattern1/ xor /pattern2/'
 
 What does this do?
 model=HAHM_variablesw_v3_UFO.tar.gz
 if [[ $model = *[!\ ]* ]]; then...
+
+# Let your code run even after you close your shell! Use "no hangup": `nohup`
+nohup python myscript.py > outfile.txt &
 ```
 
 Use a specific interpreter to execute a file:
@@ -491,14 +559,14 @@ Cmd-Shift-Right	# switch between terminal TABS within window
 Background Jobs:
 
 ```bash
-<cmd> &			# runs <cmd> in a background subshell
-fg				# bring a background process to foreground
-jobs				# see list of all background processes
-Ctrl+Z			# pause current job and return to shell
-Ctrl+S			# pause a job, but DON'T return to shell
-Ctrl+Q			# resume paused job in foreground
-bg				# resume current job in background
-(sleep 3 && echo 'I just woke up') >/tmp/output.txt &		# group commands and redirect stdout!
+<cmd> &  # Runs <cmd> in a background subshell. Good for parallel processing!
+fg       # Bring a background process to foreground.
+jobs     # See list of all background processes. Add `-l` for IDs.
+Ctrl+Z   # Pause current job and return to shell.
+Ctrl+S   # Pause a job, but DON'T return to shell.
+Ctrl+Q   # Resume paused job in foreground.
+bg       # Resume current job in background
+(sleep 3 && echo 'I just woke up') >/tmp/output.txt &  # group commands and redirect stdout!
 # here the '&&' means to do the second command ONLY IF the first command was successful
 ```
 
@@ -507,17 +575,6 @@ bg				# resume current job in background
 Execute shell script in current shell, instead of forking into a subshell:
 `. ./<script.sh>` (dot space dot forward-slash).
 - N.B. this is nearly the same as doing: `source <script.sh>`
-
-Check to see if some command succeeded (`return 0`):
-
-```bash
-<some_command>
-if [ $? -eq 0 ]; then
-    echo OK
-else
-    echo FAIL
-fi
-```
 
 "Divide out" strings:
 
@@ -535,7 +592,6 @@ echo ${MG%$MG_EXT}
 - Here's the [friendly Linux Tutorial](https://ryanstutorials.net/linuxtutorial/commandline.php)
 that I used to learn Linux.
 - Tutorials from [Linux.com](https://www.linux.com/training-tutorials/).
-
 
 **MOVE THESE NOTES TO PARALLEL PROCESSING**
 computer cluster:

@@ -11,13 +11,17 @@
   - [SLURM sbatch directives](#slurm-sbatch-directives)
     - [QOS or burstQOS](#qos-or-burstqos)
   - [HPG COMMANDS](#hpg-commands)
+    - [voms-proxy-init](#voms-proxy-init)
   - [Use Jupyter Notebooks on HPG](#use-jupyter-notebooks-on-hpg)
     - [Option 1: Run Jupyter Notebooks remotely using a SLURM script](#option-1-run-jupyter-notebooks-remotely-using-a-slurm-script)
     - [How to use CMSSW on HPG](#how-to-use-cmssw-on-hpg)
     - [Vaex on HPG](#vaex-on-hpg)
   - [Tier 2](#tier-2)
     - [Modify CRAB T2 Area](#modify-crab-t2-area)
+      - [NOTE](#note)
+      - [Give commands directly to `uberftp`](#give-commands-directly-to-uberftp)
     - [Your Personal T2 Area](#your-personal-t2-area)
+    - [How to access HPG T2 files from lxplus](#how-to-access-hpg-t2-files-from-lxplus)
   - [General HPG Info](#general-hpg-info)
   - [Parallelism](#parallelism)
     - [Computing Terms](#computing-terms)
@@ -45,7 +49,8 @@ ssh -XY your_gatorlink_UN@gator.rc.ufl.edu
 When you first log in, you will be placed at: `/home/your_gatorlink_UN/`.
 Do `pwd` to verify this.
 
-- Do not store big files here as you are only given **20 GB of storage**.
+- Do not store big files here as you are only given **20 GB of storage**
+(Bockjoo Kim says 40 GB).
 - Do not run intensive code here. To execute big jobs, [submit a SLURM script](#how-to-submit-slurm-scripts).
 - This area has only one server (node) hosting it.
 
@@ -114,14 +119,14 @@ ml intel/2018 openmpi/3.1.0 # Compiles stuff?
 
 The computer cluster itself is called **SLURM**
 (**S**imple **L**inux **U**tility for **R**esource **M**anagement).
-You must prepare a *SLURM script* which contains the instructions for your job.
+You must prepare a **SLURM script** which contains the instructions for your job.
 Then you submit your SLURM script to the SLURM scheduler which will then process your
-job using the available resources.
+job using the available resources (51,000 cores!).
 
 - It is useful to add the extension `.sbatch` for SLURM scripts.
 - If you can run it locally, you can make a SLURM script to do it!
 
-Example SLURM job script (`myslurmscript.sbatch`).
+Example SLURM script (`myslurmscript.sbatch`).
 
 ```bash
 #!/bin/bash
@@ -148,13 +153,6 @@ echo "Running my python script."
 python3 mypythonscript.py
 # NOTE: The very first line in this script could be something like: #!/usr/bin/env python3
 ```
-
-Then submit a job to the scheduler.
-- The scheduler submits the job to the 51000 cores!
-- You must prepare a file to tell scheduler what to do (BATCH script)
-    - number of CPUS
-    - RAM
-    - how long to process the job
 
 ### Notes on submitting to the SLURM scheduler
 
@@ -263,8 +261,8 @@ pip install --user <new_package>
 ## SLURM sbatch directives
 
 ```bash
-multi-letter directives are double dashes:
---nodes=1	# processors
+# Multi-letter directives are double dashes:
+--nodes=1  # Number of processors.
 --ntasks
 --ntasks-per-node
 --ntasks-per-socket
@@ -273,10 +271,10 @@ multi-letter directives are double dashes:
 --mem=1gb  # Alternatively can do: --mem-per-cpu=500mb
 --distribution
 
-Long option	short option		description
---nodes=1		-N			request num of servers
---ntasks=1		-n			num tasks that job will use (useful for MPI applications)
---cpus-per-task=8	-c
+# --Long-option    -short-option    description
+--nodes=1          -N               request num of servers
+--ntasks=1         -n               num tasks that job will use (useful for MPI applications)
+--cpus-per-task=8  -c
 ```
 
 ### QOS or burstQOS
@@ -321,6 +319,17 @@ sinfo
 srun --mpi=pmix_v2 myApp
 ```
 
+### voms-proxy-init
+
+To set VOMS PROXY on HPG:
+
+```bash
+# Set up environment for voms-proxy-* commands:
+source /cvmfs/oasis.opensciencegrid.org/osg-software/osg-wn-client/current/el7-x86_64/setup.sh
+# Then get the voms-proxy-init command:
+export X509_CERT_DIR=/cvmfs/cms.cern.ch/grid/etc/grid-security/certificates
+```
+
 Memory utilization = MAX amount used at one point
 Memory request = aim for 20-50% of total use
 
@@ -356,8 +365,6 @@ launch_gui_session -e <executable>	(e.g., launch_rstudio_gui)
 xpra attach ssh:<stuff>
 xpra_list_sessions
 scancel <job_id>
-
-ln -s <file_path_that's_way_far_away> <dest_path>	# makes a symbolic link from <far_file> to <dest_path>
 
 ---
 
@@ -479,17 +486,31 @@ Simply add this to your CRAB config file:
 ### Modify CRAB T2 Area
 
 Although you can't directly modify the CRAB T2 area,
-there actually is a way:
+there actually is a way using the `uberftp` command:
 
 1. Go to somewhere like an `lxplus` machine.
 
 2. Activate your proxy:
 
-  ```voms-proxy-init -voms cms -rfc --valid=168:00```
+   - `voms-proxy-init -voms cms -rfc --valid=168:00`
 
-1. Perform a command in the CRAB T2 area, e.g.:
+1. Start an interactive `uberftp` session:
 
-  ```uberftp cmsio.rc.ufl.edu "rm your_file"```
+   - ```uberftp cmsio.rc.ufl.edu```
+
+Now you can interact directly with the files on the remote system.
+
+#### NOTE
+
+Your typical linux commands don't necessarily work here.
+Have a look at the available
+[`uberftp` commands](https://www.mankier.com/1/uberftp).
+
+#### Give commands directly to `uberftp`
+
+```bash
+uberftp cmsio.rc.ufl.edu "rm your_file"
+```
 
 ### Your Personal T2 Area
 
@@ -497,6 +518,15 @@ You *can* write to your "personal T2 area" which has rather large storage.
 Use this area frequently:
 
 - `/cmsuf/data/store/user/t2/users/<your_UN>/`
+
+### How to access HPG T2 files from lxplus
+
+```bash
+# Initialize your proxy:
+voms-proxy-init -voms cms
+# Use a "root redirector":
+root -l root://cmsxrootd.fnal.gov//store/user/drosenzw/path/to/file.root
+```
 
 ## General HPG Info
 

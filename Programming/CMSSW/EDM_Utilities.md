@@ -104,15 +104,32 @@ Commands:
 - `edmDumpEventContent`: see what class names etc. to use in order to access the objects in the MiniAOD file
 - `edmProvDump`: Prov=Provenance (origin, source, history), one can print out all the tracked parameters used to create the data file. For example, one can see which modules were run and the CMSSW version used to make the MiniAOD file.
 - `edmEventSize`: determines size of different branches
+- `edmPickEvents`: search a data set for a particular event.
+
+```bash
+# Run over a specific Run:LumiSect:Event
+edmPickEvents.py "/DoubleMuon/Run2018D-PromptReco-v2/MINIAOD" 321834:84:126135620
+```
+
+```bash
+files=( /DoubleMuon/Run2018D-PromptReco-v2/MINIAOD )
+files+=( /EGamma/Run2018D-22Jan2019-v2/MINIAOD )
+files+=( /EGamma/Run2018D-PromptReco-v2/MINIAOD )
+for f in "${files[@]}"; do
+    edmPickEvents.py "${f}" 321834:84:126135620
+done
+```
 
 ## Examples
 
 For any of the below commands, you can do: `<cmd> --help`
+
 ```bash
 edmFileUtil -d /store/relval/CMSSW_10_2_0/RelValZMM_13/MINIAODSIM/PUpmx25ns_102X_upgrade2018_realistic_v9_gcc7-v1/10000/3017E7A1-178D-E811-8F63-0025905A6070.root
 ```
 
 Output:
+
 ```bash
 root://cmsxrootd-site.fnal.gov//store/relval/CMSSW_10_2_0/RelValZMM_13/MINIAODSIM/PUpmx25ns_102X_upgrade2018_realistic_v9_gcc7-v1/10000/3017E7A1-178D-E811-8F63-0025905A6070.root
 ```

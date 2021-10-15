@@ -16,6 +16,17 @@ if test -f "${FILE}"; then  # -f checks if it's an actual file (versus a dir).
     echo "${FILE} exists."
 fi
 
+# One liner:
+if cond; then op1; else op2; fi
+
+# See if previous command succeeded (`returns 0`):
+<some_command>
+if [ $? -eq 0 ]; then
+    echo "Command succeeded"
+else
+    echo "FAILED"
+fi
+
 # Another example:
 if [ ! -e "${FILE}" ]; then  # Can also use double square brackets.
     echo "${FILE} does not exist."
@@ -23,9 +34,12 @@ else
     echo "You betcha, don'tcha know."
 fi
 
+(sleep 3 && echo 'I just woke up') >/tmp/output.txt &  # group commands and redirect stdout!
+
 # You can be really fancy:
 test -f /etc/resolv.con && echo "$FILE exists." || echo "$FILE doesn't exist."
-# The part after the `&&` executes if true, `||` executes if false.
+cmd1 && cmd2 || cmd3
+# if cmd1 is true, then cmd2 executes, otherwise cmd3.
 
 ###################
 #--- for loops ---#
@@ -35,12 +49,37 @@ for num in {15..60..5}; do  # Start from 15, end at 60, increment by 5.
     echo $num;
 done
 
+#############################
+#--- Looping over a list ---#
+#############################
+directories="firstone/ secondone/ thirdone/"
+for d in $directories; do
+    echo $d
+done
+
+files=( file1.txt )
+files+=( file2.txt )
+files+=( file3.txt )
+for f in "${files[@]}"; do
+    echo $f
+done
+
 #####################
 #--- while loops ---#
 #####################
 while true; do
     <cmds>
 done
+
+#########################
+#--- case statements ---#
+#########################
+b=4; c=8; d=9
+case "$b" in
+ 5) a=$c ;; # If b is 5, then a=8.
+ 6) a=1 ;;  # If b is 6, then a=1.
+ *) a=$d ;; # Otherwise, a=9.
+esac
 ```
 
 ## Functions
