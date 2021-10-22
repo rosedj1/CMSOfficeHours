@@ -103,7 +103,7 @@ echo "Linux is dope." > howireallyfeel.txt
 # Redirect stderr:
 cmd 2> errors.txt
 
-# Send command1's output to out.txt and the errout to err.txt.
+# Send cmd's standard output to out.txt and the error output to err.txt.
 cmd > out.txt 2> err.txt
 
 # Have the stderr (2) be redirected to the same place as stdout (1):
@@ -212,7 +212,7 @@ echo "1e-2" | sed "s#^+*[^e]#&.000000#;s#.*e-#&0#"  # makes 1e-2 become 1.000000
 # can also do:
 sed "s#^[0-9]*[^e]#&.000000#;s#.*e-#&0#"
 
-# Assign a variable:
+# Store the results of a command into a variable:
 chamber="$( echo ME21 | sed 's@ME@YOU@')"
 ```
 
@@ -225,13 +225,13 @@ chamber="$( echo ME21 | sed 's@ME@YOU@')"
 ```bash
 find
 find ./ -name "*plots*"  # Find files with name plots in this dir and subsequent dir.
-find ./<path> -mtime +180 -size +1G  # Find files with mod times >180 days and size>1GB
-find ./<path> -type f -delete  # Fast way to delete all files in a dir.
+find ./somepath/ -mtime +180 -size +1G  # Find files with mod times >180 days and size>1GB
+find ./somepath/ -type f -delete  # Fast way to delete all files in a dir.
 find . -type f -printf '%s\t%p\n' | sort -nr | head -n 30  # Find the 30 biggest files in your working area, sorted.
 find . -type f -printf '%T@ %p\n' | sort -n | tail -20 | cut -f2- -d" "  # Find the 20 most recently modified files.
 find . -type d -exec touch '{}/__init__.py' \;  # create (touch) a __init__.py file in every dir and subsequent dir
 find . -name "*.css" -exec sed -i -r 's/MASS/mass/g' {} \;  # Use sed on every found file (the {} indicates a found file).
-find ./ -name "cr*" -mtime -4 -type d -exec rm -r '{}' \;
+find . -name "cr*" -mtime -4 -type d -exec rm -r '{}' \;
 find ~/src/ -newer main.css  # Find files newer than main.css.
 
 locate
@@ -240,7 +240,12 @@ locate -i <file_to_be_found>  # Searches computer's database. -i flag means case
 
 ## Wildcards
 
-**Wild**ly important! [Here's a tutorial.](https://linuxhint.com/bash_wildcard_tutorial/)
+**Wild**ly important!
+Wildcards are also called "globbing patterns".
+These help you work across multiple files at once.
+
+- NOTE: Wildcards are **not** regex patterns!
+They do use the same characters, they do different things.
 
 ```bash
 ls dog*  # `*` finds zero or more chars: dog, dogs, dogsandthings...
@@ -248,6 +253,8 @@ ls dog?  # `?` finds ONE char: dogs, dogh, dogu...
 ls dog[!s]  # Exclude the `s`: dogh, dogr, dogt...
 ls [Dd]og  # Matches to: Dog, dog.
 ```
+
+[Here's a tutorial.](https://linuxhint.com/bash_wildcard_tutorial/)
 
 ## Some Bash Magic
 

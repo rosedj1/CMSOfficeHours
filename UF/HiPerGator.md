@@ -86,6 +86,14 @@ ssh login3            # Jump to login node 3. There are nodes 1-4.
 showAssoc <username>  # See what groups are associated with <username>.
 slurmInfo             # See your primary group's info.
 slurmInfo <group>     # See a particular group's info.
+
+# Memory/space allocation:
+blue_quota     # See how much space your group uses on /blue/.
+blue_quota -u  # See how much space you take up on /blue/.
+
+orange_quota   # See how much space your group uses on /orange/.
+home_quota     # See how much space you take up on /home/<your_UN>/.
+
 ```
 
 If you want access to certain software, you typically have to do `module load <package>`.
@@ -328,6 +336,9 @@ To set VOMS PROXY on HPG:
 source /cvmfs/oasis.opensciencegrid.org/osg-software/osg-wn-client/current/el7-x86_64/setup.sh
 # Then get the voms-proxy-init command:
 export X509_CERT_DIR=/cvmfs/cms.cern.ch/grid/etc/grid-security/certificates
+# Now you should be able to do:
+voms-proxy-init
+# NOTE: Doesn't work with flag: `-voms cms`
 ```
 
 Memory utilization = MAX amount used at one point

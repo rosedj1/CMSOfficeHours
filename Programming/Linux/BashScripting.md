@@ -28,18 +28,26 @@ else
 fi
 
 # Another example:
-if [ ! -e "${FILE}" ]; then  # Can also use double square brackets.
-    echo "${FILE} does not exist."
+if [ ! -e "${myfile}" ]; then  # Can also use double square brackets.
+    echo "File does not exist."
+elif [ -s "${myfile}" ]; then
+    echo "File exists and is not empty."
 else
-    echo "You betcha, don'tcha know."
+    echo "This should never be printed."
+fi
+
+# Yet another example:
+overwrite=true
+if [ ! -e "myfile.txt" ] || test overwrite; then
+    echo -n > "myfile.txt"
 fi
 
 (sleep 3 && echo 'I just woke up') >/tmp/output.txt &  # group commands and redirect stdout!
 
-# You can be really fancy:
-test -f /etc/resolv.con && echo "$FILE exists." || echo "$FILE doesn't exist."
+# Get fancy: if cmd1 is true, then cmd2 executes, otherwise cmd3.
 cmd1 && cmd2 || cmd3
-# if cmd1 is true, then cmd2 executes, otherwise cmd3.
+# E.g.
+test -f /etc/resolv.con && echo "$FILE exists." || echo "$FILE doesn't exist."
 
 ###################
 #--- for loops ---#
@@ -82,21 +90,7 @@ case "$b" in
 esac
 ```
 
-## Functions
-
-```bash
-function <func_name> {
-    <cmd1>;
-    <cmd2>;
-    ...
-}
-
-# Functions can be one liners:
-function cdl { cd $1; ls; }
-    cdl mydir  # cd into mydir and then ls
-```
-
-### Useful flags
+### Useful flags for truth testing
 
 | Flag | What it do |
 | ---- | ---------- |
@@ -112,10 +106,22 @@ function cdl { cd $1; ls; }
 | `-w FILE` |  FILE has write permission. |
 | `-x FILE` |  FILE has execute permission. |
 
-### Truth testing
-
 ```bash
 [ "a" = "a" ]  # Tests if the 2 strings are equal. If true, exit status = 0.
+```
+
+## Functions
+
+```bash
+function <func_name> {
+    <cmd1>;
+    <cmd2>;
+    ...
+}
+
+# Functions can be one liners:
+function cdl { cd $1; ls; }
+    cdl mydir  # cd into mydir and then ls
 ```
 
 ### Helpful bash variables

@@ -29,9 +29,45 @@ pip install --user numpy
 # when you might not otherwise have the administrator privileges.
 ```
 
-## How to structure your project
+## Importing Modules
 
-Never use `from somepackage import *`
+Python looks for modules in `sys.path`:
+
+```python
+# Check out your sys.path:
+import sys
+print(sys.path)
+```
+
+As a hack, you can add more paths to this list:
+
+```python
+sys.path.append(new_path)
+```
+
+Instead, it is better to modify the environment variable `PYTHONPATH`:
+
+```bash
+# See what's currently in your PYTHONPATH:
+echo $PYTHONPATH
+# Append it:
+export PYTHONPATH=${PYTHONPATH}:new_path
+# TIP: Put this `export` line in your `~/.bash_profile` to have it
+# automatically executed on start up.
+```
+
+Never use:
+
+```python
+from somemodule import *
+```
+
+The `*` is the big no-no.
+Be explicit in what you import, so a better way would be:
+
+```python
+from somemodule import usefulfunction
+```
 
 - **Cool trick:** Use the Linux command `tree` to see your directory structure.
 
@@ -773,11 +809,14 @@ which python3
 if sys.executable in your JupyterNB doesn't point where you want, 
 then you have to change where it points to in the kernel.json file.
 Find the file by doing:
+
+```python
 from jupyter_core.paths import jupyter_data_dir
 print(jupyter_data_dir())
-- It will print out some kind of <out/path>
-- Then edit the <out/path>/kernel.json to contain the correct path.
-- You can find what one possible path could be by doing this in your terminal: which python
+# It will print out some kind of <out/path>
+# Then edit the <out/path>/kernel.json to contain the correct path.
+# You can find what one possible path could be by doing this in your terminal: which python
+```
 
 ## IPython
 
