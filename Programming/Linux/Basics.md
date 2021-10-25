@@ -73,14 +73,47 @@ ln  <original_file>  <link_name>
 # A soft link always points a filename to another filename, which then points to information on a storage device.
 
 file <> FIXME
-printf    # appears to just be a fancier and more reliable echo
-printf "My brother %s is %d years old.\n" Prakash 21
-# Prints: My brother Prakash is 21 years old.
-# Note: `echo` automatically adds '\n'.
 
 alias				# check your aliases
 alias <newalias>="<command>"	# add <newalias> to 
 ```
+
+### printf
+
+`printf` is a fancier and more reliable version of `echo`:
+
+```bash
+printf "You can buy a %s for only %d dollars.\n" laptop 200
+# Prints: You can buy a laptop for only 200 dollars.
+# Note: `echo` automatically adds '\n'.
+
+# Specify the width (padding):
+printf "%10s| %5d\n" Age 23
+# prints:       Age|    23
+# NOTE: Printing is automatically RIGHT-aligned.
+# Left-align instead:
+printf "%-10s| %-5d\n" Age 23
+# prints: Age       | 23
+
+# Specify precision (which can round numbers):
+printf "It took %.1f seconds.\n" 10.682
+# prints: It took 10.7 seconds.
+
+# Combine padding and precision:
+printf "It took: %12.5f seconds.\n" 10.682
+# prints: It took:     10.68200 seconds.
+```
+
+| **Format Specifiers** | **Character Usage** |
+| --- | --- |
+| `%s` | String |
+| `%d` | Integers |
+| `%f` | Floating point |
+| `%c` | Single character |
+| `%b` | String with backslash escape character |
+| `%%` | Percent sign |
+| `%x` | Hexadecimal integers |
+| `%o` | Octal integers |
 
 ### Input/Output Redirection
 
@@ -149,6 +182,22 @@ sleep 7  # make the shell sleep for 7 seconds
 
 ## Advanced Commands
 
+### Command Substition
+
+Store the results of a command into a variable:
+
+```bash
+chamber=$( echo "ME21 ME22 MB33" | sed 's@ME@YOU@' )
+echo $chamber  # prints: 'YOU21 YOU22 MB33'
+
+# NOTE: `chamber` would not be an array.
+# It would only have length equal to 1.
+# To force it to an array, wrap it in parentheses:
+chamber=( $( echo "ME21 ME22 MB33" | sed 's@ME@YOU@' ) )
+len=${#chamber[@]}
+echo $len  # prints: 3
+```
+
 ### awk
 
 An extremely powerful file-processing language.
@@ -211,9 +260,6 @@ echo "123 abc" | sed 's/[0-9]*/& stuff &/'
 echo "1e-2" | sed "s#^+*[^e]#&.000000#;s#.*e-#&0#"  # makes 1e-2 become 1.000000e-02
 # can also do:
 sed "s#^[0-9]*[^e]#&.000000#;s#.*e-#&0#"
-
-# Store the results of a command into a variable:
-chamber="$( echo ME21 | sed 's@ME@YOU@')"
 ```
 
 #### Tips on using `sed`

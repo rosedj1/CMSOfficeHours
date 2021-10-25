@@ -17,7 +17,7 @@ if test -f "${FILE}"; then  # -f checks if it's an actual file (versus a dir).
 fi
 
 # One liner:
-if cond; then op1; else op2; fi
+if cond; then cmd1; else cmd2; fi
 
 # See if previous command succeeded (`returns 0`):
 <some_command>
@@ -58,13 +58,15 @@ for num in {15..60..5}; do  # Start from 15, end at 60, increment by 5.
 done
 
 #############################
-#--- Looping over a list ---#
+#--- Looping over arrays ---#
 #############################
+# Method 1:
 directories="firstone/ secondone/ thirdone/"
 for d in $directories; do
     echo $d
 done
 
+# Method 2:
 files=( file1.txt )
 files+=( file2.txt )
 files+=( file3.txt )
@@ -72,11 +74,30 @@ for f in "${files[@]}"; do
     echo $f
 done
 
+# Method 3:
+distro=("redhat" "debian" "gentoo")
+## Get length of $distro array.
+len=${#distro[@]}  # Can also use `*` instead of `@`.
+## Use bash for loop.
+for (( i=0; i<$len; i++ )); do
+    echo "${distro[$i]}"
+done
+
 #####################
 #--- while loops ---#
 #####################
-while true; do
-    <cmds>
+num=5
+while [ $num -lt 10 ]; do
+    # `lt` means "less than".
+    # You also have: `gt`, `ge`, `eq`, `ne`
+    # Increment num by 1 using "arithmetic expansion".
+    (( num = num + 1 ))
+    # Other ways to increment:
+    # ((num++))
+    # ((++num))
+    # let "num+=1" 
+    # let "num++"
+    # let "++num"
 done
 
 #########################
