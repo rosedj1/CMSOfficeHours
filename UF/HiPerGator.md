@@ -1,8 +1,11 @@
 - [HiPerGator](#hipergator)
   - [What is HiPerGator?](#what-is-hipergator)
-  - [Log into a HPG node](#log-into-a-hpg-node)
-  - [Whose group are you in?](#whose-group-are-you-in)
-  - [Some HPG-specific commands](#some-hpg-specific-commands)
+    <!-- - [Get access to HPG](#get-access-to-hpg)
+      - [Notes on your home area](#notes-on-your-home-area)
+    - [What resources do you have?](#what-resources-do-you-have)
+    - [Explore your other workspaces](#explore-your-other-workspaces)
+      - [Notes about your big workspaces](#notes-about-your-big-workspaces) -->
+  - [How to install software on HPG](#how-to-install-software-on-hpg)
   - [How to submit SLURM scripts](#how-to-submit-slurm-scripts)
     - [Notes on submitting to the SLURM scheduler](#notes-on-submitting-to-the-slurm-scheduler)
     - [SBATCH directives](#sbatch-directives)
@@ -36,71 +39,90 @@
 Since HPG is used by many research groups at UF,
 it is _vital_ that HPG must share its resources intelligently.
 
-## Log into a HPG node
+### Get access to HPG
 
-Once you have a
-[HPG account](https://www.rc.ufl.edu/access/account-request/),
-you can `ssh` into a **login node**:
+1. [Request an account](https://www.rc.ufl.edu/access/account-request/).
+   - If you are part of the UF HEP group, request `group=avery`.
+
+  <!-- Prof. Paul Avery was instrumental in setting up UF's HEP computing resources.
+   Email Prof. Avery (`avery@phys.ufl.edu`) explaining who you are and why you seek his computing resources.
+   If he gives you permission, then fill out a
+   [UFRC service request](https://www.rc.ufl.edu/help/support-requests/)
+   and forward Avery's permission email.
+   Once approved, you'll be able to submit SLURM scripts to the UFRC computer cluster! -->
+
+1. Log onto a HPG **login node** by typing this into your local terminal:
+
+   ```bash
+   ssh your_gatorlink_UN@gator.rc.ufl.edu
+   # Use your GatorLink username and password.
+   # Do the 2-factor authentication process.
+   ```
+
+   - If this command fails then UFRC may not have approved your account yet.
+
+**Congrats! You are now working on HiPerGator!**
+
+Do the command `pwd` to check that you are in your home area:
 
 ```bash
-ssh -XY your_gatorlink_UN@gator.rc.ufl.edu
+/home/your_gatorlink_UN/
 ```
 
-When you first log in, you will be placed at: `/home/your_gatorlink_UN/`.
-Do `pwd` to verify this.
+#### Notes on your home area
 
-- Do not store big files here as you are only given **20 GB of storage**
-(Bockjoo Kim says 40 GB).
+- Do not store big files here as you are only given **40 GB of storage**.
 - Do not run intensive code here. To execute big jobs, [submit a SLURM script](#how-to-submit-slurm-scripts).
 - This area has only one server (node) hosting it.
 
-You have two bigger workspaces. To access them, do:
+### What resources do you have?
+
+Play with these commands to learn about your account's resources:
 
 ```bash
-cd /blue/your_group/your_gatorlink_UN/
-# and
-cd /orange/your_group/your_gatorlink_UN/
+id                 # Print info about your group.
+slurmInfo          # Print your primary group's SLURM info.
+slurmInfo <group>  # Print <group>'s SLURM info.
+
+# Memory/space allocation:
+home_quota     # See how much space you take up on /home/<your_UN>/.
+
+ssh login3            # Jump to login node 3. There are nodes 1-4.
+showAssoc <username>  # See what groups are associated with <username>.
 ```
 
-- Tab-complete won't work until you manually `cd` into that file path first.
+### Explore your other workspaces
+
+You have two bigger workspaces.
+To access them, do:
+
+```bash
+# Big workspace 1:
+cd /blue/your_group/your_gatorlink_UN/
+# Big workspace 2:
+cd /orange/your_group/your_gatorlink_UN/
+# NOTE: tab-completion won't work until you manually `cd` here first.
+
+# Learn about your space allocation in these areas:
+blue_quota     # See how much space your group uses on /blue/.
+blue_quota -u  # See how much space you take up on /blue/.
+orange_quota   # See how much space your group uses on /orange/.
+```
+
+#### Notes about your big workspaces
+
 - This area has access to 51,000 cores.
 - `/blue/` has a total storage of 8 PB.
 - `/orange/` has a total storage of 6 PB.
 
-## Whose group are you in?
+## How to install software on HPG
 
-Check your `group` by typing: `id`
-
-As part of the UF HEP group, it is **highly recommended** that you request `group=avery`.
-Prof. Paul Avery was instrumental in setting up UF's HEP computing resources.
-Email Prof. Avery (`avery@phys.ufl.edu`) explaining who you are and why you seek his computing resources.
-If he gives you permission, then fill out a
-[UFRC service request](https://www.rc.ufl.edu/help/support-requests/)
-and forward Avery's permission email.
-Once approved, you'll be able to submit SLURM scripts to the UFRC computer cluster!
-
-## Some HPG-specific commands
+To install a package, first try: `module load <package>`
 
 ```bash
-ssh login3            # Jump to login node 3. There are nodes 1-4.
-showAssoc <username>  # See what groups are associated with <username>.
-slurmInfo             # See your primary group's info.
-slurmInfo <group>     # See a particular group's info.
-
-# Memory/space allocation:
-blue_quota     # See how much space your group uses on /blue/.
-blue_quota -u  # See how much space you take up on /blue/.
-
-orange_quota   # See how much space your group uses on /orange/.
-home_quota     # See how much space you take up on /home/<your_UN>/.
-
-```
-
-If you want access to certain software, you typically have to do `module load <package>`.
-Examples:
-
-```bash
-module load python3  # Can also use the alias: `ml python3`
+# Examples
+module load python3
+# As a shorthand you can do: `ml python3`
 
 # Other useful modules:
 ml rootpy
@@ -108,90 +130,122 @@ ml pycharm
 ml tensorflow
 ml vscode
 
-# See available modules:
+# Check all available modules:
 ml spider
-ml spider py   # Look for modules with 'py' in name.
+# Use `F` to move forward a page. `B` to move back.
 
-# Search for all modules that deal with Python.
+# Look for only modules with 'py' in name.
+ml spider py
+
+# Look for all modules that deal with Python:
 ml key python
 
-# Useful ml commands:
-ml list                     # List your currently loaded modules.
-ml purge                    # Unload all modules.
-module unload python3       # Unload the python3 module.
-ml intel                    # Allows you to do `make` commands.
-ml intel/2018 openmpi/3.1.0 # Compiles stuff?
+# Useful `ml` commands:
+ml list                      # List your currently loaded modules.
+ml purge                     # Unload all modules.
+module unload python3        # Unload the python3 module.
+ml intel                     # Allows you to do `make` commands.
+ml intel/2018 openmpi/3.1.0  # Compiles stuff?
 ```
 
-## How to submit SLURM scripts
+## SLURM
 
-The computer cluster itself is called **SLURM**
-(**S**imple **L**inux **U**tility for **R**esource **M**anagement).
-You must prepare a **SLURM script** which contains the instructions for your job.
-Then you submit your SLURM script to the SLURM scheduler which will then process your
-job using the available resources (51,000 cores!).
+Submit your long computational jobs to HPG's computer cluster:
+**SLURM**
+(**S**imple **L**inux **U**tility for **R**esource **M**anagement)
 
-- It is useful to add the extension `.sbatch` for SLURM scripts.
-- If you can run it locally, you can make a SLURM script to do it!
+- SLURM has access to 51,000 cores! Take advantage of these resources.
 
-Example SLURM script (`myslurmscript.sbatch`).
+### How to submit SLURM scripts
 
-```bash
-#!/bin/bash
-#SBATCH --job-name=my_job                    # Job name.
-#SBATCH --output=completed_job_%j.log        # Output file name. %j=jobID
-#SBATCH --error=completed_job_%j_error.log   # Error file name.
-#SBATCH --mail-type=ALL         # Email job status. Options: BEGIN, END, ALL, FAIL, NONE
-#SBATCH --mail-user=rosedj1@ufl.edu          # Your email.
-#SBATCH --nodes=1
-#SBATCH --ntasks=1              # Number of MPI tasks (processes). Ex: ntasks=1, runs on 1 CPU.
-#SBATCH --cpus-per-task=4
-#SBATCH --mem=4gb               # Total job memory request on a node. Default is 2gb.
-#SBATCH --time=2:00:00          # Time limit (hh:mm:ss). Can also use: -t=00:01:00
-#SBATCH --account=avery         # Use resources from this account.
-#SBATCH --qos=avery             # Specify the QOS (quality of service).
+1. Make a **SLURM script** which contains the instructions for your job.
+   - Copy and paste the code below into a file called `myslurmscript.sbatch`:
 
-# Now put the code you want to run below:
-pwd; hostname; date
+   ```bash
+   #!/bin/bash
+   #SBATCH --job-name=my_job                   # Job name.
+   #SBATCH --output=completed_job_%j.log       # Output file name. %j=jobID
+   #SBATCH --error=completed_job_%j_error.log  # Error file name.
+   #SBATCH --mail-type=ALL                     # Email job status. Options: BEGIN, END, ALL, FAIL, NONE
+   #SBATCH --mail-user=rosedj1@ufl.edu         # Your email.
+   #SBATCH --nodes=1
+   #SBATCH --ntasks=1         # Number of MPI tasks (processes). Ex: ntasks=1, runs on 1 CPU.
+   #SBATCH --cpus-per-task=4
+   #SBATCH --mem=4gb          # Total job memory request on a node. Default is 2gb.
+   #SBATCH --time=2:00:00     # Time limit (hh:mm:ss). Can also use: -t=00:01:00
+   #SBATCH --account=avery    # Use resources from this account.
+   #SBATCH --qos=avery        # Specify the QOS (quality of service).
 
-module load python3
+   # Now put the code you want to run below:
+   pwd; hostname; date
 
-echo "Running my python script."
+   module load python3
 
-python3 mypythonscript.py
-# NOTE: The very first line in this script could be something like: #!/usr/bin/env python3
-```
+   echo "Running my python script."
 
-### Notes on submitting to the SLURM scheduler
+   python3 /home/your_gatorlink_UN/helloworld.py
+   ```
 
-- Submit the SLURM script by doing: `sbatch myslurmscript.sbatch`
-- Check that the job was submitted: `squeue -u rosedj1`
-  - Get `<job_id>` here.
-- Cancel the job: `scancel <job_id>`
+2. Make a Python script called `helloworld.py` which contains:
+
+   ```python
+   print("Hello World")
+   ```
+
+   - Store this file at `/home/your_gatorlink_UN/helloworld.py`
+  
+3. Submit your SLURM script to the SLURM scheduler:
+
+   ```bash
+   sbatch myslurmscript.sbatch
+   ```
+
+4. Check that your job was submitted:
+
+   `squeue -u <your_gatorlink_UN>`
+
+   - This also prints out the `job_id`.
+
+   <!-- | Effect | Command |
+   | --- | --- |
+   | Check your SLURM jobs (also prints your job_id) | `squeue  -u <your_UN>` |
+   | Cancel your job | `scancel <job_id>` | -->
+
+#### Notes on SLURM jobs
+
+- SLURM scripts typically use the extension `.sbatch`.
+- *Anything* you run locally can be run on SLURM.
 - SLURM puts you in a clean shell (none of your aliases will be available).
-  - So you should do something like: `source ~/.bash_profile`,
-- If you submit your script from, say, this location: `/home/your_UN/work/myscript.sbatch`, then SLURM will put your new shell at: `/home/your_UN/work/`
+  - To make your usual shell stuff available, put this in your SLURM script:
 
-[Check here](https://help.rc.ufl.edu/doc/Annotated_SLURM_Script)
-for more options on SLURM scripts.
+     ```bash
+     source ~/.bash_profile
+     ```
 
-Location of more example SLURM scripts: `/blue/data/training/SLURM/`
+- SLURM executes your code starting from the directory
+where you submitted the SLURM script. So if you do:
+    sbatch `/home/your_UN/work/myscript.sbatch`, then SLURM will execute your code at: `/home/your_UN/work/`
+- The "shebang" (`#!`) at the top of the SLURM script can invoke whatever
+interpreter you want:
 
+    ```bash
+    #!/usr/bin/env python3
+    ```
+
+- [More SLURM script options](https://help.rc.ufl.edu/doc/Annotated_SLURM_Script).
+- Example SLURM scripts are located at: `/blue/data/training/SLURM/`
 - To learn about single jobs, look at: `single_job.sh`
 - To learn about parallel jobs, look at: `parallel_job.sh`
 
-### SBATCH directives
+### SLURM directives using #SBATCH
 
 - `#SBATCH --mem-per-cpu=600mb    # Memory (RAM) per core/processor/CPU.`
-
 
 Pass in Bash variables into your SLURM script:
 
 ```bash
 sbatch --export=A=5,b='test' my_script.sbatch
 ```
-
----
 
 ## Development Sessions
 
@@ -371,11 +425,14 @@ launch_gui_session -h	# shows help options
 Paste the xpra url into your local terminal
 
 Do: 
+
+```bash
 module load gui
 launch_gui_session -e <executable>	(e.g., launch_rstudio_gui)
 xpra attach ssh:<stuff>
 xpra_list_sessions
 scancel <job_id>
+```
 
 ---
 
@@ -385,23 +442,21 @@ Two main ways to use Jupyter NB on HPG:
 
 **Option 1:** Run a SLURM script. Reliable and fast.
 
-**Option 2:** Use HPG's robust built-in Jupyter NB GUI.
-
-- It used to be jhub.rc.ufl.edu, but this link is permanently broken.
+**Option 2:** Use HPG's robust built-in [Jupyter NB GUI](jhub.rc.ufl.edu).
 
 ### Option 1: Run Jupyter Notebooks remotely using a SLURM script
 
 1. Log into HPG.
-2. (You only need to do this step if you have never done it before.)
+1. (You only need to do this step if you have never done it before.)
 If you're not sure, then do this step anyway:
 
-```bash
-module load jupyter
-jupyter-notebook password
-# When it prompts you for a password, put anything or leave it blank.
-```
+  ```bash
+  module load jupyter
+  jupyter-notebook password
+  # When it prompts you for a password, put anything or leave it blank.
+  ```
 
-3. Make a new file on HPG (call it `remote_jupynb.sbatch`) and put these contents inside:
+1. Make a new file on HPG (call it `remote_jupynb.sbatch`) and put these contents inside:
 
 ```bash
 #!/bin/bash
