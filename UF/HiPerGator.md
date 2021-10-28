@@ -1,4 +1,6 @@
-- [HiPerGator](#hipergator)
+# HiPerGator
+
+<!-- - [HiPerGator](#hipergator) -->
   - [What is HiPerGator?](#what-is-hipergator)
     <!-- - [Get access to HPG](#get-access-to-hpg)
       - [Notes on your home area](#notes-on-your-home-area)
@@ -33,8 +35,7 @@
     <!-- - [Parallelism](#parallelism)
     - [Computing Terms](#computing-terms) -->
   - [Resources](#resources)
-
-# HiPerGator
+  <!-- - [WARNING: Messy stuff below!](#warning-messy-stuff-below) -->
 
 ## What is HiPerGator?
 
@@ -383,14 +384,12 @@ Two main ways to use Jupyter NB on HPG:
 
 ### Option 1
 
-Use HPG's robust and built-in **Jupyter NB GUI**:
-[jhub.rc.ufl.edu](jhub.rc.ufl.edu)
+Use HPG's robust and built-in
+[Jupyter NB GUI](https://jupyterhub.rc.ufl.edu/hub/spawn).
 
 ### Option 2
 
 Run a SLURM script to start a NB. Reliable and fast.
-
-<!-- #### Option 2: Run Jupyter Notebooks remotely using a SLURM script -->
 
 1. Log into HPG.
 1. (You only need to do this step if you have never done it before.)
@@ -687,8 +686,10 @@ There are also compute nodes
 
 ## Resources
 
-- The HPG [help page](help.rc.ufl.edu).
-- UFIT [training page](training.it.ufl.edu).
+- The HPG [help page](https://help.rc.ufl.edu/doc/UFRC_Help_and_Documentation).
+- UFIT [training page](https://training.it.ufl.edu/).
+
+## WARNING: Messy stuff below!
 
 What is HPG?
 HPG is essentially just a big cluster of computers.
