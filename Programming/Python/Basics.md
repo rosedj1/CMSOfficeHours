@@ -698,6 +698,16 @@ fig, ax = plt.subplots(nrows=2, ncols=1, sharex=True, gridspec_kw={'height_ratio
 
 ## Importing Packages and Modules
 
+Keep your code **DRY**: "**D**on't **R**epeat **Y**ourself".
+
+That means if you have a nice function that you use over and over,
+it is best to write down that function *only once* in some file
+and then import that function into other places.
+
+- Added benefit: updating This has the added benefit of only having to  the 
+
+It is best to import 
+
 If you get ImportError, then most likely the python interpreter doesn't know the path to your package
 1. Do echo $PYTHONPATH to see which paths the python interpreter knows about
 2. Do export PYTHONPATH=$PYTHONPATH:<path/to/package>    # permanently append <path/to/package> to $PYTHONPATH

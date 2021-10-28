@@ -26,7 +26,11 @@ cp <src> <dest>     # Copy source fileto destination.
 mkdir <newdir>      # Make a new directory.
 man -k <cmd>        # Shows you the manual for the command.
 
+# Log into a remote computer:
+ssh your_username@hostname  # E.g. `ssh isaacbrock@lxplus.cern.ch`
+
 # Step it up a notch:
+cat <file1> | tee [-a] <file2>  # tee will append the stdout to both a file and to stdout (it piplines the info into a 'T' shape)
 head <file>        # Print the last 10 lines in the file.
 head -n 2 <file>   # Print the first 2 lines in the file.
 tail <file>        # Print the last 10 lines in the file.
@@ -35,7 +39,10 @@ tail -n 15 <file>  # Print the last 15 lines in the file.
 tail -n +7 <file>  # Print ALL lines from line 7 onward.
 
 scp  # Secure copy from one computer to another.
-scp <source> <dest>	# the remote <source> or <dest> should be of the form: user@server:/path/to/file
+scp <source> <dest>
+# The remote <source> or <dest> should be of the form: user@server:/path/to/file
+# Example:
+scp myslurmscript.sbatch alexroman@gator.rc.ufl.edu:/home/alexroman/
 scp -r 
 history  # shows you all previous commands you’ve entered
 more     # prints to stdout the entire file(?)
@@ -52,7 +59,6 @@ top -n 1 -b | grep chenguan  # See system summary and running processes; -n flag
 free [-g]  # displays the amount of free and used memory in the system; -g to make it more readable
 read [-s] [-p] [<prompt>] <var> # stores user input into <var>; -s=silent text, -p=prompt becomes <prompt>
 cut -d' ' -f2-4  # use whitespace as delimiter, and cut (print to screen) only fields (columns) 2 through 4
-cat <file1> | tee [-a] <file2>  # tee will append the stdout to both a file and to stdout (it piplines the info into a 'T' shape)
 
 #--- Links (a.k.a. "shortcuts"). ---#
 # Create a soft link (a reference) between <original_file> and <link_name>

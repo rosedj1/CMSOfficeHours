@@ -4,7 +4,7 @@ Powerful version-control software.
 
 Check out this [nice tutorial](https://www.sbf5.com/~cduan/technical/git/git-1.shtml).
 
-## 'Git' Started
+## Let's 'Git' Started
 
 ```bash
 mkdir <project_name>
@@ -35,20 +35,24 @@ General workflow:
 
 branch==head (almost!)
 
-HEAD (in all caps) refers to the most recent commit in the branch.
-- or does HEAD mean current commit?
+`HEAD` (in all caps) refers to the most recent commit in the branch.
+
+- FIXME: or does HEAD mean current commit?
 
 A general head is a reference to a commit object. It's like a pointer.
 
 When you do `git checkout <head-name>` you are pointing HEAD to the commit object <head-name>
+
 - it is almost always best to git add and git commit before checking out! Otherwise git will complain.
 - The important point here is, save your changes (commit them) before moving away from this commit/branch/head.
 - Similarly for before merging... COMMIT YOUR CHANGES!
 
 ```bash
-git branch    # shows existing heads, with a star at HEAD
+git branch    # shows existing heads, with a star at HEAD.
 git branch -r    # Show remote branches.
-git fetch <remote> <branch>  # 
+git fetch <remote> <branch>  # Fetch a specific remote branch into your local.
+# NOTE: if for some reason the above command doesn't retrieve the branch, do:
+# git remote update origin 
 git diff <head1>..<head2>    # Shows diff between commits ref'ed by <head1> and <head2>
 git diff <head1>...<head2>    # Shows diff between <head2> and the common ancestor of <head1>,<head2>
 git log <head1>..<head2>    # Show change log between <head2> and common ancestor
@@ -56,7 +60,7 @@ git log <head1>..<head2>    # Show change log between <head2> and common ancesto
 git config merge.renameLimit 999999
 ```
 
-#### Good workflow:
+## A Good Workflow
 
 Keep master branch in a stable, releaseable state.
 
@@ -65,19 +69,52 @@ Keep master branch in a stable, releaseable state.
 - After merging, you should delete the branch: `git branch -d <head>`
 - Remember: "commits are cheap"
 
-How to merge:
+### Merge Branches
+
+```bash
 git checkout <stable_head>
 git merge <feature_branch>
+```
 
 Collaboration:
 git clone <remote>    # Copies a repo.
 - Also copies all commit objects!
 
-git fetch <remote_repo_ref>    # Retrieves all commits from remote repo, but DOES NOT move your heads.
-If instead you want to grab the remote changes and update your own heads:
-git pull <remote_repo_ref> <remote_head>    # Retrieves remote commits AND updates heads. 
-The remote heads usually start with origin/<head>
+### Fetch Branches
+
+Download objects from another repo, without *making* commits.
+
+```bash
+git fetch <remote_repo_ref>
+# Retrieves all commits from remote repo, but DOES NOT move your heads.
+
+# Fetching is more gentle than pulling, which updates your heads:
+git pull <remote_repo_ref> <remote_head>
+# Retrieves remote commits AND updates heads. 
+# The remote heads usually start with origin/<head>
 - `git pull` automatically does a `git fetch`
+```
+
+### Stash Changes
+
+You can stash (**store**) your recent changes without making a commit:
+
+```bash
+git stash        # Save modifications for later (e.g. now you can `git pull`).
+git stash apply  # Bring those saved modifications back to life!
+
+# Other `stash` commands:
+git stash save "Message"     # Put in stash.
+git stash list               # Show stash.
+git stash show stash@{0}     # Show stash stats.
+git stash show -p stash@{0}  # Show stash changes.
+git stash pop stash@{0}      # Use custom stash item and drop it.
+git stash apply stash@{0}    # Use custom stash item and do not drop it.
+git stash apply --index      # Use custom stash item and index.
+git stash branch new_branch  # Create branch from stash:.
+git stash drop stash@{0}     # Delete custom stash item.
+git stash clear              # Delete complete stash.
+```
 
 `git push` does the opposite of `git pull` and tries to add new commits to the remote repo. 
 - Also updates remote head to point to same commit as local head.

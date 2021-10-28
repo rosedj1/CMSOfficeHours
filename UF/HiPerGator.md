@@ -6,28 +6,32 @@
     - [Explore your other workspaces](#explore-your-other-workspaces)
       - [Notes about your big workspaces](#notes-about-your-big-workspaces) -->
   - [How to install software on HPG](#how-to-install-software-on-hpg)
-  - [How to submit SLURM scripts](#how-to-submit-slurm-scripts)
-    - [Notes on submitting to the SLURM scheduler](#notes-on-submitting-to-the-slurm-scheduler)
-    - [SBATCH directives](#sbatch-directives)
+  - [SLURM](#slurm)
+    <!-- - [How to submit SLURM scripts](#how-to-submit-slurm-scripts)
+      - [Notes on SLURM jobs](#notes-on-slurm-jobs)
+    - [SLURM directives using #SBATCH](#slurm-directives-using-sbatch) -->
   - [Development Sessions](#development-sessions)
-    - [How to start a SLURM interactive session on a compute node](#how-to-start-a-slurm-interactive-session-on-a-compute-node)
+    <!-- - [How to start a SLURM interactive session on a compute node](#how-to-start-a-slurm-interactive-session-on-a-compute-node) -->
   - [SLURM sbatch directives](#slurm-sbatch-directives)
-    - [QOS or burstQOS](#qos-or-burstqos)
-  - [HPG COMMANDS](#hpg-commands)
-    - [voms-proxy-init](#voms-proxy-init)
+    <!-- - [QOS or burstQOS](#qos-or-burstqos) -->
   - [Use Jupyter Notebooks on HPG](#use-jupyter-notebooks-on-hpg)
-    - [Option 1: Run Jupyter Notebooks remotely using a SLURM script](#option-1-run-jupyter-notebooks-remotely-using-a-slurm-script)
-    - [How to use CMSSW on HPG](#how-to-use-cmssw-on-hpg)
-    - [Vaex on HPG](#vaex-on-hpg)
+    <!-- - [Option 1](#option-1)
+    - [Option 2](#option-2)
+      - [Possible Errors](#possible-errors)
+      - [Notes](#notes) -->
+  - [HPG COMMANDS](#hpg-commands)
+    <!-- - [voms-proxy-init](#voms-proxy-init) -->
+  - [How to use CMSSW on HPG](#how-to-use-cmssw-on-hpg)
+  - [Vaex on HPG](#vaex-on-hpg)
   - [Tier 2](#tier-2)
-    - [Modify CRAB T2 Area](#modify-crab-t2-area)
-      - [NOTE](#note)
+    <!-- - [Modify CRAB T2 Area](#modify-crab-t2-area)
+      - [Notes on using `uberftp`](#notes-on-using-uberftp)
       - [Give commands directly to `uberftp`](#give-commands-directly-to-uberftp)
     - [Your Personal T2 Area](#your-personal-t2-area)
-    - [How to access HPG T2 files from lxplus](#how-to-access-hpg-t2-files-from-lxplus)
+    - [How to access HPG T2 files from lxplus](#how-to-access-hpg-t2-files-from-lxplus) -->
   - [General HPG Info](#general-hpg-info)
-  - [Parallelism](#parallelism)
-    - [Computing Terms](#computing-terms)
+    <!-- - [Parallelism](#parallelism)
+    - [Computing Terms](#computing-terms) -->
   - [Resources](#resources)
 
 # HiPerGator
@@ -154,29 +158,27 @@ Submit your long computational jobs to HPG's computer cluster:
 **SLURM**
 (**S**imple **L**inux **U**tility for **R**esource **M**anagement)
 
-- SLURM has access to 51,000 cores! Take advantage of these resources.
+- SLURM has access to 51,000 cores!
 
 ### How to submit SLURM scripts
 
 1. Make a **SLURM script** which contains the instructions for your job.
-   - Copy and paste the code below into a file called `myslurmscript.sbatch`:
+
+   - Copy and paste the code below into a file called `myslurmscript.sbatch`.
+     - Be sure to use your own values for `--account` and `--mail-user`!
 
    ```bash
    #!/bin/bash
-   #SBATCH --job-name=my_job                   # Job name.
-   #SBATCH --output=completed_job_%j.log       # Output file name. %j=jobID
-   #SBATCH --error=completed_job_%j_error.log  # Error file name.
-   #SBATCH --mail-type=ALL                     # Email job status. Options: BEGIN, END, ALL, FAIL, NONE
-   #SBATCH --mail-user=rosedj1@ufl.edu         # Your email.
-   #SBATCH --nodes=1
-   #SBATCH --ntasks=1         # Number of MPI tasks (processes). Ex: ntasks=1, runs on 1 CPU.
-   #SBATCH --cpus-per-task=4
-   #SBATCH --mem=4gb          # Total job memory request on a node. Default is 2gb.
-   #SBATCH --time=2:00:00     # Time limit (hh:mm:ss). Can also use: -t=00:01:00
-   #SBATCH --account=avery    # Use resources from this account.
-   #SBATCH --qos=avery        # Specify the QOS (quality of service).
+   #SBATCH --job-name=myjob             # Job name.
+   #SBATCH --output=myjob_output.log    # Output file name. NOTE: %j=jobID
+   #SBATCH --error=myjob_error.log      # Error file name.
+   #SBATCH --mem=32mb                   # RAM request on a node. Default is 2gb.
+   #SBATCH --time=2:00:00               # Time limit (hh:mm:ss).
+   #SBATCH --account=YOUR_GROUP_HERE    # Use resources from this account.
+   #SBATCH --mail-user=YOUR_EMAIL_HERE  # Get emailed the job status.
+   #SBATCH --mail-type=ALL              # Job status options: BEGIN, END, ALL, FAIL, NONE
 
-   # Now put the code you want to run below:
+   # Put the code you want to run below:
    pwd; hostname; date
 
    module load python3
@@ -186,7 +188,7 @@ Submit your long computational jobs to HPG's computer cluster:
    python3 /home/your_gatorlink_UN/helloworld.py
    ```
 
-2. Make a Python script called `helloworld.py` which contains:
+1. Make a Python script called `helloworld.py` which contains:
 
    ```python
    print("Hello World")
@@ -194,25 +196,30 @@ Submit your long computational jobs to HPG's computer cluster:
 
    - Store this file at `/home/your_gatorlink_UN/helloworld.py`
   
-3. Submit your SLURM script to the SLURM scheduler:
+1. Submit your SLURM script to the SLURM scheduler:
 
    ```bash
    sbatch myslurmscript.sbatch
    ```
 
-4. Check that your job was submitted:
+1. Check that your job was submitted:
 
-   `squeue -u <your_gatorlink_UN>`
+   `squeue -u your_gatorlink_UN`
 
    - This also prints out the `job_id`.
+   - **NOTE:** If you don't see any jobs running it may have finished already.
 
    <!-- | Effect | Command |
    | --- | --- |
    | Check your SLURM jobs (also prints your job_id) | `squeue  -u <your_UN>` |
    | Cancel your job | `scancel <job_id>` | -->
 
+1. Check your email for details about the job
+(SLURM will email you if you supplied the `--mail-user` flag).
+
 #### Notes on SLURM jobs
 
+- [More SLURM script options](https://help.rc.ufl.edu/doc/Annotated_SLURM_Script).
 - SLURM scripts typically use the extension `.sbatch`.
 - *Anything* you run locally can be run on SLURM.
 - SLURM puts you in a clean shell (none of your aliases will be available).
@@ -232,14 +239,21 @@ interpreter you want:
     #!/usr/bin/env python3
     ```
 
-- [More SLURM script options](https://help.rc.ufl.edu/doc/Annotated_SLURM_Script).
 - Example SLURM scripts are located at: `/blue/data/training/SLURM/`
-- To learn about single jobs, look at: `single_job.sh`
-- To learn about parallel jobs, look at: `parallel_job.sh`
+  - To learn about single jobs, look at: `single_job.sh`
+  - To learn about parallel jobs, look at: `parallel_job.sh`
 
 ### SLURM directives using #SBATCH
 
-- `#SBATCH --mem-per-cpu=600mb    # Memory (RAM) per core/processor/CPU.`
+```bash
+#SBATCH --mem-per-cpu=600mb    # Memory (RAM) per core/processor/CPU.
+
+#SBATCH --nodes=1
+#SBATCH --ntasks=1         # Number of MPI tasks (processes). Ex: ntasks=1, runs on 1 CPU.
+#SBATCH --cpus-per-task=4
+
+# Time: Can also use: -t=00:01:00
+```
 
 Pass in Bash variables into your SLURM script:
 
@@ -318,9 +332,9 @@ pip install --user <new_package>
 # Example: pip install --user vaex
 ```
 
----
-
 ## SLURM sbatch directives
+
+They start with `#SBATCH` and then have some kind of flag, like `--time=`.
 
 ```bash
 # Multi-letter directives are double dashes:
@@ -337,6 +351,9 @@ pip install --user <new_package>
 --nodes=1          -N               request num of servers
 --ntasks=1         -n               num tasks that job will use (useful for MPI applications)
 --cpus-per-task=8  -c
+
+#SBATCH --qos=YOUR_GROUP_HERE        # Specify the QOS (quality of service).
+
 ```
 
 ### QOS or burstQOS
@@ -359,6 +376,88 @@ $SLURM_ARRAY_TASK_ID
 %A: job id
 %a: task id
 ```
+
+## Use Jupyter Notebooks on HPG
+
+Two main ways to use Jupyter NB on HPG:
+
+### Option 1
+
+Use HPG's robust and built-in **Jupyter NB GUI**:
+[jhub.rc.ufl.edu](jhub.rc.ufl.edu)
+
+### Option 2
+
+Run a SLURM script to start a NB. Reliable and fast.
+
+<!-- #### Option 2: Run Jupyter Notebooks remotely using a SLURM script -->
+
+1. Log into HPG.
+1. (You only need to do this step if you have never done it before.)
+If you're not sure, then do this step anyway:
+
+   ```bash
+   module load jupyter
+   jupyter-notebook password
+   # When it prompts you for a password, put anything or leave it blank.
+   ```
+
+1. Make a new file on HPG (call it `remote_jupynb.sbatch`) and put these contents inside:
+
+   ```bash
+   #!/bin/bash
+   #SBATCH --job-name=jupyter
+   #SBATCH --output=jupyter_notebook.log
+   #SBATCH --ntasks=1
+   #SBATCH --mem=400mb
+   #SBATCH --time=04:00:00
+   date;hostname;pwd
+
+   module add jupyter
+
+   launch_jupyter_notebook
+
+   # This script was taken from: https://help.rc.ufl.edu/doc/Remote_Jupyter_Notebook#SLURM_Job
+   ```
+
+1. In your HPG terminal do: `sbatch practice.sbatch`
+1. Then `cat` the log file (`jupyter_notebook.log`) produced in your area.
+1. Copy the line that starts with `ssh` and execute that command in a new local terminal (not HPG terminal).
+1. Copy the line that looks like `http://localhost:23775` and paste it into your browser.
+
+#### Possible Errors
+
+- "Resource allocation error" or something similar: This most likely means that your group doesn't have the necessary resources to submit SLURM scripts. How to check it:
+  - In your HPC terminal: `id`. This will show your group.
+  kindly ask this person to put $1,000,000 towards HPG resources, because science.
+  - For more debugging, go to: https://help.rc.ufl.edu/doc/Remote_Jupyter_Notebook
+
+#### Notes
+
+- Log into a specific SLURM node: `ssh -NL 26686:c25a-s26.ufhpc:26686 your_gatorlink@gator.rc.ufl.edu`
+- I can only `import ROOT` on a Python2 kernel, not Python3.
+- I cannot get feather to work on HPG or IHEPA computers.
+- The name Jupyter is a combination of other coding languages: Julia + Python + R
+  - Although Jupyter notebooks can accommodate R, users prefer R studio.
+- Matt Gitzendanner's JupyNB tutorial: `/blue/data/training/Jupyter/Training_demo.ipynb`
+
+QUESTIONS:
+[X] I can't reconnect to my screen command because each time I log into the cluster I attach to a different node
+- Reattach to: ssh login1
+- `hostname` to get host info
+[X] Do I have to run sbatch script.sbatch or can I just do ./script.sbatch
+- ALWAYS do `sbatch`. This will use the cluster's resources instead of /ufrc/'s (a filesystem) resources. 
+[X] After I do cmsenv, I can't run a Python3 kernel. 
+- I can! Lovely. 
+[X] You say up above it runs 100K loops but I think it's just 10K loops. 
+- It's smart and changes depending on the code!
+[X] pandas 
+- save files as hdf, as it is native to most systems
+- These have trouble working: parquet, pickle, feather
+[X] Diff between R and Python?
+- R is for statistics!
+- R is pure!
+- Python has many modules, some of which may be incompatible with others.
 
 ## HPG COMMANDS
 
@@ -434,94 +533,13 @@ xpra_list_sessions
 scancel <job_id>
 ```
 
----
-
-## Use Jupyter Notebooks on HPG
-
-Two main ways to use Jupyter NB on HPG:
-
-**Option 1:** Run a SLURM script. Reliable and fast.
-
-**Option 2:** Use HPG's robust built-in [Jupyter NB GUI](jhub.rc.ufl.edu).
-
-### Option 1: Run Jupyter Notebooks remotely using a SLURM script
-
-1. Log into HPG.
-1. (You only need to do this step if you have never done it before.)
-If you're not sure, then do this step anyway:
-
-  ```bash
-  module load jupyter
-  jupyter-notebook password
-  # When it prompts you for a password, put anything or leave it blank.
-  ```
-
-1. Make a new file on HPG (call it `remote_jupynb.sbatch`) and put these contents inside:
-
-```bash
-#!/bin/bash
-#SBATCH --job-name=jupyter
-#SBATCH --output=jupyter_notebook.log
-#SBATCH --ntasks=1
-#SBATCH --mem=400mb
-#SBATCH --time=04:00:00
-date;hostname;pwd
-
-module add jupyter
-
-launch_jupyter_notebook
-
-# This script was taken from: https://help.rc.ufl.edu/doc/Remote_Jupyter_Notebook#SLURM_Job
-```
-
-4. In your HPG terminal do: `sbatch practice.sbatch`
-5. Then `cat` the log file (`jupyter_notebook.log`) produced in your area.
-6. Copy the line that starts with `ssh` and execute that command in a new local terminal (not HPG terminal).
-7. Copy the line that looks like `http://localhost:23775` and paste it into your browser.
-
-Possible errors:
-
-- "Resource allocation error" or something similar: This most likely means that your group doesn't have the necessary resources to submit SLURM scripts. How to check it:
-  - In your HPC terminal: `id`. This will show your group.
-  kindly ask this person to put $1,000,000 towards HPG resources, because science.
-  - For more debugging, go to: https://help.rc.ufl.edu/doc/Remote_Jupyter_Notebook
-
-Notes:
-
-- Log into a specific SLURM node: `ssh -NL 26686:c25a-s26.ufhpc:26686 your_gatorlink@gator.rc.ufl.edu`
-- I can only `import ROOT` on a Python2 kernel, not Python3.
-- I cannot get feather to work on HPG or IHEPA computers.
-- The name Jupyter is a combination of other coding languages: Julia + Python + R
-  - Although Jupyter notebooks can accommodate R, users prefer R studio.
-- Matt Gitzendanner's JupyNB tutorial: `/blue/data/training/Jupyter/Training_demo.ipynb`
-
----
-
-QUESTIONS:
-[X] I can't reconnect to my screen command because each time I log into the cluster I attach to a different node
-- Reattach to: ssh login1
-- `hostname` to get host info
-[X] Do I have to run sbatch script.sbatch or can I just do ./script.sbatch
-- ALWAYS do `sbatch`. This will use the cluster's resources instead of /ufrc/'s (a filesystem) resources. 
-[X] After I do cmsenv, I can't run a Python3 kernel. 
-- I can! Lovely. 
-[X] You say up above it runs 100K loops but I think it's just 10K loops. 
-- It's smart and changes depending on the code!
-[X] pandas 
-- save files as hdf, as it is native to most systems
-- These have trouble working: parquet, pickle, feather
-[X] Diff between R and Python?
-- R is for statistics!
-- R is pure!
-- Python has many modules, some of which may be incompatible with others.
-
-### How to use CMSSW on HPG
+## How to use CMSSW on HPG
 
 1. Start a dev session
 2. `source /cvmfs/cms.cern.ch/cmsset_default.sh`  # this makes cmsrel and cmsenv two new aliases for you!
 3. Now cmsrel your favorite CMSSW_X_Y_Z
 
-### Vaex on HPG
+## Vaex on HPG
 
 ```bash
 ml python3
@@ -566,7 +584,7 @@ there actually is a way using the `uberftp` command:
 
 Now you can interact directly with the files on the remote system.
 
-#### NOTE
+#### Notes on using `uberftp`
 
 Your typical linux commands don't necessarily work here.
 Have a look at the available
@@ -604,7 +622,7 @@ world-class cluster
 
 threaded=parallel=open MPI
 
-## Parallelism
+### Parallelism
 
 HPG can allow your program to be run across multiple threads.
 However, the process must run on a single server/computer/node.
