@@ -48,7 +48,8 @@ Pull up useful "Cheat Sheets":
 - `cheat sheet Python`
 - `cheat sheet bash`
 - `cheat sheet C++`
-  * Maybe this only works with programming languages?
+
+  - Maybe this only works with programming languages?
 
 Immediately pull up a map:
 

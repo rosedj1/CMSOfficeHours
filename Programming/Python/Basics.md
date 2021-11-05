@@ -191,40 +191,50 @@ from collections import OrderedDict  # Make an ordered dictionary.
 
 ### Lists
 
-- Ordered and mutable
+Ordered and mutable objects.
+
+- Probably the most common Python object.
 
 ```python
-mylist = [1,3,'hey']			# lists can hold different data types
-mylist.append(4.6)			# permanently appends value to mylist
+mylist = [1,3,'hey']  # Lists can hold different data types.
+mylist.append(4.6)    # Permanently appends value to mylist.
 
 # Make a quick list of strings:
-str_ls = 'each word will be its own element'.split()
+str_ls = 'each word is an element'.split()
+# Prints: ['each', 'word', 'is', 'an', 'element']
 ```
 
-### Sets
-Unordered, immutable objects
-- good for removing duplicates and for doing math operations like: union, intersection, subset, etc.
-
-`set(1, 2, 3, 3)`
-- returns: {1, 2, 3}
-
-`set1 & set2`
-- returns all elements common to set1 and set2
-`set1 | set2`
- - returns all elements from both set1 and set2
-`set1 - set2`
-- return a new set with elements from set1 which are not in set2
-`set1 <= set2`
-- return a 
-
 ### Tuples
-- Ordered and immutable!
-Very similar to lists... except tuples are immutable!
-They are processed faster than lists
+
+Ordered and immutable objects.
+
+- Just like lists, except **immutable**.
+- They are processed faster than lists.
+
+### Sets
+
+Unordered and immutable objects.
+
+- good for removing duplicates and for doing math operations like:
+union, intersection, subset, etc.
+
+```python
+set(1, 2, 3, 3)
+# Prints: {1, 2, 3}
+
+set1 & set2
+# Return all elements common to set1 and set2.
+set1 | set2
+# Return all elements from both set1 and set2.
+set1 - set2
+# Return a new set with elements from set1 which are NOT in set2.
+set1 <= set2
+# Return a ???.
+```
 
 ## Control Flow
 
-**for loops**
+### `for` loops
 
 ```python
 import gc  # Garbage Collector.
@@ -242,12 +252,13 @@ range
 - useful for "for loops"
 xrange is faster and requires less memory, but has less versatility
 
-Ternary operator: 
+Python's "ternary" operator:
+
 ```python
 [on_true] if [expression] else [on_false]
 ```
 
-How to check the type of an object:
+Check the type of an object:
 
 ```python
 isinstance(obj, float)
@@ -376,11 +387,15 @@ class Color(Enum):
     GREEN = 4
     INDIGO = 6
 
+print(Color.GREEN.name)   # Print "GREEN" as str.
+print(Color.GREEN.value)  # Print 4 as int.
+
+Color['RED'].value   # Prints 1 as int.
+Color(6).name        # Prints "INDIGO".
+
 c = Color.GREEN
 c is Color.GREEN  # True.
 ```
-
----
 
 ## Packages
 
@@ -393,20 +408,24 @@ import numpy as np
 # Modify certain values in an array:
 np.where(<condition>, if_true, if_false)
 # Example:
-np.where(np.arange(5) < 3, -1, myarr)
-# Returns: array([-1,-1,-1,3,4])
+myarr = np.arange(5)
+np.where(myarr < 3, -1, myarr)
+# Return: array([-1, -1, -1, 3, 4])
+```
 
-Speed tests:
+#### Some Speed Tests
+
+```python
 import numpy as np
 myarr = np.arange(100000)
 %timeit max(myarr)  # 8.08 ms ± 56.3 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
 %timeit np.max(myarr)  # 57.4 µs ± 1.68 µs per loop (mean ± std. dev. of 7 runs, 10000 loops each)
 %timeit myarr.max()  # 55.1 µs ± 1.12 µs per loop (mean ± std. dev. of 7 runs, 10000 loops each)
-- Use arr.max(), over np.max(arr), over max(arr)
+# CONCLUSION: Use arr.max(), over np.max(arr), over max(arr).
 
 %timeit np.shape(arr)[0]  # 548 ns ± 25.6 ns per loop (mean ± std. dev. of 7 runs, 1000000 loops each)
 %timeit len(arr)  # 57.9 ns ± 1.41 ns per loop (mean ± std. dev. of 7 runs, 10000000 loops each)
-- Use len(arr) over np.shape(arr)[0]
+# CONCLUSION: Use len(arr) over np.shape(arr)[0].
 ```
 
 ### glob
@@ -419,7 +438,7 @@ file_list = glob.glob("/rosedj1/Higgs/*/Data*.root")  # Stores matched files in 
 glob.glob("/home/file?.txt")   # `?' will match a single character: fileA.txt, file7.txt
 ```
 
-Remember, that it's not regex! It's standard UNIX path expansion.
+Globbing is not regex! It's standard UNIX path expansion.
 
 How to use wildcards:
 
@@ -590,6 +609,19 @@ parser.add_argument('--nargs', nargs='+')
 parser.add_argument('--nargs-int-type', nargs='+', type=int)
 ```
 
+### PrettyTable
+
+Print pretty tables to the terminal (stdout).
+
+```python
+from prettytable import PrettyTable
+
+t = PrettyTable()
+t.field_names = ["mass", "pT", "eta"]  # Headers.
+t.add_row([0.105, 50.4, 2.3])
+# Note: must add rows, cols, and fields as type `list`.
+```
+
 ### threading
 
 **Terminology:**
@@ -752,8 +784,10 @@ np.linspace(start,stop,number_of_values)
 np.arctan2(y,x)
 Element-wise arc tangent of x1/x2 choosing the quadrant correctly.
 
-Meanings of underscores in variable names:
-By the way, a double underscore is often called a 'dunder'!
+## Meanings of underscores in variable names
+
+A double underscore is often called a **dunder**: `__init__`, `__str__`
+
 _var		# when you import using, say: 'from ROOT import *', then '_var' will not be imported
                 - single underscores are meant for variables for internal use only (within classes, e.g.); not enforced by interpreter
 var_		# this one's easy: a trailing underscore is used simply to avoid naming conflicts (e.g., class_ = 'just a regular string')
@@ -768,7 +802,7 @@ _		# used as a placeholder var in a function or something; a 'throw-away' variab
 - **classes** should use the CapWords convention.
 
 | Type | Public |
-| ---- | ------ |
+| --- | --- |
 | Packages | `lower_with_under` |
 | Modules | `lower` |
 | Classes | `CapWords` |
@@ -854,8 +888,8 @@ Cell Magic:
 
 If you need to pass in arguments into a script using ipython:
 
-```python
-ipython <script.py> -- --arg1 --arg2	# note the '--' between <script.py> and arg1
+```bash
+ipython <script.py> -- --arg1 --arg2  # note the '--' between <script.py> and arg1
 ```
 
 help(<object>)			# brings up a help menu (docstring?) for <object>
@@ -872,33 +906,49 @@ python -i <script.py>
 
 ## uproot
 
-`import uproot`
+```python
+import uproot
+
+# Open a root file:
+f = uproot.open("myfile.root")
+# Can directly open up an object:
+t = uproot.open("myfile.root:path/to/TTree")
+```
+
+### TTrees
+
+```python
+t.keys()    # Return a list of branches.
+t.values()
+
+branch = t['LepPt'] # Get a whole branch:
+
+t.typenames()  # See the type of each branch.
+t.show()       # See even more info about branches.
+
+# Convert a branch to an array (default is 'Awkward Array')"
+pt_arr = t["LepPt"].array()
+# If this doesn't work you can convert it to a NumPy array (slow):
+pt_arr = t["LepPt"].array(library="np")
+# Or even a Pandas series:
+pt_arr = t["LepPt"].array(library="pd")
+```
 
 Use uproot to convert a root file to np.array:
-- https://masonproffitt.github.io/uproot-tutorial/aio.html
 
-Open your root file:
-f = uproot.open(<file.root>)
+```python
+# FIXME
+```
 
-See what branches and objects are stored inside:
-f.keys()
+### Resources
 
-df.iloc[num] is faster than df.loc[index]
-
-Can save ONE array to a file in .txt format:
-np.savetxt('newfile.txt', myarr) 
-- Quick and dirty.
-- Allows for easy formatting of array.
-- Can save multiple arrays so long as they are the same size.
-
-Read a DF from a csv file:
-df = pd.read_csv("path/to/file.csv")
-Write DF to csv:
+- [The docs.](https://uproot.readthedocs.io/en/latest/basic.html)
+- [Another tutorial.](https://masonproffitt.github.io/uproot-tutorial/aio.html)
 
 ## The logging Module
 
 The ultimate Python debugger. There are 5 levels of debuggification:
- 
+
 1. Debug
 2. Info
 3. Warning
@@ -936,8 +986,6 @@ logger.warning("Watch it, buddy.")
 logger.error("Pi is not exactly 3.")
 logger.critical("The Ancient One is awakening.")
 ```
-
----
 
 ## Jupyter Notebooks
 
@@ -1038,8 +1086,6 @@ import sys
 print(obj.__sizeof__())
 ```
 
----
-
 ## Performance in Python
 
 Run the `cProfile` profiler found in the Python standard library
@@ -1083,20 +1129,19 @@ python -m line_profiler your_script.py.lprof
 - root_pandas
 - uproot
 - `conda install root-c conda-forge`
-- Topics to research:
 - import multiprocessing
 - datetime.datetime.now()
 
+## To Be Sorted
 
-## PrettyTable
+df.iloc[num] is faster than df.loc[index]
 
-Print pretty tables to the terminal (stdout).
+Can save ONE array to a file in .txt format:
+np.savetxt('newfile.txt', myarr) 
+- Quick and dirty.
+- Allows for easy formatting of array.
+- Can save multiple arrays so long as they are the same size.
 
-```python
-from prettytable import PrettyTable
-
-t = PrettyTable()
-t.field_names = ["mass", "pT", "eta"]  # Headers.
-t.add_row([0.105, 50.4, 2.3])
-# Note: must add rows, cols, and fields as type `list`.
-```
+Read a DF from a csv file:
+df = pd.read_csv("path/to/file.csv")
+Write DF to csv:

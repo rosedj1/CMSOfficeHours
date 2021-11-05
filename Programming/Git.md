@@ -87,12 +87,17 @@ Download objects from another repo, without *making* commits.
 ```bash
 git fetch <remote_repo_ref>
 # Retrieves all commits from remote repo, but DOES NOT move your heads.
+# I.e., downloads all the recent changes, but will NOT put it in your current checked out code (working area).
 
 # Fetching is more gentle than pulling, which updates your heads:
 git pull <remote_repo_ref> <remote_head>
 # Retrieves remote commits AND updates heads. 
 # The remote heads usually start with origin/<head>
 - `git pull` automatically does a `git fetch`
+
+# Grab a specific file from a GitHub repo:
+git fetch
+git checkout <remote>/<branch> -- <path/to/local_file>   # Super useful!
 ```
 
 ### Stash Changes
