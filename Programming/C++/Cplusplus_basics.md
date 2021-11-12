@@ -60,7 +60,16 @@ vector<double> vec = {2.0, 1.0}
 std::sort(vec.begin(), vec.end())  // After: { 1.0000000, 2.0000000 }
 ```
 
-#### Other ways to play wth vectors
+#### Iterate over a vector
+
+```cpp
+vector<int> nums = {1, 2, 3};
+for (auto & num : nums) {
+    cout << num << " squared = " << num * num << endl;
+}
+```
+
+#### Other ways to play with vectors
 
 Access last element of vector: `vec[vec.size()-1]`
 
@@ -89,6 +98,7 @@ int idL2 = (*lep_id)[L2];
 ```c++
 { statement1; statement2; ... }
 
+//--- If/then conditionals: ---//
 if(condition) statement;
 
 if (condition) {
@@ -97,16 +107,21 @@ if (condition) {
 } else if {
     statementX;
 }
+//--------------------------------------------------------------------------//
 
+// While loops:
 while(condition) statement;  // May not execute statement.
 
 do statement while(condition);  // Used for executing statement at least once.
+//--------------------------------------------------------------------------//
 
+// For loops:
 for(init_expr; cont_expr; incr_expr) statement;
 
 break;
 
 continue;
+//--------------------------------------------------------------------------//
 ```
 
 ## Docstrings

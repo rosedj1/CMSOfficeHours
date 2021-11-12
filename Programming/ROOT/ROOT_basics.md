@@ -144,6 +144,26 @@ branch can hold a different type of data (int, vector, hist, TTree, etc.).
 
 [Make a subset of a TTree.](https://root.cern.ch/doc/master/copytree3_8C.html)
 
+#### Skim certain branches of a TTree
+
+```cpp
+void skim_certain_branches() {
+    TFile *tf = new TFile("infile.root", "READ");
+    TTree *tree = (TTree*)tf->Get("Events");
+
+    // Turn off all branches, then manually turn on the ones to keep.
+    tree->SetBranchStatus("*", 0);
+    tree->SetBranchStatus("LepPt", 1);
+    tree->SetBranchStatus("nBX", 1);
+
+    TFile *tf_out = new TFile("outfile.root", "RECREATE");
+    TTree *newtree = tree->CloneTree(10);  // Clone 10 events. Use -1 for all.
+
+    newtree->Write();
+    return;
+}
+```
+
 ### TChain
 
 Chains multiple TTrees together (perhaps they even live in different files).
@@ -278,6 +298,7 @@ for (Int_t i = 0; i < tg->GetN(); i++)
 h->Draw("AXIS");
 tg->Draw("LP");
 ```
+
 ## Other ROOT Info
 
 ### Some types in ROOT

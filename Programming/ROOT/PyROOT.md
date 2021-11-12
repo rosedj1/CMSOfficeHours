@@ -41,6 +41,9 @@ for n_evt in range(tree.GetEntries()):
 # There is more pythonic way to iterate over TTree events.
 for evt in tree:
     evt.pT_muon
+
+# Which is faster?
+
 ```
 
 ### Make a new TTree and store values inside
@@ -216,6 +219,8 @@ legend.cd()
 
 ### TGraph
 
+Make a scatterplot:
+
 ```python
 n_pts = 5
 # I prefer to use numpy arrays to perform computations.
@@ -239,7 +244,7 @@ gr.GetXaxis().SetLimits(-0.05, 0.05)  # SetRangeUser() doesn't work for x-axis! 
 gr.GetYaxis().SetRangeUser(-0.2, 0.2) # Can also use: gr.SetMaximum(0.2)
 gr.Draw("APC")  # Draw the Axes, Points, and a smooth Curve.
 
-# Drawing Options Description
+#--- TGraph Drawing Options ---#
 # "A"     # Axis are drawn around the graph
 # "I"     # Combine with option 'A' it draws invisible axis
 # "L"     # A simple polyline is drawn
@@ -256,22 +261,11 @@ gr.Draw("APC")  # Draw the Axes, Points, and a smooth Curve.
 # "PMC"   # Palette Marker Color: graph's marker color is taken in the current palette.
 # "RX"    # Reverse the X axis.
 # "RY"    # Reverse the Y axis.
+```
 
-fitfunc = r.TF1("f1", "gaus", 1, 3)
-result = gr.Fit(fitfunc, "S")
-# The result pointer is very useful:
-cov = result.GetCovarianceMatrix() # Access the covariance matrix.
-chi2 = result.Chi2()    # Return the chi^2 of the fit.
-par0 = result.Value(0)  # Retrieve the value for the parameter 0.
-err0 = result.ParError(0)      # Retrieve the error for the parameter 0.
-result.Print("V")       # Print full info of fit verbosely.
-result.Write()          # Store fit info in a file.
-# You can also get fit info from the fit function itself:
-fitfunc.GetChisquare()
-fitfunc.GetParameter(0)
-fitfunc.GetParError(0)
+#### Other Useful TGraph Methods
 
-# Other useful methods.
+```python
 gr.GetN()        # Return the number of points in the graph.
 gr.GetPointX(4)  # Return the x-coordinate of point 4. First point indexed at 0.
 gr.GetPointY(4)  # Return the y-coordinate of point 4.
@@ -280,9 +274,6 @@ gr.GetPointY(4)  # Return the y-coordinate of point 4.
 ### TGraphErrors
 
 A TGraph but with x and y errorbars.
-
-```python
-```
 
 If you want to put many TGraphs on the same plot, then use a **TMultiGraph**:
 
@@ -370,23 +361,31 @@ c.Update()
 c.Draw()
 ```
 
-### Legends
-
-```python
-leg = ROOT.TLegend(xmin, ymin, xmax, ymax)
-# (All floats between 0 and 1, as a proportion of the x or y dimension)
-leg = ROOT.TLegend(0.60, 0.7, 0.8, 0.9)
-leg.AddEntry(h1, "lhaid = %s" % pdf1, "lpf")
-leg.SetLineWidth(3)
-leg.SetBorderSize(0)
-leg.SetTextSize(0.03)
-leg.Draw("same")
-```
-
 ### Fit Functions
+
+#### Fit a TGraph
 
 ```python
 from ROOT import TF1, gStyle
+fitfunc = TF1("f1", "gaus", 1, 3)
+# gr is a TGraph.
+result = gr.Fit(fitfunc, "S")
+# The result pointer is very useful:
+cov = result.GetCovarianceMatrix() # Access the covariance matrix.
+chi2 = result.Chi2()    # Return the chi^2 of the fit.
+par0 = result.Value(0)  # Retrieve the value for the parameter 0.
+err0 = result.ParError(0)      # Retrieve the error for the parameter 0.
+result.Print("V")       # Print full info of fit verbosely.
+result.Write()          # Store fit info in a file.
+# You can also get fit info from the fit function itself:
+fitfunc.GetChisquare()
+fitfunc.GetParameter(0)
+fitfunc.GetParError(0)
+```
+
+#### Fit a Histogram
+
+```python
 fit_func = TF1("f1", "gaus", 70, 110)
 fit_func.SetLineColor(1)
 fit_func.SetLineWidth(2)
@@ -403,6 +402,19 @@ fit_func.Draw("same")
 par_and_err0 = fit_func.GetParameter(0), fit_func.GetParError(0)
 par_and_err1 = fit_func.GetParameter(1), fit_func.GetParError(1)
 par_and_err2 = fit_func.GetParameter(2), fit_func.GetParError(2)
+```
+
+### Legends
+
+```python
+leg = ROOT.TLegend(xmin, ymin, xmax, ymax)
+# (All floats between 0 and 1, as a proportion of the x or y dimension)
+leg = ROOT.TLegend(0.60, 0.7, 0.8, 0.9)
+leg.AddEntry(h1, "lhaid = %s" % pdf1, "lpf")
+leg.SetLineWidth(3)
+leg.SetBorderSize(0)
+leg.SetTextSize(0.03)
+leg.Draw("same")
 ```
 
 ## More ROOT Quirks

@@ -148,7 +148,7 @@ statsbox.SetOptStat(1010)  # Controls what info is displayed in statsbox. FIXME:
 
 # Access the coordinates of the edges of the statsbox.
 statsbox.GetX1NDC()  # Return the x-val of box left edge, as a fraction of canvas width.
-statsbox.SetX2NDC(0.7)  # Set the x-val of box left edge, as a fraction of canvas width.
+statsbox.SetX2NDC(0.7)  # Set the x-val of box right edge, as a fraction of canvas width.
 statsbox.SetY1NDC(0.8)  # Set the y-val of box bottom edge, as a fraction of canvas height.
 statsbox.GetY2NDC()  # Return the y-val of box top edge, as a fraction of canvas height.
 # Alternatively you can use the x-axis and y-axis values as a reference,
@@ -171,7 +171,7 @@ statsbox = h.FindObject("stats")
 statsbox.SetX1NDC(0.6)
 statsbox.SetX2NDC(0.8)
 h.Draw()  # Must redraw hist.
-c1.Update()
+c.Update()
 ```
 
 See what objects your histogram knows about:
@@ -245,6 +245,7 @@ h->Draw("hist e1") // Error bars ( where err = sqrt(num_entries_in_bin) )
 ```
 
 Boot up the ROOT interpreter:
+
 ```bash
 root -l
 ```
@@ -347,6 +348,19 @@ r.gStyle.SetOptStat(0)                # Don't display hist stats.
 c1.Draw()
 ```
 
+### Get a slice of a 2-dim hist
+
+Make a **projection** along an axis:
+
+```python
+# Slice the TH2 at x-bin 3 and the entire y-axis:
+proj_y = h2.ProjectionY("proj_y", 3, 3)
+
+# `proj_y` is a TH1D which can use all the familiar TH1 methods:
+proj_y.GetEntries()
+proj_y.Draw("same")
+```
+
 ## Make a ratio plot
 
 ```cpp
@@ -375,11 +389,11 @@ Instead of doing `canv.RedrawAxis()` do: `hist.Draw("sameaxis")`
 
 - _What does `h.Draw("samex0")` do?_
 
-
 ## Other useful histogram methods
 
 ```python
 h2.FindLastBinAbove(3)  # Return the last bin whose content > 3.
+h2.Reset("ICE")         # Empties hist, but only Integral, Contents and Errors.
 ```
 
 ## Tutorials on ROOT Histograms

@@ -136,6 +136,7 @@ Example: cuts =  r"$%.1f < m_{\mu\mu} < %.1f$ GeV" % (self.massZ_min, self.massZ
 
 ### Dictionaries
 
+```python
 mydict = {}
 - Mutable
 
@@ -182,12 +183,20 @@ sorted_ls_of_vals = [value for (key, value) in sorted(my_dict.items())]
 Sort by values, return keys:
 sorted_ls_of_keys = sorted(my_dict, key=my_dict.__getitem__)
 
-Useful module for naturally sorting strings:
-`conda install -c anaconda natsort`
+# Make a dict using a generator:
+cjlst_sr_ls_tup = (
+    (316666, 781, 1112824102),
+    (316877, 47, 74688646),
+    (316720, 117, 154779433),
+)
+cjlst_evtid_sr_dct = {k:['SR'] for k in cjlst_sr_ls_tup}
 
-```python
-from collections import OrderedDict  # Make an ordered dictionary.
 ```
+
+Useful module for naturally sorting strings:
+conda install -c anaconda natsort
+
+from collections import OrderedDict  # Make an ordered dictionary.
 
 ### Lists
 
@@ -457,6 +466,8 @@ with open("path/to/newfile.json", "w") as f:
     # Prettify using indent.
     json.dump(dct, f, indent=4, sort_keys=True)
 ```
+
+- NOTE: The keys of a `.json` file must be `str`.
 
 ### pickle
 

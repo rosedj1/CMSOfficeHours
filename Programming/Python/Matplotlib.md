@@ -2,6 +2,8 @@
 
 A **Mat**hematical **plot**ting **lib**rary for Python.
 
+## Examples
+
 ```python
 import matplotlib.pyplot as plt
 ```
@@ -178,4 +180,12 @@ ax.set_ylim([0,1.0])
 plt.tight_layout()
 pdf.savefig()
 plt.clf()
+```
+
+## Histograms
+
+```python
+import matplotlib.pyplot as plt
+data = [len(evt.lep_pt) for evt in ttree]
+plt.hist(data, bins=range(0,8), align='left')  # 'left' oddly centers the labels.
 ```
