@@ -28,7 +28,42 @@ In your terminal, you can run the compiled code within the **executable**:
 # Prints: Hello, world!
 ```
 
-### Arrays
+## Printing Output
+
+There are two main ways to print to the screen:
+
+1. `cout`
+2. `printf`
+
+```cpp
+cout << "How many words to print? " << words_tot << endl;
+
+// `printf` allows you to use 'format specifiers' ('%' formats the output):
+printf ("Characters: %c %c \n", 'a', 65);
+printf ("Decimals: %d %ld\n", 1977, 650000L);
+printf ("Preceding with blanks: %10d \n", 1977);
+printf ("Preceding with zeros: %010d \n", 1977);
+printf ("Some different radices: %d %x %o %#x %#o \n", 100, 100, 100, 100, 100);
+printf ("floats: %4.2f %+.0e %E \n", 3.1416, 3.1416, 3.1416);
+printf ("Width trick: %*d \n", 5, 10);
+printf ("%s \n", "A string");
+```
+
+<!-- ### Specifiers
+https://www.cplusplus.com/reference/cstdio/printf/
+	specifiers
+length	d i	u o x X	f F e E g G a A	c	s	p	n
+(none)	int	unsigned int	double	int	char*	void*	int*
+hh	signed char	unsigned char					signed char*
+h	short int	unsigned short int					short int*
+l	long int	unsigned long int		wint_t	wchar_t*		long int*
+ll	long long int	unsigned long long int					long long int*
+j	intmax_t	uintmax_t					intmax_t*
+z	size_t	size_t					size_t*
+t	ptrdiff_t	ptrdiff_t					ptrdiff_t*
+L			long double				 -->
+
+## Arrays
 
 ```cpp
 // Initialize array of ints:
@@ -38,7 +73,7 @@ int arr_len = sizeof(myarr)/sizeof(*myarr);
 // VECTORS ARE BETTER THAN ARRAYS! # more flexibility!
 ```
 
-### Vectors
+## Vectors
 
 Similar to arrays, but dynamically sized.
 

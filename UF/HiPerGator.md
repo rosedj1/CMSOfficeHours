@@ -385,7 +385,7 @@ Two main ways to use Jupyter NB on HPG:
 ### Option 1
 
 Use HPG's robust and built-in
-[Jupyter NB GUI](https://jupyterhub.rc.ufl.edu/hub/spawn).
+[Jupyter NB GUI](https://jhub.rc.ufl.edu/).
 
 ### Option 2
 

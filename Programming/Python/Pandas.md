@@ -111,6 +111,25 @@ df.sample()    # Returns a random row of the DF.
 df.pipe(<fn>)  # Apply a custom function to the DF (in-place!).
 ```
 
-## Look into
+## Random Info
 
+WOW.
+I have this rather large spreadsheet (23 million rows and 39 columns).
+I currently have it stored on disk as a .csv, at a painful 13.8 GB on my Mac.
+Even worse, when I have to read this spreadsheet into my Python code
+(after which we call it a 'DataFrame') it takes 2m53s.
+
+However I just learned about this new file format called 'feather'.
+It stores your DataFrames in binary format for fast storage and reading.
+When I read the same DataFrame info from a feather file into memory,
+it takes 45.2 seconds. Almost 4 times faster than reading in a plain .csv!
+
+```python
 from pandas.plotting import scatter_matrix
+df = pd.DataFrame(data, columns=['a','b'])
+scatter_matrix(df, alpha=0.9, figsize=())
+```
+
+## Look Into
+
+- feather

@@ -217,7 +217,7 @@ str_ls = 'each word is an element'.split()
 
 Ordered and immutable objects.
 
-- Just like lists, except **immutable**.
+- Just like lists, except **immutable** (*can't append or modify the tuple*).
 - They are processed faster than lists.
 
 ### Sets
