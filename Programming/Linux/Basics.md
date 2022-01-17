@@ -147,7 +147,10 @@ cmd > out.txt 2> err.txt
 
 # Have the stderr (2) be redirected to the same place as stdout (1):
 cmd 2>&1 log.txt
-# Redirect the output and errors to both log.txt and the screen simultaneously:
+
+# Use `tee` to redirect output to multiple streams (think: 'T').
+python script.py | tee output.log
+# Send output and errors to both log.txt and the screen simultaneously:
 cmd 2>&1 | tee log.txt
 
 # 'Pipe' the output of one command into the input of another command with `|`:

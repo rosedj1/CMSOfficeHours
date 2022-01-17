@@ -25,13 +25,12 @@ git mv <file>    # Rename files.
 git rm <file>    # Remove files.
 ```
 
-
 General workflow:
+
 1. Do some programming.
 2. git status to see what files I changed.
-3. git diff [file] to see exactly what I modified. 
-4. git commit -a -m [message] to commit. 
-5. 
+3. git diff [file] to see exactly what I modified.
+4. git commit -a -m [message] to commit.
 
 branch==head (almost!)
 
@@ -78,6 +77,7 @@ git merge <feature_branch>
 
 Collaboration:
 git clone <remote>    # Copies a repo.
+
 - Also copies all commit objects!
 
 ### Fetch Branches

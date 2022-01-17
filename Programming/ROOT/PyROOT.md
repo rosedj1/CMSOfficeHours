@@ -43,8 +43,41 @@ for evt in tree:
     evt.pT_muon
 
 # Which is faster?
-
+for evt in tree:
+    # Do stuff.
+for ct in range(tree.GetEntries()):
+    tree.GetEntry(ct)
+    # Do stuff.
+# while tree.GetEntry():  There's some way to do this, but I forget.
 ```
+
+### Create a copy of a TTree
+
+```python
+# Clone the structure of an existing TTree `t` with 0 events:
+new_tree = t.CloneTree(0)
+# Use `-1` to clone all events.
+
+# If you clone a TTree, you can turn off a branch so it doesn't get cloned.
+tree.SetBranchStatus("eventWeight", 0)
+```
+
+### Modify value of existing branch
+
+```python
+from array import array
+
+# Create a pointer.
+ptr_eventWeight = array('f', [0.])
+# Attach pointer to branch.
+new_tree.SetBranchAddress("eventWeight", ptr_eventWeight)
+# Change value which pointer points to.
+ptr_eventWeight[0] = 1.2
+new_tree.Fill()
+```
+
+- Also check out [this nice explanation](https://wiki.physik.uzh.ch/cms/root:pyroot_ttree).
+- [More elaborate way](https://root.cern.ch/gitweb/?p=root.git;a=blob;f=tutorials/pyroot/staff.py;h=d955e2ca7481a9a507cb40dbb71c2f85ac12bbbc;hb=HEAD), using C++ structs.
 
 ### Make a new TTree and store values inside
 
@@ -54,40 +87,30 @@ from array import array
 
 # You must open/create your file before playing with the TTree.
 newfile = r.TFile("/work/area/newfile.root", "recreate")
-newtree = r.TTree("t1", "My New Tree")
+new_tree = r.TTree("t1", "My New Tree")
 
 # Make a pointer to store values. 
 ptr = array('f', [0.])  # Use 'f' for floats, 'd':doubles, 'i':ints.
-# Store a bool:
+
+#=== Store a bool. ===#
 # ptr_bool = np.array([0], dtype=np.bool)
-# newtree.Branch("is3P1F", ptr_bool, "is3P1F/O")
+# new_tree.Branch("is3P1F", ptr_bool, "is3P1F/O")
 # ...but it shows up as an `int`...
 
 # Make a branch in the TTree.
 # First and third arguments should exactly match. 
 # Third argument needs a type, using a capital letter. 
-newtree.Branch("m4mu", ptr, "m4mu/F")
+new_tree.Branch("m4mu", ptr, "m4mu/F")
 
-# Do analysis loop to store the value of each entry in newtree.
+# Do analysis loop to store the value of each entry in new_tree.
 for x in range(5):
-    ptr[0] = x**2  # Store value in pointer which points to newtree.
-    newtree.Fill()  # This saves the "row" info in the TTree.
+    ptr[0] = x**2  # Store value in pointer which points to new_tree.
+    new_tree.Fill()  # This saves the "row" info in the TTree.
 
 # You must write the TTree to the file and close the file!
-newtree.Write()
+new_tree.Write()
 newfile.Close()
 ```
-
-### Create a copy of a TTree
-
-```python
-# Clone the structure of an existing TTree `t` with 0 events:
-newtree = t.CloneTree(0)
-# Use `-1` to clone all events.
-```
-
-- Also check out [this nice explanation](https://wiki.physik.uzh.ch/cms/root:pyroot_ttree).
-- [More elaborate way](https://root.cern.ch/gitweb/?p=root.git;a=blob;f=tutorials/pyroot/staff.py;h=d955e2ca7481a9a507cb40dbb71c2f85ac12bbbc;hb=HEAD), using C++ structs.
 
 When you close a file (`f.Close()`), then your histograms may be closed with them.
 To keep your hist open, do:
@@ -118,6 +141,19 @@ c.Print(outpath_file + "]")
 ```python
 ROOT.gPad.GetUymin() # Return the axis y-min of current pad.
 ROOT.gPad.GetUymax() # Return the axis y-max of current pad.
+```
+
+### Use TTree to quickly fill histogram
+
+```python
+# Suppose mass4l, pT1, and eta1 are branches.
+# Then you can make a histogram of mass4l values
+# while applying cuts on pT1 and eta1 per event.
+t.Draw("mass4l", "(pT1 > 20) && (eta1 < 0)")
+# Then access the newly-created histogram to modify and/or draw it.
+htemp = ROOT.gPad.GetPrimitive("htemp")
+htemp.SetMarkerStyle(20)
+htemp.Draw("e")
 ```
 
 ## Common ROOT Objects

@@ -220,6 +220,15 @@ Ordered and immutable objects.
 - Just like lists, except **immutable** (*can't append or modify the tuple*).
 - They are processed faster than lists.
 
+```python
+# Your basic tuple.
+mytup = (1,2,3)
+
+# Cool way to unpack a tuple.
+x, y, z = (1,2,3)
+# print(x)  # Returns 1.
+```
+
 ### Sets
 
 Unordered and immutable objects.
@@ -581,14 +590,17 @@ Pass in command line options to your script: `python myscript.py --xmin=0 --xmax
 - A quick hack is to pass in `0` and `1` instead. *Python is forgiving.* :-)
 
 ```python
-import argparse
-parser = argparse.ArgumentParser()
-parser.add_argument('-v', '--verbose', dest="verbose", action="store_true")
+from argparse import ArgumentParser
+parser = ArgumentParser()
+parser.add_argument(
+    '-x', '--overwrite',
+    dest="killthefile", action="store_true",
+    help="Overwrite output file. Default is False."
+    )
 args = parser.parse_args()
-if args.verb:
-    print("Debug info.")
-# Now specifying either the -v or --verbose flags will print "Debug info".
-# E.g. `python thisscript.py -v`
+overwrite = args.killthefile
+# Specifying either -x or --overwrite flags will store True in `overwrite`.
+# E.g. `python thisscript.py -x`
 # Note: 'store_true' is short for:
 # `action='store_const', const=True, default=False`
 ```

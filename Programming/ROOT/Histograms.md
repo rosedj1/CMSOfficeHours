@@ -383,6 +383,15 @@ void ratioplot1() {
    c1->Update();
 ```
 
+## Pretty up your histogram
+
+```python
+h.GetXaxis().SetNdivisions(510)  # Divisions along x-axis.
+# 510 means 10 primary divisions and 5 secondary divisions. The formula is:
+# n = n1 + 100*n2 + 10000*n3
+# n1 : num primary div, n2 : num secondary div, n3 : num tertiary div.
+```
+
 ## Histogram quirks
 
 Instead of doing `canv.RedrawAxis()` do: `hist.Draw("sameaxis")`
