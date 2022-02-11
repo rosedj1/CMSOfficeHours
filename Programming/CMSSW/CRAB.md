@@ -2,7 +2,7 @@
 
 CRAB: a utility to submit CMSSW jobs to distributed computing resources.
 
-## Helpful Links:
+## Helpful Links
 
 - https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideCrab
 CRAB Tutorial
@@ -99,23 +99,35 @@ crab checkwrite --site=T3_US_FNALLPC	# checks to see if you have write permissio
 crab checkwrite --site=T2_US_Nebraska
 crab checkwrite --site=T2_US_Florida
 
-***It is better to use: low num jobs, high num events/job!***
+Perhaps it is better to use low num jobs, high num events/job?
 
 First you should run a job locally to make sure all is well:
+
+```bash
 cmsRun <step1_*_cfg.py>
+```
 
-Submitting CRAB job:
+Then submit to CRAB:
+
+```bash
 crab submit -c crabConfig_MC_generation.py
+```
 
-Resubmitting a CRAB job:
-crab resubmit --siteblacklist='T2_US_Purdue' <crabdir1/crabdir2>	# don't submit to Purdue
-* N.B. only failed jobs get resubmitted
-* There are lots of flags to call to change things like memory usage, priority, sitewhitelist, etc.
-* --sitewhitelist=T2_US_Florida,T2_US_MIT
-* Can also use wildcards: --siteblacklist=T1_*
+Resubmitting a failed CRAB job:
+
+```bash
+crab resubmit --siteblacklist='T2_US_Purdue' <crabdir1/crabdir2>  # don't submit to Purdue
+# * N.B. only failed jobs get resubmitted
+# * There are lots of flags to call to change things like memory usage, priority, sitewhitelist, etc.
+# * --sitewhitelist=T2_US_Florida,T2_US_MIT
+# * Can also use wildcards: --siteblacklist=T1_*
+```
 
 Resubmitting SPECIFIC CRAB jobs:
+
+```bash
 crab resubmit --force --jobids=1,5-10,15 <crabdir1/crabdir2>	# N.B. you must --force successful jobs to resubmit
+```
 
 ***Check number of events from CRAB job*** (Very useful!)
 crab report <crab_DIR>/<crab_job>
@@ -147,7 +159,6 @@ CRAB stores processed files (on my T2) with the following LFN:
 
 Storage path on your T2:
 <config.Data.outLFNDirBase>/<config.Data.outputPrimaryDataset>/<config.Data.outputDatasetTag>
-
 
 Helpful step_cfg.py arguments:
 process.options = cms.untracked.PSet(

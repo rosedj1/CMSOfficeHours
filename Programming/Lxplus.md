@@ -8,8 +8,12 @@ Display plots: `display yourplot.png &`
 
 Access CMS files located anywhere on any computer:
 
+Here's how to access a HPG file from lxplus:
+
 ```bash
-root://cmsxrootd.fnal.gov//store/user/path/to/file.root
+cmsenv
+voms-proxy-init -voms cms
+root://cmsxrootd.fnal.gov//store/user/path_to_file.root
 ```
 
 CHECK THIS:

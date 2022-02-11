@@ -177,8 +177,11 @@ whoami      # Prints your username.
 cat /etc/*-release    # Find out what distribution of Linux you're running
 ps -eaf | grep [p]ython  # Show all running processes/jobs which contain 'python'.
 
+# Print the contents of a text file in json format.
+cat json_is_inside.txt | jq .
+
 # Timestamp things:
-date +%F-%T	# gives 2019-07-17-20:10:16
+date +%F-%T  # E.g., 2019-07-17-20:10:16
 
 # Less important but still really cool commands!
 say [-v] [name] "<phrase>"  # 
@@ -554,7 +557,7 @@ Open plots while ssh'ed:
 
 ```bash
 display 
-eog <png>		# quickly open png files
+eog <png>  # quickly open png files
 ```
 
 ## Cool Bash Tricks
@@ -601,14 +604,14 @@ function timestampit { date +"%y%m%d_%H%M%S"; }
 Terminal Shortcuts:
 
 ```bash
-Ctrl-A			# quickly go to BEGINNING of line in terminal
-Ctrl-E			# quickly go to END of line in terminal
-Ctrl-W			# delete whole WORD behind cursor
-Ctrl-U			# delete whole LINE BEHIND cursor
-Ctrl-K			# delete whole LINE AFTER cursorCtrl-R, then <cmd>	# reverse-search your command history for <cmd>
-Option-Left		# move quickly to the next word to the left
-Cmd-Right		# switch between terminal WINDOWS
-Cmd-Shift-Right	# switch between terminal TABS within window
+Ctrl-A  # quickly go to BEGINNING of line in terminal
+Ctrl-E  # quickly go to END of line in terminal
+Ctrl-W  # delete whole WORD behind cursor
+Ctrl-U  # delete whole LINE BEHIND cursor
+Ctrl-K  # delete whole LINE AFTER cursorCtrl-R, then <cmd>	# reverse-search your command history for <cmd>
+Option-Left  # move quickly to the next word to the left
+Cmd-Right  # switch between terminal WINDOWS
+Cmd-Shift-Right  # switch between terminal TABS within window
 ```
 
 `time ./<script.sh>`  # time how long a script takes to run
@@ -654,6 +657,11 @@ echo ${MG%$MG_EXT}
 - Here's the [friendly Linux Tutorial](https://ryanstutorials.net/linuxtutorial/commandline.php)
 that I used to learn Linux.
 - Tutorials from [Linux.com](https://www.linux.com/training-tutorials/).
+
+## Learn More About
+
+- [ ] wildcard grouping: `rm !(*listOf*)`
+- [ ] Are backticks the same as eval?
 
 **MOVE THESE NOTES TO PARALLEL PROCESSING**
 computer cluster:

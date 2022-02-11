@@ -342,6 +342,15 @@ TString new_greeting = greeting + "yo whaddup!";
 cout << new_greeting << endl;  // hello thereyo whaddup!
 ```
 
+Convert a number to a TString.
+
+```cpp
+ULong64_t Run;
+oldtree->SetBranchAddress("Run", &Run);
+oldtree->GetEntry(0);
+TString s_Run = std::to_string(Run);
+```
+
 How to **combine** a `TString` with other types:
 
 ```c++

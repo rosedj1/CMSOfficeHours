@@ -42,24 +42,28 @@ for n_evt in range(tree.GetEntries()):
 for evt in tree:
     evt.pT_muon
 
-# Which is faster?
+# Which is fastest?
 for evt in tree:
     # Do stuff.
 for ct in range(tree.GetEntries()):
     tree.GetEntry(ct)
     # Do stuff.
-# while tree.GetEntry():  There's some way to do this, but I forget.
+while tree.GetEntry(ct):
+    # tree.GetEntry() returns num_bytes (> 0 when the entry exists).
 ```
 
 ### Create a copy of a TTree
 
 ```python
-# Clone the structure of an existing TTree `t` with 0 events:
-new_tree = t.CloneTree(0)
-# Use `-1` to clone all events.
+# Clone the structure of an existing TTree `t` with 10 events:
+new_tree = t.CloneTree(10)
+new_tree = t.CloneTree(-1, "fast") # Clone all events quickly.
 
 # If you clone a TTree, you can turn off a branch so it doesn't get cloned.
 tree.SetBranchStatus("eventWeight", 0)
+# Or turn off all branches and then turn on (1) the ones you want.
+tree.SetBranchStatus("*", 0)
+tree.SetBranchStatus("eventWeight", 1)
 ```
 
 ### Modify value of existing branch
@@ -98,7 +102,7 @@ ptr = array('f', [0.])  # Use 'f' for floats, 'd':doubles, 'i':ints.
 # ...but it shows up as an `int`...
 
 # Make a branch in the TTree.
-# First and third arguments should exactly match. 
+# First and third arguments (branch name) should exactly match. 
 # Third argument needs a type, using a capital letter. 
 new_tree.Branch("m4mu", ptr, "m4mu/F")
 
@@ -147,7 +151,7 @@ ROOT.gPad.GetUymax() # Return the axis y-max of current pad.
 
 ```python
 # Suppose mass4l, pT1, and eta1 are branches.
-# Then you can make a histogram of mass4l values
+# Then you can quickly draw a histogram of mass4l values
 # while applying cuts on pT1 and eta1 per event.
 t.Draw("mass4l", "(pT1 > 20) && (eta1 < 0)")
 # Then access the newly-created histogram to modify and/or draw it.
