@@ -149,6 +149,7 @@ function cdl { cd $1; ls; }
 
 ```bash
 $#  # number of arguments passed to script
-$@  # the arguments themselves which were passed to script
+$@  # Positional parameters passed to script as separate words: $1, $2, etc.
+$*  # Positional parameters passed to script as ONE word (whitespace->IFS).
 $?  # return statement of last command: 0 is successful (usually).
 ```

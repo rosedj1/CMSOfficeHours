@@ -560,6 +560,21 @@ display
 eog <png>  # quickly open png files
 ```
 
+### Delimiters
+
+The default environmental variable `IFS` ("Internal Field Separator")
+is the newline: `\n`
+
+```bash
+echo "Split $IFS line"
+# Prints:
+# Split  
+#  line
+
+# You can change this env var to whatever you want:
+export IFS='-'
+```
+
 ## Cool Bash Tricks
 
 Quickly rename a bunch of files in a dir:
@@ -671,4 +686,4 @@ server uses a "load balancer"
 puts each user on a variety of nodes to balance the load of resource usage
 
 - **Absolute** file paths ("root paths") being with `/`.
-- **Relative** files paths use: `./`
+- **Relative** file paths use: `./`
