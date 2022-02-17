@@ -20,6 +20,8 @@
 | **Shortcut** |  **Description** |
 | --- | --- |
 | `Cmd P` | Search for a file. |
+| `Cmd D` | Select next instance of highlighted word. |
+| `Cmd Shift L` | Select ALL instances of highlighted word. |
 | `F12` | Go to the definition (of a function, class, etc.) |
 | `Ctrl -` | Go back to previous cursor location. |
 | `Cmd \`| Open a copy of your script/terminal to the side. |
@@ -28,11 +30,11 @@
 | `Cmd Shift O` "oh" | Search for symbols/methods/classes in a file (like `#` in a `.md`). |
 | `Cmd K, Cmd S` | Search for keyboard shortcuts. |
 | `Cmd K, Cmd I` | View a function docstring. |
-| `Cmd K, Cmd 0` (zero) | Fold all functions. |
+| `Cmd K, Cmd 0` "zero" | Fold all functions. |
 | `Cmd K, Cmd J` | Unfold all functions. |
-| `Cmd Shift V` | Markdown preview. |
-| `Cmd K, V` | Markdown preview to the side. |
 | `Cmd K, Z` | Zen mode. Excellent for working on one piece of code. |
+| `Cmd K, V` | Markdown preview to the side. |
+| `Cmd Shift V` | Markdown preview. |
 
 ## Editing multiple lines simultaneously
 
