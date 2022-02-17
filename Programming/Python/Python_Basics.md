@@ -1150,6 +1150,40 @@ kernprof -l your_script.py
 python -m line_profiler your_script.py.lprof
 ```
 
+## Turn your Python script into a shell command
+
+Suppose you have a Python script called, `script.py`.
+
+1. At the very top of your script put:
+
+   ```python
+   #!/usr/bin/env python
+   ```
+
+2. Make the script executable by the shell:
+
+   ```bash
+    chmod u+x script.py
+   ```
+
+3. Make a symbolic link to the script:
+
+   ```bash
+   ln -s /path/to/script.py ~/bin/script
+   ```
+
+   - You may need to create `~/bin` first: `mkdir ~/bin`
+
+4. Make sure `~/bin` is added to the env variable `PATH`:
+
+   ```bash
+   export PATH=$PATH:"$HOME/bin"
+   ```
+
+   - **TIP:** Put this `export` line into your `.bash_profile`.
+
+5. Now you can execute `script.py` straight from the command line, by typing `script`. Cool!
+
 ## Things to look into
 
 - Python3: `inspect`
