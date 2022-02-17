@@ -81,17 +81,6 @@ Generate a QR (quick response) code for any website:
 
 ---
 
-### Connecting to a remote host
-
-If VSC keeps failing to connect, then open up the Command Palette
-(`Cmd + Shift + P`) and type `Uninstall VS Code Server from Host`.
-Then try reconnecting.
-
-- If that doesn't work, then open up a terminal, manually `ssh` into the
-remote server and try deleting the `~/.vscode-server` dir.
-
----
-
 ## Octave
 
 Octave (Poor-Man's MATLAB)

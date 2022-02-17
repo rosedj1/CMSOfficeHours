@@ -21,7 +21,7 @@
 | --- | --- |
 | `Cmd P` | Search for a file. |
 | `F12` | Go to the definition (of a function, class, etc.) |
-| `Ctrl -` | Go back to previous page. |
+| `Ctrl -` | Go back to previous cursor location. |
 | `Cmd \`| Open a copy of your script/terminal to the side. |
 | `Cmd Shift P` | Open Command Palette |
 | `Cmd Shift \` | Find matching parenthesis, brace, etc. |
@@ -32,6 +32,7 @@
 | `Cmd K, Cmd J` | Unfold all functions. |
 | `Cmd Shift V` | Markdown preview. |
 | `Cmd K, V` | Markdown preview to the side. |
+| `Cmd K, Z` | Zen mode. Excellent for working on one piece of code. |
 
 ## Editing multiple lines simultaneously
 
@@ -54,3 +55,12 @@ Some words in comments will be highlighted:
 ```python
 # FIXME, NOTE, TODO, HACK, XXX.
 ```
+
+## Connecting to a Remote Host
+
+If VSC keeps failing to connect, then open up the Command Palette
+(`Cmd + Shift + P`) and type `Uninstall VS Code Server from Host`.
+Then try reconnecting.
+
+- If that doesn't work, then open up a terminal, manually `ssh` into the
+remote server and try deleting the `~/.vscode-server` dir.
