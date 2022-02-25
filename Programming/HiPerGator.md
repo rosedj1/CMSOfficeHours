@@ -218,6 +218,21 @@ Submit your long computational jobs to HPG's computer cluster:
 1. Check your email for details about the job
 (SLURM will email you if you supplied the `--mail-user` flag).
 
+#### Check the status of your SLURM jobs
+
+Use the `squeue` command:
+
+```bash
+squeue --me        # Display your job info.
+squeue -u rosedj1  # Display job info for user 'rosedj1'.
+
+# Format job output.
+squeue --me -o "%j"  # Display all job names.
+squeue --me -o "%.18i %.9P %.8j %.8u %.2t %.10M %.6D %R"  # Default display.
+```
+
+- Check out all `squeue` options [here](https://slurm.schedmd.com/squeue.html).
+
 #### Notes on SLURM jobs
 
 - [More SLURM script options](https://help.rc.ufl.edu/doc/Annotated_SLURM_Script).
@@ -479,7 +494,7 @@ sinfo
 srun --mpi=pmix_v2 myApp
 ```
 
-### voms-proxy-init
+### GRID Certificates and `voms-proxy-init`
 
 To set VOMS PROXY on HPG:
 
@@ -493,44 +508,28 @@ voms-proxy-init
 # NOTE: Doesn't work with flag: `-voms cms`
 ```
 
-Memory utilization = MAX amount used at one point
-Memory request = aim for 20-50% of total use
+### How to read your GRID certificate while running SLURM jobs
 
-BE WISE ABOUT USING RESOURCES!
-
-- Users have taken up 16 cores and TOOK MORE TIME than just using 1 core!!!
-
-It would be interesting write a SLURM script which submits
-many of the same job with different cores, plots the efficiency vs. num cores
-
-*In the job summary email, the memory usage is talking about RAM efficiency*
-
-Time: 
--t
-time limit is 31 days
-- It is to our benefit to be accurate with job time
-- infinite loops will just waste resources and make you think your job is actually working
-- the scheduler might postpone your job if it sees it will delay other people's jobs
-
-Learning about Xpra:
-module load gui
-launch_gui_session -h	# shows help options
-- This will load a session on a graphical node on the cluster
-- Default time on server is 4 hrs
-- use the -a option to use secondary account
-- use the -b option to use burst SLURM qos
-
-Paste the xpra url into your local terminal
-
-Do: 
+`/cmsuf` is visible from worker nodes where your jobs are running.
+So, you need to put the `myproxy` file `/cmsuf`, e.g.,
 
 ```bash
-module load gui
-launch_gui_session -e <executable>	(e.g., launch_rstudio_gui)
-xpra attach ssh:<stuff>
-xpra_list_sessions
-scancel <job_id>
+voms-proxy-init -out /cmsuf/data/store/user/t2/users/rosedj1/myproxy
 ```
+
+Then, inside your job script, point it to the proxy:
+
+```bash
+export X509_USER_PROXY=/cmsuf/data/store/user/t2/users/rosedj1/myproxy
+```
+
+Finally you also need to set this:
+
+```bash
+export X509_CERT_DIR=/cvmfs/oasis.opensciencegrid.org/osg-software/osg-wn-client/certificates
+```
+
+(Thanks, Bockjoo!)
 
 ## How to use CMSSW on HPG
 
@@ -646,6 +645,11 @@ module load python/3
 python script.py  # This must implement `multiprocessing`.
 ```
 
+## Resources
+
+- The HPG [help page](https://help.rc.ufl.edu/doc/UFRC_Help_and_Documentation).
+- UFIT [training page](https://training.it.ufl.edu/).
+
 ### Computing Terms
 
 - **Process**: A completely different program. Effectively runs in its own Python interpreter.
@@ -657,6 +661,8 @@ You can do parallel applications:
 - CAN'T talk to other servers
 MPI (Message Passing Interface)
 - applications which can run across multiple servers
+
+## WARNING: Messy stuff below!
 
 ntasks = # of MPI rinks
 say you want to run 100 tasks across 10 nodes
@@ -682,12 +688,44 @@ There are also compute nodes
 - this is where the money is! 
 - They are optimized to distribute jobs across different computers efficiently
 
-## Resources
+Memory utilization = MAX amount used at one point
+Memory request = aim for 20-50% of total use
 
-- The HPG [help page](https://help.rc.ufl.edu/doc/UFRC_Help_and_Documentation).
-- UFIT [training page](https://training.it.ufl.edu/).
+BE WISE ABOUT USING RESOURCES!
 
-## WARNING: Messy stuff below!
+- Users have taken up 16 cores and TOOK MORE TIME than just using 1 core!!!
+
+It would be interesting write a SLURM script which submits
+many of the same job with different cores, plots the efficiency vs. num cores
+
+*In the job summary email, the memory usage is talking about RAM efficiency*
+
+Time: 
+-t
+time limit is 31 days
+- It is to our benefit to be accurate with job time
+- infinite loops will just waste resources and make you think your job is actually working
+- the scheduler might postpone your job if it sees it will delay other people's jobs
+
+Learning about Xpra:
+module load gui
+launch_gui_session -h	# shows help options
+- This will load a session on a graphical node on the cluster
+- Default time on server is 4 hrs
+- use the -a option to use secondary account
+- use the -b option to use burst SLURM qos
+
+Paste the xpra url into your local terminal
+
+Do: 
+
+```bash
+module load gui
+launch_gui_session -e <executable>	(e.g., launch_rstudio_gui)
+xpra attach ssh:<stuff>
+xpra_list_sessions
+scancel <job_id>
+```
 
 What is HPG?
 HPG is essentially just a big cluster of computers.
@@ -710,6 +748,7 @@ nodeInfo
 
 By default, your jobs will go to these partitions:
 - hpg1-compute and hpg2-compute
+
 If you want to specify a particular partition, do:
 --partition=<whichever_partition_you_want>
 (A list of partitions can be found by doing `nodeInfo`)

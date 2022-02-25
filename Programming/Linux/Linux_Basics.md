@@ -44,7 +44,7 @@ scp <source> <dest>
 # Example:
 scp myslurmscript.sbatch alexroman@gator.rc.ufl.edu:/home/alexroman/
 scp -r 
-history  # shows you all previous commands you’ve entered
+history  # Check your command history; displays command numbers.
 more     # prints to stdout the entire file(?)
 less     # prints to temporary shell, not to stdout
 wc <file> # Word count. -l : count lines, -c : count bytes, -w
@@ -190,6 +190,8 @@ write <user>  # start a chat with <user> on your server
     - Press 'Ctrl+C' or 'Esc' to exit write mode.
 mesg [y|n]  # allow [y] people to send you messages using 'write' or not [n]
 sleep 7  # make the shell sleep for 7 seconds
+
+<space>cmd  # Will not write `cmd` to history.
 ```
 
 ## Advanced Commands
@@ -316,17 +318,16 @@ ls [Dd]og  # Matches to: Dog, dog.
 
 ## Some Bash Magic
 
+Meet Bash's 'bang' operator: `!`. Now check out its power:
+
 ```bash
-!        # This is the 'bang' operator, an iconic part of bash.
-!$       # The argument of the last command. Try: `cd !$`
-!!       # Execute the last command from history.
 !cp      # Run the last `cp` command from your history. VERY useful.
+!$       # The argument of the last command. Try: `cd !$`
+!!       # Execute the previous command.
+^ls^rm   # Execute the previous command, replacing `ls` with `rm`.
+!!:gs/foo/bar/  # Execute previous command and replace all `foo` with `bar`.
 !cat:p   # Print the last `cp` command you used to stdout, add that command to history, do not execute.
-^ls^rm   # Replace `ls` in the last command with `rm`
-$?       # The return value from last cmd (0=success).
-history  # Check your history; displays command numbers.
 !<cmd_num>  # execute command number <cmd_num>
-<space>cmd  # will not add 'cmd' to history!
 ```
 
 Batch expansion

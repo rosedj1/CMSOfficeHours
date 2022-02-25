@@ -317,10 +317,10 @@ if (not os.path.exists(<path_to_dir>)): print "this dir doesn't exist"
 Passing arguments to script:
 
 ```python
-# myscript.py  arg1  arg2
-sys.argv[0]	# name of script (myscript.py)
-sys.argv[1]	# first argument passed to script (arg1)
-sys.argv[2]	# first argument passed to script (arg2)
+# In the terminal, do: `python myscript.py arg1  arg2`
+sys.argv[0]  # name of script (myscript.py)
+sys.argv[1]  # first argument passed to script (arg1)
+sys.argv[2]  # first argument passed to script (arg2)
 ```
 
 Useful string methods:

@@ -3,8 +3,6 @@
 You can put many Bash commands together into a script.
 Thus, Bash is like other programming languages (Python, Java, C++, etc.).
 
-[Arrays](https://www.tutorialkart.com/bash-shell-scripting/bash-array/)
-
 ## Control Flow
 
 ```bash
@@ -153,3 +151,17 @@ $@  # Positional parameters passed to script as separate words: $1, $2, etc.
 $*  # Positional parameters passed to script as ONE word (whitespace->IFS).
 $?  # return statement of last command: 0 is successful (usually).
 ```
+
+## Learn More About
+
+[Arrays](https://www.tutorialkart.com/bash-shell-scripting/bash-array/)
+
+[Bash's control flow](https://stackoverflow.com/questions/19670061/bash-if-false-returns-true-instead-of-false-why)
+
+In Bash, a command will return an integer result
+(typically `0` on success and `1` on failure).
+Bash's `if` statement uses the *result from a command* to decide how to proceed:
+
+if true; then
+
+(`true` is a command! Weird, I know.)

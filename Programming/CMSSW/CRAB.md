@@ -164,3 +164,13 @@ Helpful step_cfg.py arguments:
 process.options = cms.untracked.PSet(
     numberOfThreads = cms.untracked.uint32(8),
 )
+
+## How to skip over lumi sections
+
+1. Retrieve the notFinishedLumis.json with `crab report`.
+
+2. Open the crab config file and change:
+   2a. `config.General.requestName = whatever_missingLumis`
+   2b. `config.Data.lumiMask = path/to/notFinishedLumis.json`
+
+3. crab submit -c new_config.py

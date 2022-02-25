@@ -1,0 +1,70 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+%\usepackage{feynman}
+\usepackage{bm}
+\usepackage{pythonhighlight}
+
+\setlength{\topmargin}{-.5in} \setlength{\textheight}{9.25in}
+\setlength{\oddsidemargin}{0in} \setlength{\textwidth}{6.8in}
+\begin{document}
+\Large
+\noindent\textbf{CMS Office Hours} \\
+\noindent\textbf{Project 1: Create an Integration Code \hfill 2020-Aug-10}
+\medskip\hrule
+%%%%%%%%%%%%%%%%%%
+\vspace{5mm}
+
+Use Python to develop a script which integrates a User-defined 1-dimensional function 
+$\left( f(x) \right)$
+over User-specified integration bounds. 
+% or class which returns the \textit{value of integration}
+% when the User provides a 1-dimensional function ($f(x)$) which is to be integrated
+% over the integration bounds. 
+
+\textbf{Example:}
+\begin{python}
+user_defined_function = 2 * sin(x)
+your_integrator(user_defined_function, 0, pi)
+# returns: 4.0
+\end{python}
+% \pyth{print("Hello World!")}  # Inline python syntax in LaTeX. 
+
+Here is a general template to structure your code (or use your own):
+
+\begin{python}
+"""
+This code returns the value of integration when the User 
+specifies a function and the integration bounds. 
+
+Example:
+    user_defined_function = 2 * sin(x)
+    your_integrator(user_defined_function, 0, np.pi)  # (fn, x_min, x_max)
+    # returns: 4.0
+"""
+import numpy as np
+
+#--- User-defined/Global variables. 
+x_min = 0.0
+x_max = 2.0
+def fn(x):
+    return 2 * np.sin(x)
+
+#--- Script functions.
+def integrate(fn, x_min, x_max):
+    """Take in a function (fn), x_min, x_max and return the value of integration."""
+    # Your code goes here.
+
+def calc_area_of_rect(width, height):
+    """Calculate the area of a rectangle."""
+    return width * height
+
+#--- You will probably need more functions than just the two above.       
+
+if __name__ == "__main__":
+    # When you do: `python this_script.py', then this code will be executed.
+    integrate(fn, x_min, x_max)
+\end{python}
+
+\end{document} 
