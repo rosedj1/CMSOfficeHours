@@ -17,6 +17,7 @@ ls     # List files.
 # -a : show all files, even hidden ones
 # -S : Sort files by size.
 
+# NOTE: Anything in '< >' should be replaced with the appropriate thing.
 pwd                 # Print Working Directory. Shows you where you are.
 cd <path/to/files>  # Change Directory. This is how you move around.
 cd ..               # Go up a dir.
@@ -24,6 +25,8 @@ cd -                # Go back to previous dir.
 mv <src> <dest>     # Move or rename a file (THIS WILL OVERWRITE <dest>).
 cp <src> <dest>     # Copy source fileto destination.
 mkdir <newdir>      # Make a new directory.
+cat <file>          # Print out the contents of <file>.
+cat -n <file>       # Print out contents and line numbers.
 man -k <cmd>        # Shows you the manual for the command.
 
 # Log into a remote computer:
@@ -78,10 +81,10 @@ ln  <original_file>  <link_name>
 # A hard link always points a filename to data on a storage device.
 # A soft link always points a filename to another filename, which then points to information on a storage device.
 
-file <> FIXME
-
-alias				# check your aliases
-alias <newalias>="<command>"	# add <newalias> to 
+FIXME
+file <>
+alias  # Check your aliases.
+alias <newalias>="<command>"  # Add <newalias> to 
 ```
 
 ### printf
@@ -162,18 +165,19 @@ ls | grep "April"  # (The result of `ls` are fed into `grep`)
 ## Intermediate Commands
 
 ```bash
-watch -n 10 '<cmd>'	# repeats <cmd> every 10 seconds
-- default is 2 seconds
+watch -n 10 '<cmd>'  # Repeats <cmd> every 10 seconds. Default is 2 sec.
 uname -a  # look at your Linux kernel architecture, server, etc.
 uname -n  # find out what node you're on
-ldd --version# Check the glibc version.
+ldd --version  # Check the glibc version.
 env  # print all your environmental variables to stdout
 gdb  # GNU DeBugger (not sure how this works yet)
-basename <filepath>  # strips <filepath> of directory part of name and suffix
-- basename /usr/bin/sort  # returns: 'sort'
-- basename include/stdio.h .h  # returns: stdio
+basename /path/to/file.txt  # Returns: file.txt
+dirname /path/to/file.txt  # Returns: /path/to
 date        # prints the date
 whoami      # Prints your username.
+shopt  # Print your shell options.
+shopt -s interactive_comments  # Set interactive comments (turn on).
+shopt -u globstar              # Unset globstar (turn off).
 cat /etc/*-release    # Find out what distribution of Linux you're running
 ps -eaf | grep [p]ython  # Show all running processes/jobs which contain 'python'.
 
@@ -198,7 +202,7 @@ sleep 7  # make the shell sleep for 7 seconds
 
 ### Command Substition
 
-Store the results of a command into a variable:
+Store the results of a command into a variable using `$( cmd )`:
 
 ```bash
 chamber=$( echo "ME21 ME22 MB33" | sed 's@ME@YOU@' )
@@ -211,6 +215,13 @@ chamber=( $( echo "ME21 ME22 MB33" | sed 's@ME@YOU@' ) )
 len=${#chamber[@]}
 echo $len  # prints: 3
 ```
+
+- Notes:
+  - The command substitution `$(cat file)` can be replaced by
+the equivalent but faster `$(< file)`.
+[Source: www.gnu.org](https://www.gnu.org/software/bash/manual/html_node/Command-Substitution.html)
+  - Instead of `$( cmd )` you can use two backticks: <code>\`cmd\`</code>,
+  but it doesn't handle backslashes (`\`) well...
 
 ### awk
 
@@ -282,10 +293,14 @@ sed "s#^[0-9]*[^e]#&.000000#;s#.*e-#&0#"
 
 ### Finding files
 
+The `find` command is _incredibly_ useful.
+A bit cryptic but worth spending the time to learn about it!
+
 ```bash
 find
 find ./ -name "*plots*"  # Find files with name plots in this dir and subsequent dir.
 find ./somepath/ -mtime +180 -size +1G  # Find files with mod times >180 days and size>1GB
+find ./somepath/ -mtime -30 -exec ls -l '{}' \;  # Do `ls -l` on all files mod'ed in the last 30 days.
 find ./somepath/ -type f -delete  # Fast way to delete all files in a dir.
 find . -type f -printf '%s\t%p\n' | sort -nr | head -n 30  # Find the 30 biggest files in your working area, sorted.
 find . -type f -printf '%T@ %p\n' | sort -n | tail -20 | cut -f2- -d" "  # Find the 20 most recently modified files.
@@ -297,6 +312,8 @@ find ~/src/ -newer main.css  # Find files newer than main.css.
 locate
 locate -i <file_to_be_found>  # Searches computer's database. -i flag means case insensitive.
 ```
+
+Check [here](https://linuxize.com/post/how-to-find-files-in-linux-using-the-command-line/) to learn more about `find`.
 
 ## Wildcards
 
@@ -326,7 +343,7 @@ Meet Bash's 'bang' operator: `!`. Now check out its power:
 !!       # Execute the previous command.
 ^ls^rm   # Execute the previous command, replacing `ls` with `rm`.
 !!:gs/foo/bar/  # Execute previous command and replace all `foo` with `bar`.
-!cat:p   # Print the last `cp` command you used to stdout, add that command to history, do not execute.
+!cat:p   # Print the last `cat` command you used to stdout, add that command to history, do not execute.
 !<cmd_num>  # execute command number <cmd_num>
 ```
 

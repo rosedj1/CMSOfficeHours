@@ -303,7 +303,14 @@ tg->Draw("LP");
 
 ### Some types in ROOT
 
-TString infilename = "path/to/file.root";
+Most ROOT types begin with `T`.
+So instead of type `string`, ROOT uses `TString`:
+
+```cpp
+TString infile = "path/to/file.root";
+```
+
+- *NOTE: You MUST use double quotes (`"`) and not single quotes (`'`)!*
 
 | ROOT Types | Usual C++ Type | Description |
 |---|---|---|

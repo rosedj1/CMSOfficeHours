@@ -293,7 +293,7 @@ use an **interactive development session** to test your code first.
 ### How to start a SLURM interactive session on a compute node
 
 ```bash
-srun --partition=hpg2-dev --mem=4gb --ntasks=1 --cpus-per-task=8 --time=04:00:00 --pty bash -i 
+srun --partition=hpg-dev --mem=4gb --ntasks=1 --cpus-per-task=8 --time=04:00:00 --pty bash -i 
 ```
 
 N.B. `srundev` is an alias for `srun --partition=hpg2-dev --pty bash -i`, so the above simplfies to:
@@ -374,20 +374,19 @@ They start with `#SBATCH` and then have some kind of flag, like `--time=`.
 
 ### QOS or burstQOS
 
-"Quality of Service"
-
-You can do `sbatch -b` to trigger “burst capacity.” This allows **9x allocation of resources** when resources are idle.
-
-- So if you invest in 10 cores, burst qos can use up to 90 cores!
+"Quality of Service" allows **9x allocation of resources** when resources are idle.
+Trigger this "burst capacity" by changing (for example) `avery` to `avery-b`:
 
 ```bash
---qos=<group>  # E.g. --qos=phz5155-b
+#SBATCH --qos=avery-b
 ```
 
-Task Arrays
+- So if you invest in 10 cores, burst `qos` can use up to 90 cores!
+
+### Task Arrays
 
 ```bash
-#SBATCH --array=1-200%10	# run on 10 jobs at a time to be nice
+#SBATCH --array=1-200%10  # run on 10 jobs at a time to be nice
 $SLURM_ARRAY_TASK_ID
 %A: job id
 %a: task id
@@ -501,11 +500,14 @@ To set VOMS PROXY on HPG:
 ```bash
 # Set up environment for voms-proxy-* commands:
 source /cvmfs/oasis.opensciencegrid.org/osg-software/osg-wn-client/current/el7-x86_64/setup.sh
-# Then get the voms-proxy-init command:
+# Set your env vars:
 export X509_CERT_DIR=/cvmfs/cms.cern.ch/grid/etc/grid-security/certificates
-# Now you should be able to do:
-voms-proxy-init
-# NOTE: Doesn't work with flag: `-voms cms`
+# Now you should be able to do (for example):
+voms-proxy-init --valid=168:00
+
+# These may help you use the `-voms cms` option:
+export X509_VOMS_DIR=/cvmfs/cms.cern.ch/grid/etc/grid-security/vomsdir
+export VOMS_USERCONF=/cvmfs/cms.cern.ch/grid/etc/vomses
 ```
 
 ### How to read your GRID certificate while running SLURM jobs

@@ -597,12 +597,11 @@ Pass in command line options to your script: `python myscript.py --xmin=0 --xmax
 from argparse import ArgumentParser
 parser = ArgumentParser()
 parser.add_argument(
-    '-x', '--overwrite',
-    dest="killthefile", action="store_true",
+    '-x', '--overwrite', dest="ovrwrt", action="store_true",
     help="Overwrite output file. Default is False."
     )
 args = parser.parse_args()
-overwrite = args.killthefile
+overwrite = args.ovrwrt
 # Specifying either -x or --overwrite flags will store True in `overwrite`.
 # E.g. `python thisscript.py -x`
 # Note: 'store_true' is short for:

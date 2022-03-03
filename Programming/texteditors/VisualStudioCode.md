@@ -32,6 +32,8 @@
 | `Cmd K, Cmd I` | View a function docstring. |
 | `Cmd K, Cmd 0` "zero" | Fold all functions. |
 | `Cmd K, Cmd J` | Unfold all functions. |
+| `Cmd Opt [` | Fold innermost region at cursor. |
+| `Cmd Opt ]` | Unfold innermost region at cursor. |
 | `Cmd K, Z` | Zen mode. Excellent for working on one piece of code. |
 | `Cmd K, V` | Markdown preview to the side. |
 | `Cmd Shift V` | Markdown preview. |
