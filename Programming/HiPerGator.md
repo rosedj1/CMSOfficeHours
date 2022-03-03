@@ -587,11 +587,30 @@ Simply add this to your CRAB config file:
      - [More details on commands](https://www.mankier.com/1/uberftp).
    - Tab-completion does not work.
    - Wildcards may not work either.
+   - Useful `uberftp` commands:
+     - `get` (similar to `cp`)
+       - **BEWARE!**
+       If you don't specify a destination file,
+       then the source will be overwritten as an empty file!
+     - `rename` (similar to `mv`)
 
 #### Give commands directly to `uberftp`
 
+***BEWARE!*** It is surprisingly easy to overwrite your own files.
+
 ```bash
 uberftp cmsio.rc.ufl.edu "rm your_file"
+```
+
+### Copy files to/from CRAB Tier Area using `gfal-copy`
+
+Syntax: `gfal-copy <src> <dst>`
+
+```bash
+# Add 'file://' to the beginning of any local file.
+# Add 'gsiftp://' to the beginning of any file on a Tier server.
+gfal-copy  file://<local_file>  gsiftp://cmsio.rc.ufl.edu/<remote_file>
+# Use -r for recursive copy.
 ```
 
 ### Your Personal T2 Area
