@@ -611,7 +611,7 @@ overwrite = args.ovrwrt
 ```python
 import argparse
 parser = argparse.ArgumentParser(description='submit all')
-parser.add_argument('-v', dest='--verbose', action="store_true")  # Specify just `-v` to get verbose.
+parser.add_argument('-v', '--verbose', dest='verbose', action="store_true")  # Specify just `-v` to get verbose.
 parser.add_argument('--min', dest='min_Zmass', type=float, help='min for Zmass')
 parser.add_argument('--filename', dest='filename', type=str, help='output file')
 parser.add_argument('--widthZ', dest='widthZ', type=float, help='Z width in MC or pdg value')

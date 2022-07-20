@@ -120,6 +120,10 @@ orange_quota   # See how much space your group uses on /orange/.
 - `/blue/` has a total storage of 8 PB.
 - `/orange/` has a total storage of 6 PB.
 
+### Getting around 2-factor authentication
+
+Thanks to Matthew and Neha for recommending [these instructions](https://help.rc.ufl.edu/doc/SSH_Multiplexing).
+
 ## How to install software on HPG
 
 To install a package, first try: `module load <package>`

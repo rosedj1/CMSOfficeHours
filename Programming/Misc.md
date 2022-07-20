@@ -3,6 +3,21 @@
 - Make reusable, modular, adaptable code. Make each function a strong, independent Lego block.
 - [Here's some great programming advice.](https://pythonprinciples.com/blog/getting-unstuck/)
 
+Code should be:
+
+- Modular.
+  - Built in small, reliable chunks.
+- KISS (Keep it super simple).
+  - In other words, don't try to be clever.
+- Don't optimize early.
+- Don't reinvent the wheel.
+  - Use the tested, efficient libraries that already exist.
+- Make code **readable**.
+  - Code is read more frequently than it is run.
+  - Comments and explanations are very useful.
+- DRY (Don't Repeat Yourself)
+- [SOLID](https://www.geeksforgeeks.org/solid-principle-in-programming-understand-with-real-life-examples/)
+
 ## Skype
 
 ```bash
@@ -330,6 +345,7 @@ reshape
 resize
 
 ## R Lang
+
 Used to model, transform, visualize, and communicate data
 
 Use Tidyverse
@@ -431,9 +447,18 @@ While using **Preview**, press `Cmd + Option + 2` to view all pages of your PDF.
 
 | Function | Shortcut |
 | --- | --- |
+| **GENERAL** |
+| Force quit an app. | `Cmd + Opt + Esc` |
 | Paste without formatting. | `Cmd + Shift + Opt + V` |
 | Lock your screen. | `Cmd + Ctrl + Q` |
-| Force quit an app. | `Cmd + Opt + Esc` |
+| **FINDER** |
+| Switch view (Icon, List, Column, Cover Flow). | `Cmd + 1~4` |
+| Go to parent dir. | `Cmd + up` |
+| **SCREENSHOTS** |
+| Entire screen. | `Cmd + Shift + 3` |
+| Selected area. | `Cmd + Shift + 4` |
+| Specific object. | `Cmd + Shift + 4, Spacebar` |
+| Resizable window, video recording, etc. | `Cmd + Shift + 5` |
 
 Find more [here](https://support.apple.com/en-us/HT201236).
 
@@ -445,14 +470,9 @@ Cmd+Shift+right # Go to next terminal tab.
 Cmd+right       # Go to next terminal window.
 ```
 
-Comment multiple highlighted lines:
-Cmd+/
-
 Equivalent to Alt: fn+Opt
 
 ### Keynote Tricks
-
-JAKE: Turn into a table:
 
 | Shortcut | Effect |
 | --- | --- |
@@ -462,9 +482,11 @@ JAKE: Turn into a table:
 
 [All Keynote LaTeX commands.](https://support.apple.com/en-us/HT202501)
 
-\mathrm{}    # Normal font.
-{\it your text here}    # Italic text
-\text{}    # This may give normal font, but it is bold?
+```latex
+\textit{words}  % Italic text
+\text{}         % Write text in your default font. Not good for sub/superscripts.
+\mathrm{}       % Default font but text is slightly larger.
+```
 
 ## VNC Viewer
 

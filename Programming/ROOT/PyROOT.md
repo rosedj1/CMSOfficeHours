@@ -267,11 +267,20 @@ Check ROOT_Basics.md.
 
 #### Pretty up your histogram
 
+Change the number of tick marks on the axis:
+
 ```python
+h.GetXaxis().SetNdivisions(5, 2, 3, False)
+# The 5 indicates 5 primary divisions along x-axis (so 4 visible tick marks).
+# The 2 is the number of secondary divisions in each primary division.
+# The 3 means the number of tertiary divisions in each secondary division.
+# False means do not let ROOT optimize.
+# Equivalently:
 h.GetXaxis().SetNdivisions(510)  # Divisions along x-axis.
 # 510 means 10 primary divisions and 5 secondary divisions. The formula is:
 # n = n1 + 100*n2 + 10000*n3
 # n1 : num primary div, n2 : num secondary div, n3 : num tertiary div.
+
 ```
 
 #### Histogram quirks
@@ -331,11 +340,12 @@ while tree.GetEntry(ct):
 new_tree = t.CloneTree(10)
 new_tree = t.CloneTree(-1, "fast") # Clone all events quickly.
 
-# If you clone a TTree, you can turn off a branch so it doesn't get cloned.
+# You can turn off a TTree branch so it doesn't get cloned.
 tree.SetBranchStatus("eventWeight", 0)
 # Or turn off all branches and then turn on (1) the ones you want.
 tree.SetBranchStatus("*", 0)
 tree.SetBranchStatus("eventWeight", 1)
+# Then clone the TTree.
 ```
 
 #### Make a new TTree and store values inside
@@ -344,7 +354,7 @@ tree.SetBranchStatus("eventWeight", 1)
 import ROOT as r
 from array import array
 
-# You must open/create your file before playing with the TTree.
+# You must open/create your new TFILE before playing with the new TTree.
 newfile = r.TFile("/work/area/newfile.root", "recreate")
 new_tree = r.TTree("t1", "My New Tree")
 
@@ -417,7 +427,7 @@ tree.Draw("mass4l", "Entry$ % 5")
 #### Create New Histgrams with `tree.Draw()`
 
 ```python
-from ROOT import gDirectory
+from ROOT import gDirectory, gPad
 
 # Draw the pT1 branch and save the histogram as "h_new" in the current directory.
 tree.Draw("pT1 >> h_new", "y > 0")
@@ -432,7 +442,7 @@ h_again = f.Get("h_new")
 You can access the newly-created histogram to modify and/or draw it.
 
 ```python
-htemp = ROOT.gPad.GetPrimitive("htemp")
+htemp = gPad.GetPrimitive("htemp")
 htemp.SetMarkerStyle(20)
 htemp.Draw("e")
 
@@ -448,13 +458,17 @@ Syntax: `tree.Draw(branch >> hist)`
 # Make empty hist with 30 bins in the range x = [-15, 15]:
 h = TH1F('h_pT', 'Lepton pT', 30, -15, 15)
 tree.Draw('pT1 >> h_pT', '', 'goff')
+
+# If you call tree.Draw() again, then the data in h_pT will vanish.
+# Put a `+` sign in front of the hist name to append more data:
+tree.Draw('pT2 >> +h_pT', '', 'goff')
 ```
 
-When you close a file (`f.Close()`), then your histograms may be closed with them.
-To keep your hist open, do:
+When you close a TFile (`f.Close()`), then your histograms may be closed with them.
+To keep your hist (`h`) open, do:
 
 ```python
-hist.SetDirectory(0)  # Must be called before you close the file.
+h.SetDirectory(0)  # Must be called before you close the file.
 ```
 
 Divide your TCanvas up into different pads
@@ -801,6 +815,8 @@ def make_pretty_plots():
     # Changing the font of the title is very unintuitive.
     style.SetTitleFont(42, "somethingelse")  # Second argument must NOT be "X", "Y", or "Z".
     style.SetTitleFontSize(0.031)
+    style.SetTitleSize(0.05, "XYZ")  # Font size of axis titles.
+    style.SetLabelSize(0.03, "XYZ")  # Font size of numbers on axes.
     style.SetOptFit(1)
 
     style.cd()

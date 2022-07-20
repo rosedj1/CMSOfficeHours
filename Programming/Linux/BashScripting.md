@@ -154,6 +154,8 @@ $?  # return statement of last command: 0 is successful (usually).
 
 ## Learn More About
 
+[Powerful shell parameter expansion](https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#Shell-Parameter-Expansion)
+
 [Arrays](https://www.tutorialkart.com/bash-shell-scripting/bash-array/)
 
 [Bash's control flow](https://stackoverflow.com/questions/19670061/bash-if-false-returns-true-instead-of-false-why)

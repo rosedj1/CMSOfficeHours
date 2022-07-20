@@ -24,6 +24,7 @@
 | `Cmd Shift L` | Select ALL instances of highlighted word. |
 | `F12` | Go to the definition (of a function, class, etc.) |
 | `Ctrl -` | Go back to previous cursor location. |
+| `Cmd /`| Comment multiple highlighted lines. |
 | `Cmd \`| Open a copy of your script/terminal to the side. |
 | `Cmd Shift P` | Open Command Palette |
 | `Cmd Shift \` | Find matching parenthesis, brace, etc. |

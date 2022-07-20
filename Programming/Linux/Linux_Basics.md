@@ -5,28 +5,27 @@ Philosophy: **small, sharp tools**
 Bash is the "**B**ourne-**a**gain **sh**ell".
 It is the standard interpreter on most Linux distributions.
 
-## Basic Commands
+## Everyday Commands
 
 ```bash
-ls     # List files.
-# Useful flags:
-# -l : long list
-# -h : human readable
-# -t : sorted by time modified
-# -r : reverse the order
-# -a : show all files, even hidden ones
-# -S : Sort files by size.
+ls     # List the available files, directories, etc.
+ls -l  # Shows 'l'onger list of details.
+ls -l -a  # Long list ALL files, even hidden ones. Equivalent: `ls -la`
+ls -tr    # List files sorted by the 't'ime modified in 'r'everse order.
+ls -hS    # Human readable and sort files by 'S'ize.
 
-# NOTE: Anything in '< >' should be replaced with the appropriate thing.
-pwd                 # Print Working Directory. Shows you where you are.
-cd <path/to/files>  # Change Directory. This is how you move around.
+# NOTE: Anything in '< >' should be replaced with the appropriate item.
+pwd                 # Print working directory (dir). Shows you where you are.
+cd <path/to/files>  # Change dir. This is how you move around.
 cd ..               # Go up a dir.
 cd -                # Go back to previous dir.
+mkdir <newdir>      # Make a new dir.
 mv <src> <dest>     # Move or rename a file (THIS WILL OVERWRITE <dest>).
-cp <src> <dest>     # Copy source fileto destination.
-mkdir <newdir>      # Make a new directory.
+cp <src> <dest>     # Copy <src> to <dest>.
+
 cat <file>          # Print out the contents of <file>.
 cat -n <file>       # Print out contents and line numbers.
+
 man -k <cmd>        # Shows you the manual for the command.
 
 # Log into a remote computer:
@@ -325,7 +324,7 @@ These help you work across multiple files at once.
 They do use the same characters, they do different things.
 
 ```bash
-ls dog*       # `*` finds zero or more chars: dog, dogs, dogsandthings...
+ls dog*       # `*` finds zero or more chars: dog, dogs, dogsandkittehs...
 ls dog?       # `?` finds ONE char: dogs, dogy, dogg...
 ls [Dd]og     # Matches: Dog, dog.
 ls dog[!s]    # Exclude the `s`: dogy, dogg...
@@ -673,16 +672,22 @@ bg       # Resume current job in background
 
 Execute shell script in current shell, instead of forking into a subshell:
 `. ./<script.sh>` (dot space dot forward-slash).
-- N.B. this is nearly the same as doing: `source <script.sh>`
 
-"Divide out" strings:
+- This is essentially the same as doing: `source <script.sh>`
+
+Remove trailing forward slash:
 
 ```bash
+indir="/path/to/dir/"
+echo ${indir%/}  # Prints: '/path/to/dir'
+
+# This effectively "divides out" characters from the end of a string:
 MG="MG5_aMC_v2.6.0.tar.gz"
 MG_EXT=".tar.gz"
-echo ${MG%$MG_EXT}
-# Prints: MG5_aMC_v2.6.0
+echo ${MG%$MG_EXT}  # Prints: MG5_aMC_v2.6.0
 ```
+
+- More about this [here](https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#Shell-Parameter-Expansion).
 
 - [AFS Permissions](https://computing.cs.cmu.edu/help-support/afs-acls)
 
