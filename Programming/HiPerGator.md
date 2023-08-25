@@ -28,7 +28,7 @@
   - [Tier 2](#tier-2)
     <!-- - [Modify CRAB T2 Area](#modify-crab-t2-area)
       - [Notes on using `uberftp`](#notes-on-using-uberftp)
-      - [Give commands directly to `uberftp`](#give-commands-directly-to-uberftp)
+      - [Give commands directly to `uberftp`](#give-commands-directly-to-uberftp) : <b> This does not work any more as of Aug. 25, 2023. Please use gfal commands, e.g., gfal-ls davs://cmsio2.rc.ufl.edu:1094/store/user </b>
     - [Your Personal T2 Area](#your-personal-t2-area)
     - [How to access HPG T2 files from lxplus](#how-to-access-hpg-t2-files-from-lxplus) -->
   - [General HPG Info](#general-hpg-info)
@@ -581,7 +581,7 @@ Simply add this to your CRAB config file:
 
 1. Start an interactive `uberftp` session:
 
-   - ```uberftp cmsio.rc.ufl.edu```
+   - ```uberftp cmsio.rc.ufl.edu``` <b> This does not work any more as of Aug. 25, 2023. Please use gfal commands, e.g., gfal-ls davs://cmsio2.rc.ufl.edu:1094/store/user </b>
 
    - Now you can interact directly with the files on the remote system!
 
@@ -603,7 +603,7 @@ Simply add this to your CRAB config file:
 ***BEWARE!*** It is surprisingly easy to overwrite your own files.
 
 ```bash
-uberftp cmsio.rc.ufl.edu "rm your_file"
+uberftp cmsio.rc.ufl.edu "rm your_file" <b> This does not work any more as of Aug. 25, 2023. Please use gfal commands, e.g., gfal-rm davs://cmsio2.rc.ufl.edu:1094/store/user/_your_lxplus_user_name_/filename instead </b>
 ```
 
 ### Copy files to/from CRAB Tier Area using `gfal-copy`
@@ -613,7 +613,7 @@ Syntax: `gfal-copy <src> <dst>`
 ```bash
 # Add 'file://' to the beginning of any local file.
 # Add 'gsiftp://' to the beginning of any file on a Tier server.
-gfal-copy  file://<local_file>  gsiftp://cmsio.rc.ufl.edu/<remote_file>
+gfal-copy  file://<local_file>  gsiftp://cmsio.rc.ufl.edu/<remote_file> <b> This does not work any more as of Aug. 25, 2023. Please use gfal commands, e.g., gfal-copy davs://cmsio2.rc.ufl.edu:1094/store/user/_your_lxplus_user_name_/filename ./ instead </b>
 # Use -r for recursive copy.
 ```
 
